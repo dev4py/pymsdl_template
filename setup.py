@@ -31,7 +31,7 @@ URL: str = f'https://github.com/St4rG00se/{PROJECT_NAME}'
 LICENSE: str = 'MIT'
 ENTRY_POINT: dict[str, list[str]] = {
         'console_scripts': [
-            f'serve = {PROJECT_NAME}.__main__:serve'
+            f'serve = {PROJECT_NAME}.__main__:hello'
         ]
     }
 
