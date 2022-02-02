@@ -42,11 +42,14 @@ SRC_FOLDER: str = f'{MAIN_FOLDER}/python'
 RESOURCES_FOLDER: str = f'{MAIN_FOLDER}/resources'
 
 SRC_PACKAGES: list = find_namespace_packages(where=SRC_FOLDER)
-RESOURCES_PACKAGES: list = find_namespace_packages(where=RESOURCES_FOLDER)
+RESOURCES_PACKAGES: list = list(
+    filter(lambda pkg: pkg not in SRC_PACKAGES, find_namespace_packages(where=RESOURCES_FOLDER))
+)
+PACKAGES: list = SRC_PACKAGES + RESOURCES_PACKAGES
 
-PACKAGES: list = list(set(SRC_PACKAGES + RESOURCES_PACKAGES))
-
-SRC_PACKAGES_DIR: dict = to_package_dir(SRC_FOLDER, SRC_PACKAGES)
+# {'': SRC_FOLDER} workaround for pip install -e but resources will not work
+# see: https://github.com/pypa/setuptools/issues/230
+SRC_PACKAGES_DIR: dict = {'': SRC_FOLDER}
 RESOURCES_PACKAGES_DIR: dict = to_package_dir(RESOURCES_FOLDER, RESOURCES_PACKAGES)
 PACKAGES_DIR: dict = dict(RESOURCES_PACKAGES_DIR, **SRC_PACKAGES_DIR)
 

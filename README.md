@@ -29,6 +29,10 @@ your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPA
 > **Note:** if you are using IDE like **Pycharm**, it means that these directories must be marked as **Sources Root**
 > `(Right click on these directories > Mark directory as > Sources Root)`
 
+> **Note:** Due to a setuptool limitation ([issue-230](https://github.com/pypa/setuptools/issues/230)), using 
+> installation with edit mode (`pip install -e .`) in order to avoid the *PYTHONPATH* configuration will not work if you 
+> want to use resources directories (=> it will work only with `src/main/python` content).
+
 ### <span style='color: orange'>[!WARNING!]</span> Maven Standard Directory Layout with python limitation
 
 Python resources MUST be placed in a python package (We can imagine this like a java classpath).
@@ -138,4 +142,4 @@ resources directly in the `src/main/python` directory
 
 > ***Note:** Obviously, this command must be run after the [Build](#build) one*
 
-// TODO pip install -e .
+// TODO pip install -e . not working with resources
