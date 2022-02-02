@@ -98,8 +98,8 @@ sub-package without conflict.
 
 #### C. Don't respect the Maven Standard Directory Layout
 
-> if you are not agree with the previous suggestions, you can remove the `src/main/resources` directory and put your
-> resources directly in the `src/main/python` directory
+if you are not agree with the previous suggestions, you can remove the `src/main/resources` directory and put your
+resources directly in the `src/main/python` directory
 
 ## Pipenv (Pipfile) versus requirements.txt project
 
