@@ -2,7 +2,22 @@ import re
 
 from setuptools import setup, find_namespace_packages
 
+# VAR TO SET
+PROJECT_NAME: str = 'hellopysdl'
+VERSION: str = '1.0.0'
+AUTHOR: str = 'author'
+EMAIL: str = 'author@mail.com'
+DESCRIPTION: str = 'A Python boilerplate inspired from the Maven Standard Directory Layout'
+URL: str = f'https://github.com/St4rG00se/{PROJECT_NAME}'
+LICENSE: str = 'MIT'
+ENTRY_POINT: dict[str, list[str]] = {
+    'console_scripts': [
+        f'hello = {PROJECT_NAME}.__main__:hello'
+    ]
+}
 
+
+# FUNCTIONS
 def read_file(file_path: str) -> str:
     with open(file_path, "r") as file:
         return file.read()
@@ -20,20 +35,6 @@ def get_deps_from_pipfile(section: str = "packages", pipfile_path: str = "Pipfil
 def to_package_dir(folder_path: str, packages: list) -> dict[str, str]:
     return {pkg: f"{folder_path}/{pkg.replace('.', '/')}" for pkg in packages}
 
-
-# VAR TO SET
-PROJECT_NAME: str = 'hellopysdl'
-VERSION: str = '1.0.0'
-AUTHOR: str = 'author'
-EMAIL: str = 'author@mail.com'
-DESCRIPTION: str = 'A Python boilerplate inspired from the Maven Standard Directory Layout'
-URL: str = f'https://github.com/St4rG00se/{PROJECT_NAME}'
-LICENSE: str = 'MIT'
-ENTRY_POINT: dict[str, list[str]] = {
-        'console_scripts': [
-            f'serve = {PROJECT_NAME}.__main__:hello'
-        ]
-    }
 
 # FIXED VAR
 MAIN_FOLDER: str = 'src/main'
