@@ -60,8 +60,8 @@ Use a root resources package name suffixed by `_rsrc`.
 >                  |- ...
 > ```
 
-***Note:** since root packages are different (`_rsrc` suffix) it cannot exist conflict between sources and resources
-packages*
+> ***Note:** since root packages are different (`_rsrc` suffix) it cannot exist conflict between sources and resources
+> packages*
 
 #### B. Use a resources package tree without conflict
 
@@ -89,7 +89,7 @@ sub-package without conflict.
 >                  |- <SUB_RESOURCE_PACKAGE_M>
 > ```
 
-***Note:** The most important is that a `resource (.../resources)` package **MUST NOT** exist in `source (.../python)`*
+> ***Note:** The most important is that a `resource (.../resources)` package **MUST NOT** exist in `source (.../python)`*
 
 ***<span style='color: orange'>!WARNING!</span> Note:** In case of conflict between sources and resources packages
 everything will work but not your delivery. Indeed, resources conflicted packages will be ignored due to a `setuptool`
@@ -126,8 +126,9 @@ in `setuptools.setup`)*
 > ```sh
 > pip install twine
 > ```
-***Note:** As it is a common delivery tool, you can install it on your global python environment. However you can also
-install it on your pipenv virtual environment*
+
+> ***Note:** As it is a common delivery tool, you can install it on your global python environment. However you can also
+> install it on your pipenv virtual environment*
 
 ### Delivery command
 
@@ -135,6 +136,6 @@ install it on your pipenv virtual environment*
 > twine upload dist/*
 > ```
 
-***Note:** Obviously, this command must be run after the [Build](#build) one*
+> ***Note:** Obviously, this command must be run after the [Build](#build) one*
 
 // TODO pip install -e .
