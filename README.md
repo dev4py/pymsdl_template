@@ -91,10 +91,10 @@ sub-package without conflict.
 
 > ***Note:** The most important is that a `resource (.../resources)` package **MUST NOT** exist in `source (.../python)`*
 
-***<span style='color: orange'>!WARNING!</span> Note:** In case of conflict between sources and resources packages
-everything will work but not your delivery. Indeed, resources conflicted packages will be ignored due to a `setuptool`
-limitation (see `setup.py` > `package_dir`
-in `setuptools.setup`)*
+> ***<span style='color: orange'>!WARNING!</span> Note:** In case of conflict between sources and resources packages
+> everything will work but not your delivery. Indeed, resources conflicted packages will be ignored due to a `setuptool`
+> limitation (see `setup.py` > `package_dir`
+> in `setuptools.setup`)*
 
 #### C. Don't respect the Maven Standard Directory Layout
 
