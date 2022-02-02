@@ -8,7 +8,30 @@ A Python boilerplate inspired from the Maven Standard Directory Layout
 
 ### Setup.py file
 
-DON'T FORGET TO UPDATE SETUP.py FILE
+The setup.py file is used in order to build & deliver correctly your project.
+
+When you start a new project from this boilerplate, ***DON'T FORGET TO UPDATE SETUP.PY FILE***
+
+You just have to update the `# PROJECT SPECIFIC VAR`:
+
+> Configuration example:
+> ```python
+> # PROJECT SPECIFIC VAR
+> PROJECT_NAME: str = 'hellopysdl'
+> VERSION: str = '1.0.0'
+> AUTHOR: str = 'author'
+> EMAIL: str = 'author@mail.com'
+> DESCRIPTION: str = 'A Python boilerplate inspired from the Maven Standard Directory Layout'
+> URL: str = f'https://github.com/St4rG00se/{PROJECT_NAME}'
+> LICENSE: str = 'MIT'
+> ENTRY_POINT: dict[str, list[str]] = {
+>     'console_scripts': [
+>         f'hello = {PROJECT_NAME}.__main__:hello'
+>     ]
+> }
+> 
+> #...
+> ```
 
 ### Sources & Resources
 

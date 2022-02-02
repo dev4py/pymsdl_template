@@ -2,7 +2,7 @@ import re
 
 from setuptools import setup, find_namespace_packages
 
-# VAR TO SET
+# PROJECT SPECIFIC VAR
 PROJECT_NAME: str = 'hellopysdl'
 VERSION: str = '1.0.0'
 AUTHOR: str = 'author'
@@ -17,7 +17,7 @@ ENTRY_POINT: dict[str, list[str]] = {
 }
 
 
-# FUNCTIONS
+# SETUP FUNCTIONS
 def read_file(file_path: str) -> str:
     with open(file_path, "r") as file:
         return file.read()
