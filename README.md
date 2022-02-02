@@ -29,19 +29,19 @@ your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPA
 > **Note:** if you are using IDE like **Pycharm**, it means that these directories must be marked as **Sources Root**
 > `(Right click on these directories > Mark directory as > Sources Root)`
 
-> **Note:** Due to a setuptool limitation ([issue-230](https://github.com/pypa/setuptools/issues/230)), using 
+> **Note:** Due to a setuptools limitation ([issue-230](https://github.com/pypa/setuptools/issues/230)), using 
 > installation with edit mode (`pip install -e .`) in order to avoid the *PYTHONPATH* configuration will not work if you 
 > want to use resources directories (=> it will work only with `src/main/python` content).
 
 ### <span style='color: orange'>[!WARNING!]</span> Maven Standard Directory Layout with python limitation
 
-Python resources MUST be placed in a python package (We can imagine this like a java classpath).
+Python resources MUST be placed into a python package (We can imagine this like a java classpath).
 
-However, each package in `resources` directory must be different from those of the `python` directory otherwise they
-will be overridden during the `build` step due to a `setuptool` limitation (see `setup.py` > `package_dir`
+However, each package in `resources` directory must be different from those of the `python` directory, otherwise they
+will be overridden during the `build` step due to a `setuptools` limitation (see `setup.py` > `package_dir`
 in `setuptools.setup`).
 
-So if you want to respect the *Maven Standard Directory Layout* there are several solutions
+So if you want to respect the *Maven Standard Directory Layout* there are several suggestions:
 
 #### A. Use a suffixed root resources name
 
@@ -96,7 +96,7 @@ sub-package without conflict.
 > ***Note:** The most important is that a `resource (.../resources)` package **MUST NOT** exist in `source (.../python)`*
 
 > ***<span style='color: orange'>!WARNING!</span> Note:** In case of conflict between sources and resources packages
-> everything will work but not your delivery. Indeed, resources conflicted packages will be ignored due to a `setuptool`
+> everything will work but not your delivery. Indeed, resources conflicted packages will be ignored due to a `setuptools`
 > limitation (see `setup.py` > `package_dir`
 > in `setuptools.setup`)*
 
@@ -143,3 +143,7 @@ resources directly in the `src/main/python` directory
 > ***Note:** Obviously, this command must be run after the [Build](#build) one*
 
 // TODO pip install -e . not working with resources
+
+
+// TODO explain  python -m pkgname
+// TODO explain entrypoint
