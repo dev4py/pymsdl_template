@@ -1,8 +1,9 @@
-import re
+import json
 
 from setuptools import setup, find_namespace_packages
 
 # PROJECT SPECIFIC VAR
+PIPENV_PROJECT: bool = True  # True -> use Pipfile.lock for *install_requires*, False -> Use requirements.txt
 PROJECT_NAME: str = 'hellopysdl'
 VERSION: str = '1.0.0'
 AUTHOR: str = 'author'
@@ -23,13 +24,19 @@ def read_file(file_path: str) -> str:
         return file.read()
 
 
-def get_deps_from_pipfile(section: str = "packages", pipfile_path: str = "Pipfile") -> list[str]:
-    file_content = read_file(pipfile_path)
-    if file_content:
-        search: re.Match = re.search(r"\[\s*%s\s*\]([^\[]*)" % section, file_content, re.S | re.I)
-        return [line.split('=')[0].strip() for line in search.group(1).splitlines() if line.strip()] if search else []
+def get_deps_from_pipfile(section: str = "default", pipfile_path: str = "Pipfile.lock") -> list[str]:
+    with open(pipfile_path) as pipfile:
+        pipfile_content = json.load(pipfile)
 
-    return []
+    return [package + detail.get('version', "") for package, detail in pipfile_content.get(section, {}).items()]
+
+
+def get_deps_from_requirements(requirements_path: str = "requirements.txt") -> list[str]:
+    return read_file(requirements_path).splitlines()
+
+
+def get_deps(use_pipfile: bool = True) -> list[str]:
+    return get_deps_from_pipfile() if use_pipfile else get_deps_from_requirements()
 
 
 def to_package_dir(folder_path: str, packages: list) -> dict[str, str]:
@@ -67,6 +74,6 @@ setup(
     package_dir=PACKAGES_DIR,
     package_data={'': ['*']},
     include_package_data=True,
-    install_requires=get_deps_from_pipfile(),
+    install_requires=get_deps(PIPENV_PROJECT),
     entry_points=ENTRY_POINT
 )

@@ -4,6 +4,9 @@
 
 A Python boilerplate inspired from the Maven Standard Directory Layout
 
+> Note: By default, this boilerplate is configured in order to work with [pipenv](https://pipenv.pypa.io/). However, you
+> can easily use it with a [requirements.txt file](https://pip.pypa.io/en/stable/user_guide/#requirements-files)
+
 ## Project organization
 
 ### Setup.py file
@@ -17,6 +20,7 @@ You just have to update the `# PROJECT SPECIFIC VAR`:
 > Configuration example:
 > ```python
 > # PROJECT SPECIFIC VAR
+> PIPENV_PROJECT: bool = True  # True -> use Pipfile.lock for *install_requires*, False -> Use requirements.txt
 > PROJECT_NAME: str = 'hellopysdl'
 > VERSION: str = '1.0.0'
 > AUTHOR: str = 'author'
@@ -29,11 +33,24 @@ You just have to update the `# PROJECT SPECIFIC VAR`:
 >         f'hello = {PROJECT_NAME}.__main__:hello'
 >     ]
 > }
-> 
-> #...
+> # ...
 > ```
 
-### Sources & Resources
+## Pipenv (Pipfile) versus requirements.txt project
+
+By default, this boilerplate if configured in order to work with [pipenv](https://pipenv.pypa.io/) (ie: `Pipfile` &
+`Pipfile.lock`).
+
+However, you can easily use it without `pipenv` by using a `requirements.txt` file. To do that, you just have to update
+the `setup.py` file like this :
+
+```python
+# PROJECT SPECIFIC VAR
+PIPENV_PROJECT: bool = False  # True -> use Pipfile.lock for *install_requires*, False -> Use requirements.txt
+# ...
+```
+
+### Sources & Resources directories
 
 This template attempts to reach
 the [Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html)
@@ -49,14 +66,15 @@ That's why you will find the following directory structure:
 **Sources** and **resources** directories must be in
 your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH)**
 
-> **Note:** if you are using IDE like **Pycharm**, it means that these directories must be marked as **Sources Root**
-> `(Right click on these directories > Mark directory as > Sources Root)`
+> **Note:** if you are using IDE like **[<img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/PyCharm_Icon.svg" alt="Pycharm-icon" width="16px" height="16px">
+Pycharm](https://www.jetbrains.com/pycharm/)**
+> , it means these directories must be marked as **Sources Root** `(Right click on these directories > Mark directory as > Sources Root)`
 
-> **Note:** Due to a setuptools limitation ([issue-230](https://github.com/pypa/setuptools/issues/230)), using 
-> installation with edit mode (`pip install -e .`) in order to avoid the *PYTHONPATH* configuration will not work if you 
+> **Note:** Due to a setuptools limitation ([issue-230](https://github.com/pypa/setuptools/issues/230)), using
+> installation with edit mode (`pip install -e .`) in order to avoid the *PYTHONPATH* configuration will not work if you
 > want to use resources directories (=> it will work only with `src/main/python` content).
 
-### <span style='color: orange'>[!WARNING!]</span> Maven Standard Directory Layout with python limitation
+### <span style='color: orange'>[!WARNING!]</span> Maven Standard Directory Layout with python limitations
 
 Python resources MUST be placed into a python package (We can imagine this like a java classpath).
 
@@ -128,26 +146,25 @@ sub-package without conflict.
 if you are not agree with the previous suggestions, you can remove the `src/main/resources` directory and put your
 resources directly in the `src/main/python` directory
 
-## Pipenv (Pipfile) versus requirements.txt project
+
+### Project commands
+
+### Run tests
 
 // TODO
 
-## Run tests
-
-// TODO
-
-## Build
+### Build
 
 > ```shell
 > python setup.py clean --all \
 >   && rm -rf dist \
->   && rm -rf *.egg-info \
+>   && find . -name \*.egg-info -type d -exec rm -rf {} + \
 >   && python setup.py bdist_wheel sdist
 > ```
 
-## Delivery *(on https://pypi.org/)*
+### Delivery *(on https://pypi.org/)*
 
-### Prerequisite
+#### Prerequisite
 
 `twine` is required for this part
 > ```sh
@@ -157,7 +174,7 @@ resources directly in the `src/main/python` directory
 > ***Note:** As it is a common delivery tool, you can install it on your global python environment. However you can also
 > install it on your pipenv virtual environment*
 
-### Delivery command
+#### Delivery command
 
 > ```shell
 > twine upload dist/*
@@ -165,8 +182,7 @@ resources directly in the `src/main/python` directory
 
 > ***Note:** Obviously, this command must be run after the [Build](#build) one*
 
+
 // TODO pip install -e . not working with resources
 
-
-// TODO explain  python -m pkgname
-// TODO explain entrypoint
+// TODO explain python -m pkgname // TODO explain entrypoint
