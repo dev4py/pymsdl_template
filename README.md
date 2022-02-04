@@ -17,26 +17,27 @@ the [Project organization](#project-organization) part before the [Project comma
 ## Table of content
 
 * [Project organization](#project-organization)
-  + [Setup.py file](#setuppy-file)
-  + [Pipenv (Pipfile) versus requirements.txt project](#pipenv-pipfile-versus-requirementstxt-project)
-  + [Maven Standard Directory Layout with python](#maven-standard-directory-layout-with-python)
-    - [Sources & Resources directories configuration](#sources--resources-directories-configuration)
-    - [<span style='color: orange'><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/> WARNING: Limitations</span>](#-warning-limitations)
-      * [A. Use a suffixed root resources name](#a-use-a-suffixed-root-resources-name)
-      * [B. Use a resources package tree without conflict](#b-use-a-resources-package-tree-without-conflict)
-      * [C. Don't respect the Maven Standard Directory Layout](#c-dont-respect-the-maven-standard-directory-layout)
+    + [Setup.py file](#setuppy-file)
+    + [Pipenv (Pipfile) versus requirements.txt project](#pipenv-pipfile-versus-requirementstxt-project)
+    + [Maven Standard Directory Layout with python](#maven-standard-directory-layout-with-python)
+        - [Sources & Resources directories configuration](#sources--resources-directories-configuration)
+        - [<span style='color: orange'><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/> WARNING: Limitations</span>](#-warning-limitations)
+            * [A. Use a suffixed root resources name](#a-use-a-suffixed-root-resources-name)
+            * [B. Use a resources package tree without conflict](#b-use-a-resources-package-tree-without-conflict)
+            * [C. Don't respect the Maven Standard Directory Layout](#c-dont-respect-the-maven-standard-directory-layout)
 * [Project commands](#project-commands)
-  + [Run tests](#run-tests)
-  + [Build](#build)
-  + [Delivery *(on https://pypi.org/)*](#delivery-on-httpspypiorg)
-    - [Prerequisite](#prerequisite)
-    - [Delivery command](#delivery-command)
+    + [Run tests](#run-tests)
+    + [Build](#build)
+    + [Delivery *(on https://pypi.org/)*](#delivery-on-httpspypiorg)
+        - [Prerequisite](#prerequisite)
+        - [Delivery command](#delivery-command)
 
 ## Project organization
 
 ### Setup.py file
 
-The `setup.py` file is used in order to build & deliver correctly your project.
+The `setup.py` file is used in order to build & deliver correctly your project. That's why it contains each information
+about the project delivery (name, version, author, description, etc.).
 
 When you start a new project from this boilerplate, ***DON'T FORGET TO UPDATE SETUP.PY FILE***
 
@@ -78,6 +79,7 @@ the `setup.py` file like this:
 ### Maven Standard Directory Layout with python
 
 #### Sources & Resources directories configuration
+
 This template attempts to reach
 the [Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html)
 for python.
