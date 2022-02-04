@@ -14,6 +14,23 @@ the [Project organization](#project-organization) part before the [Project comma
 >
 > See [Pipenv (Pipfile) versus requirements.txt project](#pipenv-pipfile-versus-requirementstxt-project)...
 
+## Table of content
+
+* [Project organization](#project-organization)
+  + [Setup.py file](#setuppy-file)
+  + [Pipenv (Pipfile) versus requirements.txt project](#pipenv--pipfile--versus-requirementstxt-project)
+  + [Sources & Resources directories](#sources---resources-directories)
+    - [<span style='color: orange'><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/> WARNING: Limitations</span>](#-span-style--color--orange---img-src--https---uploadwikimediaorg-wikipedia-commons-thumb-1-17-warningsvg-25px-warningsvgpng--alt--warning-icon--width--20px--height--20px----warning--limitations--span-)
+      * [A. Use a suffixed root resources name](#a-use-a-suffixed-root-resources-name)
+      * [B. Use a resources package tree without conflict](#b-use-a-resources-package-tree-without-conflict)
+      * [C. Don't respect the Maven Standard Directory Layout](#c-don-t-respect-the-maven-standard-directory-layout)
+* [Project commands](#project-commands)
+  + [Run tests](#run-tests)
+  + [Build](#build)
+  + [Delivery *(on https://pypi.org/)*](#delivery---on-https---pypiorg---)
+    - [Prerequisite](#prerequisite)
+    - [Delivery command](#delivery-command)
+
 ## Project organization
 
 ### Setup.py file
@@ -51,11 +68,11 @@ By default, this boilerplate if configured in order to work with [pipenv](https:
 However, you can easily use it without `pipenv` by using a `requirements.txt` file. To do that, you just have to update
 the `setup.py` file like this:
 
-```python
-# PROJECT SPECIFIC VAR
-PIPENV_PROJECT: bool = False  # True -> use Pipfile.lock for *install_requires*, False -> Use requirements.txt
-# ...
-```
+> ```python
+> # PROJECT SPECIFIC VAR
+> PIPENV_PROJECT: bool = False  # True -> use Pipfile.lock for *install_requires*, False -> Use requirements.txt
+> # ...
+> ```
 
 ### Sources & Resources directories
 
@@ -192,8 +209,8 @@ resources directly into the `src/main/python` directory.
 > twine upload dist/*
 > ```
 
-> ***Note:** Obviously, this command must be run after the [Build](#build) one*
+> ***Note:** Obviously, this command must be executed after the [Build](#build) one*
 
 
 
-// TODO explain python -m pkgname // TODO explain entrypoint
+// TODO (delivery install) explain python -m pkgname // TODO explain entrypoint // TODO best practice dependencies
