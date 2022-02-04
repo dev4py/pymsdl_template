@@ -16,7 +16,7 @@ the [Maven Standard Directory Layout](https://maven.apache.org/guides/introducti
 
 ### Setup.py file
 
-The setup.py file is used in order to build & deliver correctly your project.
+The `setup.py` file is used in order to build & deliver correctly your project.
 
 When you start a new project from this boilerplate, ***DON'T FORGET TO UPDATE SETUP.PY FILE***
 
@@ -47,7 +47,7 @@ By default, this boilerplate if configured in order to work with [pipenv](https:
 `Pipfile.lock`).
 
 However, you can easily use it without `pipenv` by using a `requirements.txt` file. To do that, you just have to update
-the `setup.py` file like this :
+the `setup.py` file like this:
 
 ```python
 # PROJECT SPECIFIC VAR
@@ -79,9 +79,9 @@ Pycharm](https://www.jetbrains.com/pycharm/)**
 > installation with edit mode (`pip install -e .`) in order to avoid the *PYTHONPATH* configuration will not work if you
 > want to use resources directories (=> it will work only with `src/main/python` content).
 
-#### <span style='color: orange'><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/312px-Warning.svg.png" alt="warning-icon" width="20px" height="20 px"/> WARNING</span> Limitations
+#### <span style='color: orange'><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/> WARNING: Limitations</span>
 
-Python resources MUST be placed into a python package (We can imagine this like a java classpath).
+Python resources MUST be located into a python package (We can imagine this like a java classpath).
 
 However, each package in `resources` directory must be different from those of the `python` directory, otherwise they
 will be overridden during the `build` step due to a `setuptools` limitation (see `setup.py` > `package_dir`
@@ -115,8 +115,8 @@ Use a root resources package name suffixed by `_rsrc`.
 
 ##### B. Use a resources package tree without conflict
 
-In this case you will use the same package tree between sources and resources but `resources` must be placed in specific
-sub-package without conflict.
+In this case you will use the same package tree between sources and resources but `resources` must be located in
+specific sub-package without conflict.
 
 > **Project structure example:**
 > ```shell
@@ -139,9 +139,12 @@ sub-package without conflict.
 >                  |- <SUB_RESOURCE_PACKAGE_M>
 > ```
 
-> ***Note:** The most important is that a `resource (.../resources)` package **MUST NOT** exist in `source (.../python)`*
+> ***Note:** The most important is that a `resource (in 'src/main/resources')` package **MUST NOT** exist in
+> `source (in 'src/main//python')`* directory
 
-> ***<span style='color: orange'>!WARNING!</span> Note:** In case of conflict between sources and resources packages
+
+> ***<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="17px" height="17px"/>
+> <span style='color: orange'>!WARNING!</span> Note:** In case of conflict between sources and resources packages
 > everything will work but not your delivery. Indeed, resources conflicted packages will be ignored due to a `setuptools`
 > limitation (see `setup.py` > `package_dir`
 > in `setuptools.setup`)*
@@ -149,7 +152,10 @@ sub-package without conflict.
 ##### C. Don't respect the Maven Standard Directory Layout
 
 if you are not agree with the previous suggestions, you can remove the `src/main/resources` directory and put your
-resources directly in the `src/main/python` directory
+resources directly into the `src/main/python` directory.
+
+> **Note:** in this case you will also avoid the `pip install -e .` limitation explained before
+> (see [Sources & Resources directories](#sources--resources-directories) part)
 
 ## Project commands
 
@@ -187,6 +193,6 @@ resources directly in the `src/main/python` directory
 > ***Note:** Obviously, this command must be run after the [Build](#build) one*
 
 
-// TODO pip install -e . not working with resources
 
-// TODO explain python -m pkgname // TODO explain entrypoint
+// TODO explain python -m pkgname
+// TODO explain entrypoint
