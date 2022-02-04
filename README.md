@@ -5,8 +5,10 @@
 A Python boilerplate inspired from
 the [Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html)
 
+***As there are some existing limitations it is strongly advised to read
+the [Project organization](#project-organization) part before the [Project commands](#project-commands) one***
 
-> Note: By default, this boilerplate is configured in order to work with [pipenv](https://pipenv.pypa.io/). However, if
+> **Note:** By default, this boilerplate is configured in order to work with [pipenv](https://pipenv.pypa.io/). However, if
 > you are not using pipenv can easily configure this boilerplate to work a
 > [requirements.txt file](https://pip.pypa.io/en/stable/user_guide/#requirements-files).
 >
@@ -194,5 +196,4 @@ resources directly into the `src/main/python` directory.
 
 
 
-// TODO explain python -m pkgname
-// TODO explain entrypoint
+// TODO explain python -m pkgname // TODO explain entrypoint
