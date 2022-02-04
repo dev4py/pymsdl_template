@@ -1,11 +1,16 @@
 # RCPY_Boilerplate
 
-**WARNING: WORK IN PROGRESS**
+# **WARNING: WORK IN PROGRESS**
 
-A Python boilerplate inspired from the Maven Standard Directory Layout
+A Python boilerplate inspired from
+the [Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html)
 
-> Note: By default, this boilerplate is configured in order to work with [pipenv](https://pipenv.pypa.io/). However, you
-> can easily use it with a [requirements.txt file](https://pip.pypa.io/en/stable/user_guide/#requirements-files)
+
+> Note: By default, this boilerplate is configured in order to work with [pipenv](https://pipenv.pypa.io/). However, if
+> you are not using pipenv can easily configure this boilerplate to work a
+> [requirements.txt file](https://pip.pypa.io/en/stable/user_guide/#requirements-files).
+>
+> See [Pipenv (Pipfile) versus requirements.txt project](#pipenv-pipfile-versus-requirementstxt-project)...
 
 ## Project organization
 
@@ -15,7 +20,7 @@ The setup.py file is used in order to build & deliver correctly your project.
 
 When you start a new project from this boilerplate, ***DON'T FORGET TO UPDATE SETUP.PY FILE***
 
-You just have to update the `# PROJECT SPECIFIC VAR`:
+You just have to update the `# PROJECT SPECIFIC VAR` part:
 
 > Configuration example:
 > ```python
@@ -36,7 +41,7 @@ You just have to update the `# PROJECT SPECIFIC VAR`:
 > # ...
 > ```
 
-## Pipenv (Pipfile) versus requirements.txt project
+### Pipenv (Pipfile) versus requirements.txt project
 
 By default, this boilerplate if configured in order to work with [pipenv](https://pipenv.pypa.io/) (ie: `Pipfile` &
 `Pipfile.lock`).
@@ -66,7 +71,7 @@ That's why you will find the following directory structure:
 **Sources** and **resources** directories must be in
 your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH)**
 
-> **Note:** if you are using IDE like **[<img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/PyCharm_Icon.svg" alt="Pycharm-icon" width="16px" height="16px">
+> **Note:** if you are using IDE like **[<img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/PyCharm_Icon.svg" alt="Pycharm-icon" width="17px" height="17px"/>
 Pycharm](https://www.jetbrains.com/pycharm/)**
 > , it means these directories must be marked as **Sources Root** `(Right click on these directories > Mark directory as > Sources Root)`
 
@@ -74,7 +79,7 @@ Pycharm](https://www.jetbrains.com/pycharm/)**
 > installation with edit mode (`pip install -e .`) in order to avoid the *PYTHONPATH* configuration will not work if you
 > want to use resources directories (=> it will work only with `src/main/python` content).
 
-### <span style='color: orange'>[!WARNING!]</span> Maven Standard Directory Layout with python limitations
+#### <span style='color: orange'><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/312px-Warning.svg.png" alt="warning-icon" width="20px" height="20 px"/> WARNING</span> Limitations
 
 Python resources MUST be placed into a python package (We can imagine this like a java classpath).
 
@@ -84,7 +89,7 @@ in `setuptools.setup`).
 
 So if you want to respect the *Maven Standard Directory Layout* there are several suggestions:
 
-#### A. Use a suffixed root resources name
+##### A. Use a suffixed root resources name
 
 Use a root resources package name suffixed by `_rsrc`.
 
@@ -108,7 +113,7 @@ Use a root resources package name suffixed by `_rsrc`.
 > ***Note:** since root packages are different (`_rsrc` suffix) it cannot exist conflict between sources and resources
 > packages*
 
-#### B. Use a resources package tree without conflict
+##### B. Use a resources package tree without conflict
 
 In this case you will use the same package tree between sources and resources but `resources` must be placed in specific
 sub-package without conflict.
@@ -141,13 +146,12 @@ sub-package without conflict.
 > limitation (see `setup.py` > `package_dir`
 > in `setuptools.setup`)*
 
-#### C. Don't respect the Maven Standard Directory Layout
+##### C. Don't respect the Maven Standard Directory Layout
 
 if you are not agree with the previous suggestions, you can remove the `src/main/resources` directory and put your
 resources directly in the `src/main/python` directory
 
-
-### Project commands
+## Project commands
 
 ### Run tests
 
