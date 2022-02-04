@@ -20,7 +20,7 @@ the [Project organization](#project-organization) part before the [Project comma
   + [Setup.py file](#setuppy-file)
   + [Pipenv (Pipfile) versus requirements.txt project](#pipenv-pipfile-versus-requirementstxt-project)
   + [Maven Standard Directory Layout with python](#maven-standard-directory-layout-with-python)
-    - [Sources & Resources directories](#sources--resources-directories-configuration)
+    - [Sources & Resources directories configuration](#sources--resources-directories-configuration)
     - [<span style='color: orange'><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/> WARNING: Limitations</span>](#-warning-limitations)
       * [A. Use a suffixed root resources name](#a-use-a-suffixed-root-resources-name)
       * [B. Use a resources package tree without conflict](#b-use-a-resources-package-tree-without-conflict)
