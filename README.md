@@ -5,11 +5,11 @@
 A Python boilerplate inspired from
 the [Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html)
 
-***Since there are some existing limitations it is strongly advised to read
+***Since there are some existing limitations, it is strongly advised to read
 the [Project organization](#project-organization) part before the [Project commands](#project-commands) one***
 
 > **Note:** By default, this boilerplate is configured in order to work with [pipenv](https://pipenv.pypa.io/). However, if
-> you are not using pipenv can easily configure this boilerplate to work a
+> you are not using pipenv you can easily configure this boilerplate to work a
 > [requirements.txt file](https://pip.pypa.io/en/stable/user_guide/#requirements-files).
 >
 > See [Pipenv (Pipfile) versus requirements.txt project](#pipenv-pipfile-versus-requirementstxt-project)...
@@ -22,9 +22,8 @@ the [Project organization](#project-organization) part before the [Project comma
     + [Maven Standard Directory Layout with python](#maven-standard-directory-layout-with-python)
         - [Sources & Resources directories configuration](#sources--resources-directories-configuration)
         - [<span style='color: orange'><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/> WARNING: Limitations</span>](#-warning-limitations)
-            * [A. Use a suffixed root resources name](#a-use-a-suffixed-root-resources-name)
-            * [B. Use a resources package tree without conflict](#b-use-a-resources-package-tree-without-conflict)
-            * [C. Don't respect the Maven Standard Directory Layout](#c-dont-respect-the-maven-standard-directory-layout)
+            * [A. Use root package names with suffix](#a-use-root-package-names-with-suffix)
+            * [B. Don't fully respect the Maven Standard Directory Layout](#b-dont-fully-respect-the-maven-standard-directory-layout)
 * [Project commands](#project-commands)
     + [Run tests](#run-tests)
     + [Build](#build)
@@ -76,6 +75,9 @@ the `setup.py` file like this:
 > # ...
 > ```
 
+>***Note:** `Pipfile.lock` or `requirements.txt` must be located in the same directory as `setup.py` (ie: the project 
+> root directory)*
+
 ### Maven Standard Directory Layout with python
 
 #### Sources & Resources directories configuration
@@ -96,7 +98,10 @@ your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPA
 
 > **Note:** if you are using IDE like **[<img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/PyCharm_Icon.svg" alt="Pycharm-icon" width="17px" height="17px"/>
 Pycharm](https://www.jetbrains.com/pycharm/)**
-> , it means these directories must be marked as **Sources Root** `(Right click on these directories > Mark directory as > Sources Root)`
+> , it means `src/main/python` and `src/main/resources` must be marked as **Sources Root**
+> `(Right click on these directories > Mark directory as > Sources Root)`
+> and `src/test/python` and `src/test/resources` must be marked as **Test Sources Root**
+> `(Right click on these directories > Mark directory as > Test Sources Root)`
 
 > **Note:** Due to a setuptools limitation ([issue-230](https://github.com/pypa/setuptools/issues/230)), using
 > installation with edit mode (`pip install -e .`) in order to avoid the *PYTHONPATH* configuration will not work if you
@@ -104,17 +109,23 @@ Pycharm](https://www.jetbrains.com/pycharm/)**
 
 #### <span style='color: orange'><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/> WARNING: Limitations</span>
 
-Python resources MUST be located into a python package (We can imagine this like a java classpath).
+Python resources MUST be located in a python package (We can imagine this like a java classpath).
 
-However, each package in `resources` directory must be different from those of the `python` directory, otherwise they
-will be overridden during the `build` step due to a `setuptools` limitation (see `setup.py` > `package_dir`
-in `setuptools.setup`).
+Since a package sources cannot be splitted in several directories, each package in `src/main/python`,
+`src/main/resources`, `src/test/python` and `src/test/resources` directories must be different. In case of conflict, the
+package from the first directory found in
+your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH)** will be used.
 
 So if you want to respect the *Maven Standard Directory Layout* there are several suggestions:
 
-##### A. Use a suffixed root resources name
+##### A. Use root package names with suffix
 
-Use a root resources package name suffixed by `_rsrc`.
+Use root package names with suffixes like this:
+
+* *<My_Root_Package_Name>* for sources (in `src/main/python`)
+* *<My_Root_Package_Name>`_rscr`* for resources (in `src/main/resources`)
+* *<My_Root_Package_Name>`_test`* for test sources (in `src/test/python`)
+* *<My_Root_Package_Name>`_test_rscr`* for test resources (in `src/test/resources`)
 
 > **Project structure example:**
 >
@@ -123,62 +134,33 @@ Use a root resources package name suffixed by `_rsrc`.
 >  |- ...
 >  |- src
 >      |- main
+>      |   |- python
+>      |   |   |- <MY_ROOT_PACKAGE_NAME>
+>      |   |       |- ...
+>      |   |- resources
+>      |       |- <MY_ROOT_PACKAGE_NAME>_rsrc
+>      |           |- ...
+>      |- test
 >          |- python
->          |   |- <MY_ROOT_PACKAGE_NAME>
->          |       |- <SUB_PACKAGE_1>
+>          |   |- <MY_ROOT_PACKAGE_NAME>_test
 >          |       |- ...
->          |       |- <SUB_PACKAGE_N>
 >          |- resources
->              |- <MY_ROOT_PACKAGE_NAME>_rsrc
+>              |- <MY_ROOT_PACKAGE_NAME>_test_rsrc
 >                  |- ...
 > ```
 
-> ***Note:** since root packages are different (`_rsrc` suffix) it cannot exist conflict between sources and resources
-> packages*
+> ***Note:** since root package names are different (`_rsrc`, `_test`, `_test_rsrc` suffixes) it cannot exist conflict
+> between packages in `src/main/python`, `src/main/resources`, `src/test/python` and `src/test/resources`*
 
-##### B. Use a resources package tree without conflict
+> ***Note:** `_rsrc`, `_test`, `_test_rsrc` are just suggested suffixes you can use your own suffixes*
 
-In this case you will use the same package tree between sources and resources but `resources` must be located in
-specific sub-package without conflict.
+##### B. Don't fully respect the Maven Standard Directory Layout
 
-> **Project structure example:**
-> ```shell
-> <My_Project>
->  |- ...
->  |- src
->      |- main
->          |- python
->          |   |- <MY_ROOT_PACKAGE_NAME>
->          |       |- <SUB_PACKAGE_1>
->          |       |- ...
->          |       |- <SUB_PACKAGE_N>
->          |- resources
->              |- <MY_ROOT_PACKAGE_NAME>
->                  |- <SUB_PACKAGE_1>
->                  |    |- <SUB_PACKAGE_1_RESOURCE_PACKAGE>
->                  |    |- ...
->                  |- <SUB_RESOURCE_PACKAGE_1>
->                  |- ...
->                  |- <SUB_RESOURCE_PACKAGE_M>
-> ```
-
-> ***Note:** The most important is that a `resource (in 'src/main/resources')` package **MUST NOT** exist in
-> `source (in 'src/main//python')`* directory
-
-
-> ***<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="17px" height="17px"/>
-> <span style='color: orange'>!WARNING!</span> Note:** In case of conflict between sources and resources packages
-> everything will work but not your delivery. Indeed, resources conflicted packages will be ignored due to a `setuptools`
-> limitation (see `setup.py` > `package_dir`
-> in `setuptools.setup`)*
-
-##### C. Don't respect the Maven Standard Directory Layout
-
-if you are not agree with the previous suggestions, you can remove the `src/main/resources` directory and put your
-resources directly into the `src/main/python` directory.
+If you are not agree with the previous suggestion, you can remove the `src/main/resources`, `src/test/python`
+and `src/test/resources` directories and put your resources and tests directly into the `src/main/python` directory.
 
 > **Note:** in this case you will also avoid the `pip install -e .` limitation explained before
-> (see [Sources & Resources directories](#sources--resources-directories) part)
+> (see [Sources & Resources directories configuration](#sources--resources-directories-configuration) part)
 
 ## Project commands
 
@@ -217,4 +199,10 @@ resources directly into the `src/main/python` directory.
 
 
 
-// TODO (delivery install) explain python -m pkgname // TODO explain entrypoint // TODO best practice dependencies
+// TODO:
+
+* (delivery install) explain python -m pkgname
+* explain entrypoint
+* best practice dependencies
+* quickstart
+* add docker (mb docker-compose)
