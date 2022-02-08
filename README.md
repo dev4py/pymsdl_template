@@ -8,11 +8,11 @@ the [Maven Standard Directory Layout](https://maven.apache.org/guides/introducti
 ***Since there are some existing limitations, it is strongly advised to read
 the [Project organization](#project-organization) part before the [Project commands](#project-commands) one***
 
-> **Note:** By default, this boilerplate is configured in order to work with [pipenv](https://pipenv.pypa.io/). However, if
+> ***Note:** By default, this boilerplate is configured in order to work with [pipenv](https://pipenv.pypa.io/). However, if
 > you are not using pipenv you can easily configure this boilerplate to work a
-> [requirements.txt file](https://pip.pypa.io/en/stable/user_guide/#requirements-files).
+> [requirements.txt file](https://pip.pypa.io/en/stable/user_guide/#requirements-files).*
 >
-> See [Pipenv (Pipfile) versus requirements.txt project](#pipenv-pipfile-versus-requirementstxt-project)...
+> *See [Pipenv (Pipfile) versus requirements.txt project](#pipenv-pipfile-versus-requirementstxt-project)...*
 
 ## Table of content
 
@@ -75,7 +75,7 @@ the `setup.py` file like this:
 > # ...
 > ```
 
->***Note:** `Pipfile.lock` or `requirements.txt` must be located in the same directory as `setup.py` (ie: the project 
+> ***Note:** `Pipfile.lock` or `requirements.txt` must be located in the same directory as `setup.py` (ie: the project
 > root directory)*
 
 ### Maven Standard Directory Layout with python
@@ -96,16 +96,16 @@ That's why you will find the following directory structure:
 **Sources** and **resources** directories must be in
 your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH)**
 
-> **Note:** if you are using IDE like **[<img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/PyCharm_Icon.svg" alt="Pycharm-icon" width="17px" height="17px"/>
+> ***Note:** if you are using IDE like **[<img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/PyCharm_Icon.svg" alt="Pycharm-icon" width="17px" height="17px"/>
 Pycharm](https://www.jetbrains.com/pycharm/)**
 > , it means `src/main/python` and `src/main/resources` must be marked as **Sources Root**
 > `(Right click on these directories > Mark directory as > Sources Root)`
 > and `src/test/python` and `src/test/resources` must be marked as **Test Sources Root**
-> `(Right click on these directories > Mark directory as > Test Sources Root)`
+> `(Right click on these directories > Mark directory as > Test Sources Root)`*
 
-> **Note:** Due to a setuptools limitation ([issue-230](https://github.com/pypa/setuptools/issues/230)), using
+> ***Note:** Due to a setuptools limitation ([issue-230](https://github.com/pypa/setuptools/issues/230)), using
 > installation with edit mode (`pip install -e .`) in order to avoid the *PYTHONPATH* configuration will not work if you
-> want to use resources directories (=> it will work only with `src/main/python` content).
+> want to use resources directories (=> it will work only with `src/main/python` content).*
 
 #### <span style='color: orange'><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/> WARNING: Limitations</span>
 
@@ -161,15 +161,23 @@ and `src/test/resources` directories and put your resources and tests directly i
 
 > **Note:** in this case you will also avoid the `pip install -e .` limitation explained before
 > (see [Sources & Resources directories configuration](#sources--resources-directories-configuration) part)
-> 
-> However, if you do that, your tests will be included during your project/package installation (not only in the source 
+>
+> However, if you do that, your tests will be included during your project/package installation (not only in the source
 > distribution as it is suggested in the best practices)
 
 ## Project commands
 
 ### Run tests
 
-// TODO
+> ```
+> python setup.py test
+> ```
+
+> ***Note:** It doesn't use the deprecated `test` command*
+
+> ***Note:** This project is configured to execute tests with
+> [**unittest**](https://docs.python.org/3/library/unittest.html). If you want to use another runner you have to update
+> the `TestCommand` class from `setup.py` or not use the `setup.py test` command*
 
 ### Build
 
@@ -204,6 +212,7 @@ and `src/test/resources` directories and put your resources and tests directly i
 
 // TODO:
 
+* Test with namespace
 * (delivery install) explain python -m pkgname
 * explain entrypoint
 * best practice dependencies
