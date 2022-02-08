@@ -161,6 +161,9 @@ and `src/test/resources` directories and put your resources and tests directly i
 
 > **Note:** in this case you will also avoid the `pip install -e .` limitation explained before
 > (see [Sources & Resources directories configuration](#sources--resources-directories-configuration) part)
+> 
+> However, if you do that, your tests will be included during your project/package installation (not only in the source 
+> distribution as it is suggested in the best practices)
 
 ## Project commands
 

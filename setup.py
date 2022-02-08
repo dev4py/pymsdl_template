@@ -1,6 +1,10 @@
 import json
+import os
+import sys
+import unittest
 
-from setuptools import setup, find_namespace_packages
+from setuptools import setup, find_namespace_packages, Command
+from setuptools.errors import DistutilsError
 
 # PROJECT SPECIFIC VAR
 PIPENV_PROJECT: bool = True  # True -> use Pipfile.lock for *install_requires*, False -> Use requirements.txt
@@ -48,6 +52,17 @@ MAIN_FOLDER: str = 'src/main'
 SRC_FOLDER: str = f'{MAIN_FOLDER}/python'
 RESOURCES_FOLDER: str = f'{MAIN_FOLDER}/resources'
 
+TEST_FOLDER: str = 'src/test'
+TEST_SRC_FOLDER: str = f'{TEST_FOLDER}/python'
+TEST_RESOURCES_FOLDER: str = f'{TEST_FOLDER}/resources'
+
+# Configure sys.path for command execution
+PROJECT_PATH: str = os.path.dirname(__file__)
+sys.path.append(os.path.join(PROJECT_PATH, SRC_FOLDER))
+sys.path.append(os.path.join(PROJECT_PATH, RESOURCES_FOLDER))
+sys.path.append(os.path.join(PROJECT_PATH, TEST_SRC_FOLDER))
+sys.path.append(os.path.join(PROJECT_PATH, TEST_RESOURCES_FOLDER))
+
 SRC_PACKAGES: list = find_namespace_packages(where=SRC_FOLDER)
 RESOURCES_PACKAGES: list = list(
     filter(lambda pkg: pkg not in SRC_PACKAGES, find_namespace_packages(where=RESOURCES_FOLDER))
@@ -60,6 +75,31 @@ SRC_PACKAGES_DIR: dict = {'': SRC_FOLDER}
 RESOURCES_PACKAGES_DIR: dict = to_package_dir(RESOURCES_FOLDER, RESOURCES_PACKAGES)
 PACKAGES_DIR: dict = dict(RESOURCES_PACKAGES_DIR, **SRC_PACKAGES_DIR)
 
+
+# SETUP COMMAND CLASSES
+class TestCommand(Command):
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    # noinspection PyMethodMayBeStatic
+    def run(self):
+        # Prepare tests
+        test_loader = unittest.defaultTestLoader
+        test_suite = test_loader.discover(os.path.join(PROJECT_PATH, TEST_SRC_FOLDER))
+
+        # Run tests
+        test_result = unittest.TextTestRunner().run(test_suite)
+
+        if not test_result.wasSuccessful():
+            raise DistutilsError('Test failed: %s' % test_result)
+
+
+# SETUP
 setup(
     name=PROJECT_NAME,
     version=VERSION,
@@ -75,5 +115,6 @@ setup(
     package_data={'': ['*']},
     include_package_data=True,
     install_requires=get_deps(PIPENV_PROJECT),
-    entry_points=ENTRY_POINT
+    entry_points=ENTRY_POINT,
+    cmdclass={'test': TestCommand}
 )
