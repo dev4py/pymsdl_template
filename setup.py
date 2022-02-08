@@ -55,6 +55,7 @@ RESOURCES_FOLDER: str = f'{MAIN_FOLDER}/resources'
 TEST_FOLDER: str = 'src/test'
 TEST_SRC_FOLDER: str = f'{TEST_FOLDER}/python'
 TEST_RESOURCES_FOLDER: str = f'{TEST_FOLDER}/resources'
+TEST_FILE_PATTERN: str = "*[Tt]est*.py"
 
 # Configure sys.path for command execution
 PROJECT_PATH: str = os.path.dirname(__file__)
@@ -90,7 +91,7 @@ class TestCommand(Command):
     def run(self):
         # Prepare tests
         test_loader = unittest.defaultTestLoader
-        test_suite = test_loader.discover(os.path.join(PROJECT_PATH, TEST_SRC_FOLDER))
+        test_suite = test_loader.discover(os.path.join(PROJECT_PATH, TEST_SRC_FOLDER), pattern=TEST_FILE_PATTERN)
 
         # Run tests
         test_result = unittest.TextTestRunner().run(test_suite)
