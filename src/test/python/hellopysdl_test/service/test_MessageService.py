@@ -10,7 +10,7 @@ class MessageServiceTest(TestCase):
         :return:
         """
         # GIVEN
-        message_service: MessageService = MessageService("hellopysdl_test_rscr")
+        message_service: MessageService = MessageService("hellopysdl_test_rsrc")
 
         # WHEN
         message: str = message_service.get_message("test_message.txt")

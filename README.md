@@ -46,7 +46,7 @@ You just have to update the `# PROJECT SPECIFIC VAR` part:
 > ```python
 > # PROJECT SPECIFIC VAR
 > PIPENV_PROJECT: bool = True  # True -> use Pipfile.lock for *install_requires*, False -> Use requirements.txt
-> PROJECT_NAME: str = 'hellopysdl'
+> PROJECT_NAME: str = 'hellopysdl_rsrc'
 > VERSION: str = '1.0.0'
 > AUTHOR: str = 'author'
 > EMAIL: str = 'author@mail.com'
@@ -123,9 +123,9 @@ So if you want to respect the *Maven Standard Directory Layout* there are severa
 Use root package names with suffixes like this:
 
 * *<My_Root_Package_Name>* for sources (in `src/main/python`)
-* *<My_Root_Package_Name>`_rscr`* for resources (in `src/main/resources`)
+* *<My_Root_Package_Name>`_rsrc`* for resources (in `src/main/resources`)
 * *<My_Root_Package_Name>`_test`* for test sources (in `src/test/python`)
-* *<My_Root_Package_Name>`_test_rscr`* for test resources (in `src/test/resources`)
+* *<My_Root_Package_Name>`_test_rsrc`* for test resources (in `src/test/resources`)
 
 > **Project structure example:**
 >
