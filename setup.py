@@ -53,7 +53,7 @@ class ProjectConfig:
     # PROJECT CONFIGURABLE PROPERTIES
     # - ini file consts
     PROJECT_INI_FILE_PATH: Final[str] = 'project.ini'
-    INI_PROJECT_SECTION: Final[str] = 'PROJECT',
+    INI_PROJECT_SECTION: Final[str] = 'PROJECT'
     INI_ENTRY_POINT_SECTION: Final[str] = 'ENTRY_POINT'
 
     # - properties default values
@@ -89,7 +89,7 @@ class ProjectConfig:
         'test_file_pattern',
         fallback=DEFAULT_TEST_FILE_PATTERN
     )
-    ENTRY_POINT: Final[dict[str, list[str]]]= None
+    ENTRY_POINT: Final[dict[str, list[str]]] = None
 
 
 # - COMMAND CLASSES
@@ -140,7 +140,7 @@ def get_deps(use_pipfile: bool = True) -> list[str]:
 
 # SETUP MAIN
 if __name__ == '__main__':
-    # Configure sys.path for command execution
+    # Configure sys.path for commands execution
     sys.path.append(os.path.join(ProjectConfig.PROJECT_PATH, ProjectConfig.SRC_FOLDER))
     sys.path.append(os.path.join(ProjectConfig.PROJECT_PATH, ProjectConfig.RESOURCES_FOLDER))
     sys.path.append(os.path.join(ProjectConfig.PROJECT_PATH, ProjectConfig.TEST_SRC_FOLDER))
