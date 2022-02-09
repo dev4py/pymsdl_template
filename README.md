@@ -54,13 +54,19 @@ In order to set your project properties, you just have to update the `project.in
 > author = author
 > email = author@mail.com
 > description = A Python boilerplate inspired from the Maven Standard Directory Layout
-> url = https://github.com/St4rG00se/${name}s
+> url = https://github.com/St4rG00se/${name}
 > license = MIT
 > 
 > [ENTRY_POINT]
 > console_scripts = hello = ${PROJECT:name}.__main__:hello
 > # ...
 > ```
+
+> ***Note:** Environment variables can be used in order to override defined keys in `project.ini`. It means that if
+> you have `name=my_project` in your `project.ini` and you have an environment variable `name=my_env_project`, the
+> project name will be `my_env_project`*
+>
+> *Moreover, you can use environment variables as value (example: `version= ${MY_ENV_VAR}`)*
 
 ### Pipenv (Pipfile) versus requirements.txt project
 
@@ -263,6 +269,7 @@ and `src/test/resources` directories and put your resources and tests directly i
 
 // TODO:
 
+* refacto readme (remove config class & use parametrized command class)
 * Test with namespace
 * (delivery install) explain python -m pkgname
 * explain entrypoint

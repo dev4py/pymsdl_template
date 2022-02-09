@@ -12,21 +12,39 @@ from setuptools.errors import DistutilsError
 
 # SETUP CLASSES
 # - CONFIGURATION CLASSES
+class EnvInterpolation(ExtendedInterpolation):
+    """Interpolation which expands environment variables in values."""
+
+    def before_read(self, parser, section, option, value):
+        env_var_name: str = f"${option}"
+        env_eval: str = os.path.expandvars(env_var_name)
+        if not env_eval == env_var_name:
+            return env_eval
+        return os.path.expandvars(super().before_read(parser, section, option, value))
+
+
 class ProjectConfig:
     # STATIC METHODS
     @staticmethod
     def load_project_ini_file(project_ini_file_path: str) -> ConfigParser:
-        config: Final[ConfigParser] = ConfigParser(interpolation=ExtendedInterpolation())
+        config: Final[ConfigParser] = ConfigParser(interpolation=EnvInterpolation())
         config.read(project_ini_file_path)
         return config
 
     @staticmethod
-    def find_resources_packages(resources_folder: str, src_packages: list[str]):
+    def find_resources_packages(resources_folder: str, src_packages: list[str]) -> list[str]:
         return [pkg for pkg in find_namespace_packages(where=resources_folder) if pkg not in src_packages]
 
     @staticmethod
-    def find_resources_packages_dir(resources_folder: str, resources_packages: list[str]):
+    def find_resources_packages_dir(resources_folder: str, resources_packages: list[str]) -> dict[str, str]:
         return {pkg: f"{resources_folder}/{pkg.replace('.', '/')}" for pkg in resources_packages}
+
+    @staticmethod
+    def load_entry_points(config_parser: ConfigParser, entry_point_section: str) -> dict[str, list[str]]:
+        if not config_parser.has_section(entry_point_section):
+            return None
+
+        return {k: v.splitlines() for k, v in config_parser.items(entry_point_section)}
 
     # PROJECT STRUCTURE CONSTS
     PROJECT_PATH: Final[str] = os.path.dirname(__file__)
@@ -45,8 +63,8 @@ class ProjectConfig:
 
     #   --> {'': SRC_FOLDER} workaround for pip install -e but resources & tests will not work
     #   --> see: https://github.com/pypa/setuptools/issues/230
-    SRC_PACKAGES_DIR: Final[dict] = {'': SRC_FOLDER}
-    RESOURCES_PACKAGES_DIR: Final[dict] = find_resources_packages_dir(RESOURCES_FOLDER, RESOURCES_PACKAGES)
+    SRC_PACKAGES_DIR: Final[dict[str, str]] = {'': SRC_FOLDER}
+    RESOURCES_PACKAGES_DIR: Final[dict[str, str]] = find_resources_packages_dir(RESOURCES_FOLDER, RESOURCES_PACKAGES)
     PACKAGES: Final[list] = SRC_PACKAGES + RESOURCES_PACKAGES
     PACKAGES_DIR: Final[dict] = dict(RESOURCES_PACKAGES_DIR, **SRC_PACKAGES_DIR)
 
@@ -54,7 +72,7 @@ class ProjectConfig:
     # - ini file consts
     PROJECT_INI_FILE_PATH: Final[str] = 'project.ini'
     INI_PROJECT_SECTION: Final[str] = 'PROJECT'
-    INI_ENTRY_POINT_SECTION: Final[str] = 'ENTRY_POINT'
+    INI_ENTRY_POINT_SECTION: Final[str] = f'{INI_PROJECT_SECTION}.ENTRY_POINTS'
 
     # - properties default values
     DEFAULT_TEST_FILE_PATTERN: Final[str] = '*[Tt]est*.py'
@@ -89,7 +107,7 @@ class ProjectConfig:
         'test_file_pattern',
         fallback=DEFAULT_TEST_FILE_PATTERN
     )
-    ENTRY_POINT: Final[dict[str, list[str]]] = None
+    ENTRY_POINT: Final[dict[str, list[str]]] = load_entry_points(CONFIG_PARSER, INI_ENTRY_POINT_SECTION)
 
 
 # - COMMAND CLASSES
