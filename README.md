@@ -4,6 +4,7 @@
 
 A Python boilerplate inspired from
 the [Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html)
+without any dependency.
 
 ***Since there are some existing limitations, it is strongly advised to read
 the [Project organization](#project-organization) part before the [Project commands](#project-commands) one***
