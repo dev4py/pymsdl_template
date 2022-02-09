@@ -79,7 +79,7 @@ class ProjectConfig:
     )
     LONG_DESCRIPTION_CONTENT_TYPE: Final[str] = CONFIG_PARSER.get(
         INI_PROJECT_SECTION,
-        'long_description_file',
+        'long_description_content_type',
         fallback=DEFAULT_LONG_DESCRIPTION_CONTENT_TYPE
     )
     URL: Final[str] = CONFIG_PARSER.get(INI_PROJECT_SECTION, 'url', fallback=None)

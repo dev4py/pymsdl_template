@@ -17,13 +17,14 @@ the [Project organization](#project-organization) part before the [Project comma
 ## Table of content
 
 * [Project organization](#project-organization)
-    + [Setup.py file](#setuppy-file)
+    + [setup.py & project.ini files](#setuppy--projectini-files)
     + [Pipenv (Pipfile) versus requirements.txt project](#pipenv-pipfile-versus-requirementstxt-project)
     + [Maven Standard Directory Layout with python](#maven-standard-directory-layout-with-python)
         - [Sources & Resources directories configuration](#sources--resources-directories-configuration)
         - [<span style='color: orange'><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/> WARNING: Limitations</span>](#-warning-limitations)
             * [A. Use root package names with suffix](#a-use-root-package-names-with-suffix)
-            * [B. Don't fully respect the Maven Standard Directory Layout](#b-dont-fully-respect-the-maven-standard-directory-layout)
+            * [B. Use namespace package as root package](#b-use-namespace-package-as-root-package)
+            * [C. Don't fully respect the Maven Standard Directory Layout](#c-dont-fully-respect-the-maven-standard-directory-layout)
 * [Project commands](#project-commands)
     + [Run tests](#run-tests)
     + [Build](#build)
@@ -33,31 +34,30 @@ the [Project organization](#project-organization) part before the [Project comma
 
 ## Project organization
 
-### Setup.py file
+### setup.py & project.ini files
 
-The `setup.py` file is used in order to build & deliver correctly your project. That's why it contains each information
-about the project delivery (name, version, author, description, etc.).
+The `setup.py` file is used in order to build & deliver correctly your project.
 
-When you start a new project from this boilerplate, ***DON'T FORGET TO UPDATE SETUP.PY FILE***
+When you start a new project from this boilerplate, ***YOU DON'T HAVE TO UPDATE SETUP.PY FILE***
 
-You just have to update the `# PROJECT SPECIFIC VAR` part:
+In order to set your project properties, you just have to update the `project.ini` file:
 
 > Configuration example:
-> ```python
-> # PROJECT SPECIFIC VAR
-> PIPENV_PROJECT: bool = True  # True -> use Pipfile.lock for *install_requires*, False -> Use requirements.txt
-> PROJECT_NAME: str = 'hellopysdl_rsrc'
-> VERSION: str = '1.0.0'
-> AUTHOR: str = 'author'
-> EMAIL: str = 'author@mail.com'
-> DESCRIPTION: str = 'A Python boilerplate inspired from the Maven Standard Directory Layout'
-> URL: str = f'https://github.com/St4rG00se/{PROJECT_NAME}'
-> LICENSE: str = 'MIT'
-> ENTRY_POINT: dict[str, list[str]] = {
->     'console_scripts': [
->         f'hello = {PROJECT_NAME}.__main__:hello'
->     ]
-> }
+> ```ini
+> ###############################
+> ###### PROJECT PROPERTIES #####
+> ###############################
+> [PROJECT]
+> name = hellopysdl
+> version = 1.0.0
+> author = author
+> email = author@mail.com
+> description = A Python boilerplate inspired from the Maven Standard Directory Layout
+> url = https://github.com/St4rG00se/${name}s
+> license = MIT
+> 
+> [ENTRY_POINT]
+> console_scripts = hello = ${PROJECT:name}.__main__:hello
 > # ...
 > ```
 
@@ -67,11 +67,16 @@ By default, this boilerplate if configured in order to work with [pipenv](https:
 `Pipfile.lock`).
 
 However, you can easily use it without `pipenv` by using a `requirements.txt` file. To do that, you just have to update
-the `setup.py` file like this:
+the `project.ini` file like this:
 
-> ```python
-> # PROJECT SPECIFIC VAR
-> PIPENV_PROJECT: bool = False  # True -> use Pipfile.lock for *install_requires*, False -> Use requirements.txt
+> ```ini
+> # ...
+> 
+> # use_pipenv: (default: True)
+> #      True -> use Pipfile.lock for setup install_requires
+> #      False -> Use requirements.txt for setup install_requires
+> use_pipenv = False
+> 
 > # ...
 > ```
 
@@ -136,16 +141,20 @@ Use root package names with suffixes like this:
 >      |- main
 >      |   |- python
 >      |   |   |- <MY_ROOT_PACKAGE_NAME>
+>      |   |       |- __init__.py
 >      |   |       |- ...
 >      |   |- resources
 >      |       |- <MY_ROOT_PACKAGE_NAME>_rsrc
+>      |           |- __init__.py
 >      |           |- ...
 >      |- test
 >          |- python
 >          |   |- <MY_ROOT_PACKAGE_NAME>_test
+>          |       |- __init__.py
 >          |       |- ...
 >          |- resources
 >              |- <MY_ROOT_PACKAGE_NAME>_test_rsrc
+>                  |- __init__.py
 >                  |- ...
 > ```
 
@@ -154,9 +163,50 @@ Use root package names with suffixes like this:
 
 > ***Note:** `_rsrc`, `_test`, `_test_rsrc` are just suggested suffixes you can use your own suffixes*
 
-##### B. Don't fully respect the Maven Standard Directory Layout
+##### B. Use namespace package as root package
 
-If you are not agree with the previous suggestion, you can remove the `src/main/resources`, `src/test/python`
+If you really want a common root package name, you can use a `namespace package` as root. This `namespace package` must
+contain packages without conflict between sources and resources directories.
+
+> *Reminder: A namespace package doesn't contain any source or __init__.py file*
+
+> **Project structure with namespace package as root package example:**
+>
+> ```sh
+> <My_Project>
+>  |- ...
+>  |- src
+>      |- main
+>      |   |- python
+>      |   |   |- <MY_ROOT_NAMESPACE_PACKAGE_NAME>
+>      |   |       |- <MY_PACKAGE_NAME>
+>      |   |       |   |- __init__.py
+>      |   |       |   |- ...
+>      |   |       |- ...
+>      |   |- resources
+>      |       |- <MY_ROOT_NAMESPACE_PACKAGE_NAME>
+>      |           |- <MY_PACKAGE_NAME>_rsrc
+>      |           |   |- __init__.py
+>      |           |   |- ...
+>      |           |- ...
+>      |- test
+>          |- python
+>          |   |- <MY_ROOT_NAMESPACE_PACKAGE_NAME>
+>          |       |- <MY_PACKAGE_NAME>_test
+>          |       |   |- __init__.py
+>          |       |   |- ...
+>          |       |- ...
+>          |- resources
+>              |- <MY_ROOT_NAMESPACE_PACKAGE_NAME>
+>                  |- <MY_PACKAGE_NAME>_test_rsrc
+>                  |   |- __init__.py
+>                  |   |- ...
+>                  |- ...
+> ```
+
+##### C. Don't fully respect the Maven Standard Directory Layout
+
+If you are not agree with the previous suggestions, you can remove the `src/main/resources`, `src/test/python`
 and `src/test/resources` directories and put your resources and tests directly into the `src/main/python` directory.
 
 > **Note:** in this case you will also avoid the `pip install -e .` limitation explained before
