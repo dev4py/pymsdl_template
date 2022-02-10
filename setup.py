@@ -54,9 +54,13 @@ def get_deps(use_pipfile: bool = True) -> list[str]:
 
 
 def load_project_ini_file(project_ini_file_path: str, environment_section: str) -> ConfigParser:
+    esc_env_vars: Final[dict[str, str]] = {k: v.replace('$', '$$') for k, v in dict(os.environ).items()}
     config_parser: Final[ConfigParser] = ConfigParser(interpolation=ExtendedInterpolation())
-    config_parser[environment_section] = {k: v.replace('$', '$$') for k, v in dict(os.environ).items()}
     config_parser.read(project_ini_file_path)
+    if config_parser.has_section(environment_section):
+        config_parser[environment_section] = dict(config_parser[environment_section], **esc_env_vars)
+    else:
+        config_parser[environment_section] = esc_env_vars
     return config_parser
 
 
