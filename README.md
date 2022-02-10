@@ -27,6 +27,7 @@ the [Project organization](#project-organization) part before the [Project comma
             * [B. Use namespace package as root package](#b-use-namespace-package-as-root-package)
             * [C. Don't fully respect the Maven Standard Directory Layout](#c-dont-fully-respect-the-maven-standard-directory-layout)
 * [Project commands](#project-commands)
+    + [Clean project](#clean-project)
     + [Run tests](#run-tests)
     + [Build](#build)
     + [Delivery *(on https://pypi.org/)*](#delivery-on-httpspypiorg)
