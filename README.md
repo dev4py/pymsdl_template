@@ -63,18 +63,18 @@ In order to set your project properties, you just have to update the `project.in
 > ```
 
 > ***Note:** Environment variables are available from `ENV` section.*
-> 
+>
 > **Environment variable example:**
 > ```ini
 > # Set name from `ProjectName` environment variable
 > name=${ENV:ProjectName}
 > # ...
 > ```
-> 
+>
 > *Trick: If you define an `ENV` section in your `project.ini` file, each variable which exists in your environment
 > variable set will be overridden otherwise it will be used. It means that you can define an `ENV` section in order to
 > set default environment variable values*
->  
+>
 > **Environment variable default value example:**
 > ```ini
 > # Set ProjectName environment variable default value:
@@ -239,9 +239,24 @@ and `src/test/resources` directories and put your resources and tests directly i
 
 ## Project commands
 
+### Clean project
+
+> ```sh
+> python setup.py clean
+> ```
+
+> ***Note:** It doesn't use the default `clean` command*. This one remove `build`, `dist` and/or `.egg-info` directories
+> ```sh
+> Options for 'CleanCommand' command:
+>  --build (-b)     Remove the 'build' directory
+>  --dist (-d)      Remove the 'dist' directory
+>  --egg-info (-e)  Remove the '.egg-info' directory
+>  --all (-a)       (default) remove all directories
+> ```
+
 ### Run tests
 
-> ```
+> ```sh
 > python setup.py test
 > ```
 
@@ -253,11 +268,8 @@ and `src/test/resources` directories and put your resources and tests directly i
 
 ### Build
 
-> ```shell
-> python setup.py clean --all \
->   && rm -rf dist \
->   && find . -name \*.egg-info -type d -exec rm -rf {} + \
->   && python setup.py bdist_wheel sdist
+> ```sh
+> python setup.py clean bdist_wheel sdist
 > ```
 
 ### Delivery *(on https://pypi.org/)*
@@ -274,7 +286,7 @@ and `src/test/resources` directories and put your resources and tests directly i
 
 #### Delivery command
 
-> ```shell
+> ```sh
 > twine upload dist/*
 > ```
 
@@ -283,6 +295,7 @@ and `src/test/resources` directories and put your resources and tests directly i
 
 
 // TODO:
+
 * Test with namespace
 * (delivery install) explain python -m pkgname
 * explain entrypoint
