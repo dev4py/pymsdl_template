@@ -62,11 +62,14 @@ In order to set your project properties, you just have to update the `project.in
 > # ...
 > ```
 
-> ***Note:** Environment variables can be used in order to override defined keys in `project.ini`. It means that if
-> you have `name=my_project` in your `project.ini` and you have an environment variable `name=my_env_project`, the
-> project name will be `my_env_project`*
->
-> *Moreover, you can use environment variables as value (example: `version= ${MY_ENV_VAR}`)*
+> ***Note:** Environment variables are available from `ENV` section.*
+> 
+> **Environment variable example:**
+> ```ini
+> # Set name from `ProjectName` environment variable
+> name=${ENV:ProjectName}
+> ```
+> *Good to know: If you define an `ENV` section in your file, declared variables will override your environment variables*
 
 ### Pipenv (Pipfile) versus requirements.txt project
 

@@ -21,6 +21,7 @@ TEST_RESOURCES_FOLDER: Final[str] = f'{TEST_FOLDER}/resources'
 
 # - ini file consts
 PROJECT_INI_FILE_PATH: Final[str] = 'project.ini'
+INIT_ENV_VAR_SECTION: Final[str] = 'ENV'
 INI_PROJECT_SECTION: Final[str] = 'PROJECT'
 INI_ENTRY_POINT_SECTION: Final[str] = f'{INI_PROJECT_SECTION}.ENTRY_POINTS'
 
@@ -52,14 +53,15 @@ def get_deps(use_pipfile: bool = True) -> list[str]:
     return get_deps_from_pipfile() if use_pipfile else get_deps_from_requirements()
 
 
-def load_project_ini_file(project_ini_file_path: str) -> ConfigParser:
-    config: Final[ConfigParser] = ConfigParser(interpolation=EnvInterpolation())
-    config.read(project_ini_file_path)
-    return config
+def load_project_ini_file(project_ini_file_path: str, environment_section: str) -> ConfigParser:
+    config_parser: Final[ConfigParser] = ConfigParser(interpolation=ExtendedInterpolation())
+    config_parser[environment_section] = {k: v.replace('$', '$$') for k, v in dict(os.environ).items()}
+    config_parser.read(project_ini_file_path)
+    return config_parser
 
 
-def find_resources_packages(resources_folder: str, src_packages: list[str]) -> list[str]:
-    return [pkg for pkg in find_namespace_packages(where=resources_folder) if pkg not in src_packages]
+def find_resources_packages(resources_folder: str, excluded_packages: list[str]) -> list[str]:
+    return [pkg for pkg in find_namespace_packages(where=resources_folder) if pkg not in excluded_packages]
 
 
 def to_packages_dir(folder_path: str, packages: list[str]) -> dict[str, str]:
@@ -82,18 +84,6 @@ def test_command_class_factory(project_path: str, test_src_folder: str, test_fil
 
 
 # SETUP CLASSES
-# - CONFIGURATION FILE CLASSES
-class EnvInterpolation(ExtendedInterpolation):
-    """Interpolation which expands environment variables in values."""
-
-    def before_read(self, parser, section, option, value):
-        env_var_name: str = f"${option}"
-        env_eval: str = os.path.expandvars(env_var_name)
-        if not env_eval == env_var_name:
-            return env_eval
-        return os.path.expandvars(super().before_read(parser, section, option, value))
-
-
 # - COMMAND CLASSES
 # -- Test command
 class TestCommand(Command):
@@ -144,7 +134,7 @@ if __name__ == '__main__':
     resources_packages_dir: Final[dict[str, str]] = to_packages_dir(RESOURCES_FOLDER, resources_packages)
 
     # Configurable properties parser (ConfigParser)
-    cfg_parser: Final[ConfigParser] = load_project_ini_file(PROJECT_INI_FILE_PATH)
+    cfg_parser: Final[ConfigParser] = load_project_ini_file(PROJECT_INI_FILE_PATH, INIT_ENV_VAR_SECTION)
 
     # Execute setup
     setup(
