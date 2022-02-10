@@ -190,7 +190,7 @@ Use root package names with suffixes like this:
 If you really want a common root package name, you can use a `namespace package` as root. This `namespace package` must
 contain packages without conflict between sources and resources directories.
 
-> *Reminder: A namespace package doesn't contain any source or __init__.py file*
+> *Reminder: A namespace package doesn't contain any source or `__init__.py` file*
 
 > **Project structure with namespace package as root package example:**
 >
