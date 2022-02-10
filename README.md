@@ -270,8 +270,18 @@ and `src/test/resources` directories and put your resources and tests directly i
 ### Build
 
 > ```sh
-> python setup.py clean bdist_wheel sdist
+> python setup.py clean \
+> && pip wheel --wheel-dir=dist/ .
 > ```
+
+or if you need a source distribution (sdist) archive:
+
+> ```sh
+> python setup.py clean sdist
+> ```
+
+> ***Reminder:** Using `python setup.py bdist_wheel` in order to create your `wheel` archive directly is deprecated (It 
+> should work however you will have a warning message)*
 
 ### Delivery *(on https://pypi.org/)*
 
