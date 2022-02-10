@@ -283,8 +283,6 @@ and `src/test/resources` directories and put your resources and tests directly i
 
 
 // TODO:
-
-* refacto readme (remove config class & use parametrized command class)
 * Test with namespace
 * (delivery install) explain python -m pkgname
 * explain entrypoint
