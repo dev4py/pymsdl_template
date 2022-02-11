@@ -1,5 +1,6 @@
 import json
 import os
+import runpy
 import sys
 import unittest
 from configparser import ConfigParser, ExtendedInterpolation
@@ -9,7 +10,7 @@ from typing import Final, Type
 from unittest import TestSuite
 
 from setuptools import setup, find_namespace_packages, Command
-from setuptools.errors import DistutilsError
+from setuptools.errors import DistutilsError, OptionError
 
 # CONSTANTS
 # - project / sources / test paths
@@ -185,6 +186,38 @@ class CleanCommand(Command):
             rmtree(dir_path)
 
 
+# -- Exec command
+class RunCommand(Command):
+    """
+    Run a python module which can be in the Maven Standard Directory Layout tree without having to configure the
+    PYTHONPATH
+    """
+
+    description = "Run a python module which can be in the Maven Standard Directory Layout tree without having to " \
+                  + "configure the PYTHONPATH"
+
+    user_options = [
+        ('module=', 'm', "Module to run")
+    ]
+
+    def __init__(self, dist, **kw):
+        self.module: str = None
+        super().__init__(dist, **kw)
+
+    def initialize_options(self):
+        self.module: str = None
+
+    def finalize_options(self):
+        if not self.module:
+            raise OptionError("You must specify a module to run")
+
+    def run(self):
+        try:
+            runpy.run_module(self.module, run_name='__main__')
+        except Exception as e:
+            raise DistutilsError(e)
+
+
 # SETUP MAIN
 if __name__ == '__main__':
     # Configure sys.path for commands execution
@@ -229,6 +262,7 @@ if __name__ == '__main__':
         entry_points=load_entry_points(cfg_parser, INI_ENTRY_POINT_SECTION),
         cmdclass={
             'clean': CleanCommand,
+            'run': RunCommand,
             'test': test_command_class_factory(
                 PROJECT_PATH,
                 TEST_SRC_FOLDER,

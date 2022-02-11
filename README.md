@@ -28,6 +28,7 @@ the [Project organization](#project-organization) part before the [Project comma
             * [C. Don't fully respect the Maven Standard Directory Layout](#c-dont-fully-respect-the-maven-standard-directory-layout)
 * [Project commands](#project-commands)
     + [Clean project](#clean-project)
+    + [Run module](#run-module)
     + [Run tests](#run-tests)
     + [Build](#build)
     + [Delivery *(on https://pypi.org/)*](#delivery-on-httpspypiorg)
@@ -123,6 +124,8 @@ That's why you will find the following directory structure:
 
 **Sources** and **resources** directories must be in
 your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH)**
+
+**However, if you don't want to configure your PYTHONPATH, you can use the provided [Run module](#run-module) command**
 
 > ***Note:** if you are using IDE like **[<img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/PyCharm_Icon.svg" alt="Pycharm-icon" width="17px" height="17px"/>
 Pycharm](https://www.jetbrains.com/pycharm/)**
@@ -255,6 +258,28 @@ and `src/test/resources` directories and put your resources and tests directly i
 >  --all (-a)       (default) remove all directories
 > ```
 
+### Run module
+
+RCPY boilerplate allow you to run a python module (even in the **Maven Standard Directory Layout**) without having to
+configure your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH)**
+
+> ```sh
+> python setup.py run -m <MODULE_NAME>
+> ```
+
+>**Run *module* example:**
+> ```sh
+> python setup.py run -m hellopysdl.__main__
+> ```
+> Run the __main__.py module from hellopysdl package
+> 
+> **Run *package* example:**
+> ```sh
+> python setup.py run -m hellopysdl
+> ```
+> ***Note:** your package MUST contains a __main__.py module*
+
+
 ### Run tests
 
 > ```sh
@@ -280,7 +305,7 @@ or if you need a source distribution (sdist) archive:
 > python setup.py clean sdist
 > ```
 
-> ***Reminder:** Using `python setup.py bdist_wheel` in order to create your `wheel` archive directly is deprecated (It 
+> ***Reminder:** Using `python setup.py bdist_wheel` in order to create your `wheel` archive directly is deprecated (It
 > should work however you will have a warning message)*
 
 ### Delivery *(on https://pypi.org/)*
@@ -303,13 +328,13 @@ or if you need a source distribution (sdist) archive:
 
 > ***Note:** Obviously, this command must be executed after the [Build](#build) one*
 
-
-
-// TODO:
+# TODO:
 
 * Test with namespace
+* Run module with args
 * (delivery install) explain python -m pkgname
 * explain entrypoint
 * best practice dependencies
 * quickstart
 * add docker (mb docker-compose)
+* project.py project command wrapper
