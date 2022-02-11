@@ -81,7 +81,7 @@ In order to set your project properties, you just have to update the [project.in
 > ```ini
 > # Set ProjectName environment variable default value:
 > [ENV]
-> ProjectName=My default project name (will be used if ProjectName environement variable doesn't exists)
+> ProjectName=My default project name (will be used if ProjectName environment variable doesn't exists)
 > # ...
 > ```
 
@@ -267,20 +267,21 @@ configure your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envva
 > python setup.py run -m <MODULE_NAME>
 > ```
 
->**Run *module* example:**
+> **Run *module* example:**
 > ```sh
 > python setup.py run -m hellopysdl.__main__
 > ```
 > Run the __main__.py module from hellopysdl package
-> 
+>
 > **Run *package* example:**
 > ```sh
 > python setup.py run -m hellopysdl
 > ```
 > ***Note:** your package MUST contains a __main__.py module*
 
-
 ### Run tests
+
+This project is configured to execute tests with [**unittest**](https://docs.python.org/3/library/unittest.html):
 
 > ```sh
 > python setup.py test
@@ -288,9 +289,12 @@ configure your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envva
 
 > ***Note:** It doesn't use the deprecated `test` command*
 
-> ***Note:** This project is configured to execute tests with
-> [**unittest**](https://docs.python.org/3/library/unittest.html). If you want to use another runner you have to update
+> ***Note:** If you want to use another runner you have to update
 > the `TestCommand` class from [setup.py](./setup.py) or not use the `setup.py test` command*
+
+> ***Note:** If you are using namespace packages, a workaround is implemented for the
+> [issue-23882](https://bugs.python.org/issue23882) (However if you don't use this command line, the namespace package
+> detection by [unittest](https://docs.python.org/3/library/unittest.html) will probably fail)*
 
 ### Build
 
@@ -317,8 +321,8 @@ or if you need a source distribution (sdist) archive:
 > pip install twine
 > ```
 
-> ***Note:** As it is a common delivery tool, you can install it on your global python environment. However you can also
-> install it on your pipenv virtual environment*
+> ***Note:** As it is a common delivery tool, you can install it on your global python environment. However, you can
+> also install it on your pipenv virtual environment*
 
 #### Delivery command
 
@@ -330,7 +334,6 @@ or if you need a source distribution (sdist) archive:
 
 # TODO:
 
-* Test with namespace
 * Run module with args
 * (delivery install) explain python -m pkgname
 * explain entrypoint
