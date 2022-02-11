@@ -39,9 +39,9 @@ the [Project organization](#project-organization) part before the [Project comma
 
 ### setup.py & project.ini files
 
-The `setup.py` file is used in order to build & deliver correctly your project.
+The [setup.py](./setup.py) file is used in order to build & deliver correctly your project.
 
-When you start a new project from this boilerplate, ***YOU DON'T HAVE TO UPDATE SETUP.PY FILE***
+When you start a new project from this boilerplate, ***YOU DON'T HAVE TO UPDATE [SETUP.PY](./setup.py) FILE***
 
 In order to set your project properties, you just have to update the [project.ini](./project.ini) file:
 
@@ -104,8 +104,8 @@ the `project.ini` file like this:
 > # ...
 > ```
 
-> ***Note:** `Pipfile.lock` or `requirements.txt` must be located in the same directory as `setup.py` (ie: the project
-> root directory)*
+> ***Note:** `Pipfile.lock` or `requirements.txt` must be located in the same directory as [setup.py](./setup.py)
+> (ie: the project root directory)*
 
 ### Maven Standard Directory Layout with python
 
@@ -290,7 +290,7 @@ configure your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envva
 
 > ***Note:** This project is configured to execute tests with
 > [**unittest**](https://docs.python.org/3/library/unittest.html). If you want to use another runner you have to update
-> the `TestCommand` class from `setup.py` or not use the `setup.py test` command*
+> the `TestCommand` class from [setup.py](./setup.py) or not use the `setup.py test` command*
 
 ### Build
 
