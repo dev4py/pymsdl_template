@@ -15,7 +15,7 @@ the [Project organization](#project-organization) part before the [Project comma
 >
 > *See [Pipenv (Pipfile) versus requirements.txt project](#pipenv-pipfile-versus-requirementstxt-project)...*
 
-## Table of content
+## Table of contents
 
 * [Project organization](#project-organization)
     + [setup.py & project.ini files](#setuppy--projectini-files)
