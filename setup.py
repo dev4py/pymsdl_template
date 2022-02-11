@@ -1,20 +1,18 @@
-import json
-import os
-import runpy
-import sys
-import unittest
 from configparser import ConfigParser, ExtendedInterpolation
+from json import load as json_load
+from os import environ as os_environ
 from pathlib import Path
+from runpy import run_module
 from shutil import rmtree
+from sys import version as py_version, path as sys_path, stderr as sys_stderr
 from typing import Final, Type
-from unittest import TestSuite
+from unittest import TestSuite, TextTestRunner, defaultTestLoader
 
 from setuptools import setup, find_namespace_packages, Command
 from setuptools.errors import DistutilsError, OptionError
 
 # CONSTANTS
 # - project / sources / test paths
-PROJECT_PATH: Final[str] = os.path.dirname(__file__)
 MAIN_FOLDER: Final[str] = 'src/main'
 SRC_FOLDER: Final[str] = f'{MAIN_FOLDER}/python'
 RESOURCES_FOLDER: Final[str] = f'{MAIN_FOLDER}/resources'
@@ -43,7 +41,7 @@ def read_file(file_path: str) -> str:
 
 def get_deps_from_pipfile(section: str = "default", pipfile_path: str = "Pipfile.lock") -> list[str]:
     with open(pipfile_path) as pipfile:
-        pipfile_content = json.load(pipfile)
+        pipfile_content = json_load(pipfile)
 
     return [package + detail.get('version', "") for package, detail in pipfile_content.get(section, {}).items()]
 
@@ -57,7 +55,7 @@ def get_deps(use_pipfile: bool = True) -> list[str]:
 
 
 def load_project_ini_file(project_ini_file_path: str, environment_section: str) -> ConfigParser:
-    esc_env_vars: Final[dict[str, str]] = {k: v.replace('$', '$$') for k, v in dict(os.environ).items()}
+    esc_env_vars: Final[dict[str, str]] = {k: v.replace('$', '$$') for k, v in dict(os_environ).items()}
     config_parser: Final[ConfigParser] = ConfigParser(interpolation=ExtendedInterpolation())
     config_parser.read(project_ini_file_path)
     if config_parser.has_section(environment_section):
@@ -72,7 +70,7 @@ def find_resources_packages(resources_folder: str, excluded_packages: list[str])
 
 
 def to_packages_dir(folder_path: str, packages: list[str]) -> dict[str, str]:
-    return {pkg: f"{folder_path}/{pkg.replace('.', '/')}" for pkg in packages}
+    return {pkg: Path(folder_path).joinpath(pkg.replace('.', '/')).as_posix() for pkg in packages}
 
 
 def load_entry_points(config_parser: ConfigParser, entry_point_section: str) -> dict[str, list[str]] | None:
@@ -82,10 +80,10 @@ def load_entry_points(config_parser: ConfigParser, entry_point_section: str) -> 
     return {k: v.splitlines() for k, v in config_parser.items(entry_point_section)}
 
 
-def test_command_class_factory(project_path: str, test_src_folder: str, test_file_pattern: str) -> Type[Command]:
+def test_command_class_factory(test_src_folder: str, test_file_pattern: str) -> Type[Command]:
     class TestCmd(TestCommand):
         def __init__(self, dist, **kw):
-            super().__init__(project_path, test_src_folder, test_file_pattern, dist, **kw)
+            super().__init__(test_src_folder, test_file_pattern, dist, **kw)
 
     return TestCmd
 
@@ -101,10 +99,9 @@ class TestCommand(Command):
 
     user_options = []
 
-    def __init__(self, project_path: str, test_src_folder: str, test_file_pattern: str, dist, **kw):
-        self.__project_path: str = project_path
-        self.__test_src_folder: str = test_src_folder
-        self.__test_file_pattern: str = test_file_pattern
+    def __init__(self, test_src_folder: str, test_file_pattern: str, dist, **kw):
+        self.__test_src_folder: Final[Path] = Path(test_src_folder)
+        self.__test_file_pattern: Final[str] = test_file_pattern
         super().__init__(dist, **kw)
 
     def initialize_options(self):
@@ -115,24 +112,52 @@ class TestCommand(Command):
 
     def run(self):
         # Prepare tests
-        test_loader = unittest.defaultTestLoader
-        test_suite: TestSuite = test_loader.discover(
-            os.path.join(self.__project_path, self.__test_src_folder),
-            pattern=self.__test_file_pattern
-        )
+        test_suite: TestSuite = self._discover()
+
+        # - Workaround for namespace package (See: https://bugs.python.org/issue23882)
+        self._add_namespace_pkg_tests_workaround(test_suite)
 
         # Run tests
-        test_result = unittest.TextTestRunner().run(test_suite)
+        test_result = TextTestRunner().run(test_suite)
 
         if not test_result.wasSuccessful():
             raise DistutilsError('Test failed: %s' % test_result)
+
+    def _discover(self, pkg_path: Path = None) -> TestSuite:
+        test_dir: str = (pkg_path or self.__test_src_folder).as_posix()
+        return defaultTestLoader.discover(start_dir=test_dir, top_level_dir=test_dir, pattern=self.__test_file_pattern)
+
+    def _add_namespace_pkg_tests_workaround(self, default_test_suite: TestSuite) -> None:
+        """Workaround for namespace package (See: https://bugs.python.org/issue23882)"""
+        for pkg in find_namespace_packages(self.__test_src_folder):
+            pkg_path: Path = self.__test_src_folder.joinpath(pkg.replace('.', '/'))
+            if not pkg_path.joinpath('__init__.py').is_file():
+                self._namespace_pkg_workaround_version_warning(pkg)
+                namespace_suite: TestSuite = self._discover(pkg_path)
+                if namespace_suite.countTestCases() > 0:
+                    default_test_suite.addTests(namespace_suite)
+
+    @staticmethod
+    def _namespace_pkg_workaround_version_warning(namespace_package: str) -> None:
+        version = py_version.split('.')
+        if version:
+            float_version: float = float(version[0] if len(version) == 1 else f'{version[0]}.{version[1]}')
+            # Should be fixed in python 3.11
+            if float_version >= 3.11:
+                msg: Final[str] = "WARNING: Your python version is >= 3.11. So your tests in your namespace package" \
+                                  f" '{namespace_package}' will probably run twice\n" \
+                                  "   This is due to an issue that should be fixed in python 3.11." \
+                                  " In this case it means issue https://bugs.python.org/issue23882 is fixed" \
+                                  " and you can remove the _add_namespace_pkg_tests_workaround method from" \
+                                  " TestCommand class in setup.py file"
+                print(msg, file=sys_stderr)
 
 
 # -- Clean command
 class CleanCommand(Command):
     """Remove directories generated by the 'build' command"""
-    BUILD_PATH: Final[str] = './build'
-    DIST_PATH: Final[str] = './dist'
+    BUILD_PATH: Final[Path] = Path('./build')
+    DIST_PATH: Final[Path] = Path('./dist')
     EGG_INFO_PATTERN: Final[str] = '*.egg-info'
 
     description = "Remove directories generated by the 'build' command"
@@ -175,13 +200,13 @@ class CleanCommand(Command):
 
         if self.egg_info:
             for path in Path(".").rglob(CleanCommand.EGG_INFO_PATTERN):
-                CleanCommand._rmdir_if_exists(path.as_posix())
+                CleanCommand._rmdir_if_exists(path)
 
         print("Clean command done")
 
     @staticmethod
-    def _rmdir_if_exists(dir_path: str):
-        if os.path.isdir(dir_path):
+    def _rmdir_if_exists(dir_path: Path) -> None:
+        if dir_path.is_dir():
             print(" |- Remove %s directory" % dir_path)
             rmtree(dir_path)
 
@@ -213,7 +238,7 @@ class RunCommand(Command):
 
     def run(self):
         try:
-            runpy.run_module(self.module, run_name='__main__')
+            run_module(self.module, run_name='__main__')
         except Exception as e:
             raise DistutilsError(e)
 
@@ -221,10 +246,10 @@ class RunCommand(Command):
 # SETUP MAIN
 if __name__ == '__main__':
     # Configure sys.path for commands execution
-    sys.path.append(os.path.join(PROJECT_PATH, SRC_FOLDER))
-    sys.path.append(os.path.join(PROJECT_PATH, RESOURCES_FOLDER))
-    sys.path.append(os.path.join(PROJECT_PATH, TEST_SRC_FOLDER))
-    sys.path.append(os.path.join(PROJECT_PATH, TEST_RESOURCES_FOLDER))
+    sys_path.append(Path(SRC_FOLDER).absolute().as_posix())
+    sys_path.append(Path(RESOURCES_FOLDER).absolute().as_posix())
+    sys_path.append(Path(TEST_SRC_FOLDER).absolute().as_posix())
+    sys_path.append(Path(TEST_RESOURCES_FOLDER).absolute().as_posix())
 
     # Sources and resources packages & package_dir configuration
     src_packages: Final[list[str]] = find_namespace_packages(where=SRC_FOLDER)
@@ -264,7 +289,6 @@ if __name__ == '__main__':
             'clean': CleanCommand,
             'run': RunCommand,
             'test': test_command_class_factory(
-                PROJECT_PATH,
                 TEST_SRC_FOLDER,
                 cfg_parser.get(INI_PROJECT_SECTION, 'test_file_pattern', fallback=DEFAULT_TEST_FILE_PATTERN)
             )
