@@ -43,7 +43,7 @@ The `setup.py` file is used in order to build & deliver correctly your project.
 
 When you start a new project from this boilerplate, ***YOU DON'T HAVE TO UPDATE SETUP.PY FILE***
 
-In order to set your project properties, you just have to update the `project.ini` file:
+In order to set your project properties, you just have to update the [project.ini](./project.ini) file:
 
 > Configuration example:
 > ```ini
@@ -73,9 +73,9 @@ In order to set your project properties, you just have to update the `project.in
 > # ...
 > ```
 >
-> *Trick: If you define an `ENV` section in your `project.ini` file, each variable which exists in your environment
-> variable set will be overridden otherwise it will be used. It means that you can define an `ENV` section in order to
-> set default environment variable values*
+> *Trick: If you define an `ENV` section in your [project.ini](./project.ini) file, each variable which exists in your
+> environment variable set will be overridden otherwise it will be used. It means that you can define an `ENV` section
+> in order to set default environment variable values*
 >
 > **Environment variable default value example:**
 > ```ini
