@@ -267,6 +267,15 @@ configure your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envva
 > python setup.py run -m <MODULE_NAME>
 > ```
 
+> **setup.py run man:**
+> ```sh
+> Options for 'RunCommand' command:
+>   --module (-m)  Module to run (format: '<pkg_name>.<module_name>')
+>   --path (-p)    Module to run path (format: 'my/path/to/the/module.py')
+>   --args (-a)    Module to run string arguments (format: '"arg1=v1 -arg2 --
+>                  arg3= v3"')
+> ```
+> 
 > **Run *module* example:**
 > ```sh
 > python setup.py run -m hellopysdl.__main__
@@ -278,6 +287,23 @@ configure your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envva
 > python setup.py run -m hellopysdl
 > ```
 > ***Note:** your package MUST contains a __main__.py module*
+> 
+> **Run *module* from path example:**
+> ```sh
+> python setup.py run -p src/main/python/hellopysdl/__main__.py
+> ```
+> Run the __main__.py module from hellopysdl package
+>
+> **Run *package* from path example:**
+> ```sh
+> python setup.py run -p src/main/python/hellopysdl
+> ```
+> ***Note:** your package MUST contains a __main__.py module*
+>
+> **Run *module* with arguments example (using --args string parameter):**
+> ```sh
+> python setup.py run -m hellopysdl.__main__ -a "--arg1 --arg2=my_arg2 ..."
+> ```
 
 ### Run tests
 

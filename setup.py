@@ -2,9 +2,9 @@ from configparser import ConfigParser, ExtendedInterpolation
 from json import load as json_load
 from os import environ as os_environ
 from pathlib import Path
-from runpy import run_module
+from runpy import run_module, run_path
 from shutil import rmtree
-from sys import version as py_version, path as sys_path, stderr as sys_stderr
+from sys import version as py_version, path as sys_path, stderr as sys_stderr, argv as sys_argv
 from typing import Final, Type
 from unittest import TestSuite, TextTestRunner, defaultTestLoader
 
@@ -223,25 +223,48 @@ class RunCommand(Command):
                   + "configure the PYTHONPATH"
 
     user_options = [
-        ('module=', 'm', "Module to run")
+        ('module=', 'm', "Module to run (format: '<pkg_name>.<module_name>')"),
+        ('path=', 'p', "Module to run path (format: 'my/path/to/the/module.py')"),
+        ('args=', 'a', "Module to run string arguments (format: '\"arg1=v1 -arg2 --arg3= v3\"')")
     ]
 
     def __init__(self, dist, **kw):
         self.module: str = None
+        self.path: str = None
+        self.args: str = None
+        self.args_list: list[str] = None
         super().__init__(dist, **kw)
 
     def initialize_options(self):
         self.module: str = None
+        self.path: str = None
+        self.args: str = None
+        self.args_list = [sys_argv[0]]
 
     def finalize_options(self):
-        if not self.module:
+        if not (self.module or self.path):
             raise OptionError("You must specify a module to run")
 
+        if self.module and self.path:
+            raise OptionError("You cannot use --module= (/-m) and --path (-p) options together")
+
+        if self.args:
+            self.args_list.extend(self.args.split(" "))
+
     def run(self):
+        argv: Final[list[str]] = sys_argv.copy()
         try:
-            run_module(self.module, run_name='__main__')
+            sys_argv.clear()
+            sys_argv.extend(self.args_list)
+            if self.module:
+                run_module(self.module, run_name='__main__', alter_sys=True)
+            else:
+                run_path(self.path, run_name='__main__')
         except Exception as e:
             raise DistutilsError(e)
+        finally:
+            sys_argv.clear()
+            sys_argv.extend(argv)
 
 
 # SETUP MAIN
