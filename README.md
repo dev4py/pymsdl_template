@@ -14,6 +14,9 @@ the [Project organization](#project-organization) part before the [Project comma
 > [requirements.txt file](https://pip.pypa.io/en/stable/user_guide/#requirements-files).*
 >
 > *See [Pipenv (Pipfile) versus requirements.txt project](#pipenv-pipfile-versus-requirementstxt-project)...*
+> 
+> *Moreover, if you want to use another layout, you can change the **project structure** as explained in 
+> [setup.py & project.ini files](#setuppy--projectini-files) part*
 
 ## Table of contents
 
@@ -84,6 +87,9 @@ In order to set your project properties, you just have to update the [project.in
 > ProjectName=My default project name (will be used if ProjectName environment variable doesn't exists)
 > # ...
 > ```
+
+> **Note:** I you don't want to use the Maven Standard Directory Layout you can reconfigure the project structure in the
+> `[PROJECT.STRUCTURE]` section
 
 ### Pipenv (Pipfile) versus requirements.txt project
 
