@@ -1,3 +1,5 @@
+import sys
+
 from hellopysdl.service.MessageService import MessageService
 
 

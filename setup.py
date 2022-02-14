@@ -229,16 +229,16 @@ class RunCommand(Command):
     ]
 
     def __init__(self, dist, **kw):
-        self.module: str = None
-        self.path: str = None
-        self.args: str = None
-        self.args_list: list[str] = None
+        self.module: str | None = None
+        self.path: str | None = None
+        self.args: str | None = None
+        self.args_list: list[str] | None = None
         super().__init__(dist, **kw)
 
     def initialize_options(self):
-        self.module: str = None
-        self.path: str = None
-        self.args: str = None
+        self.module = None
+        self.path = None
+        self.args = None
         self.args_list = [sys_argv[0]]
 
     def finalize_options(self):
