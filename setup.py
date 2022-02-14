@@ -141,9 +141,10 @@ class TestCommand(Command):
     def _namespace_pkg_workaround_version_warning(namespace_package: str) -> None:
         version = py_version.split('.')
         if version:
-            float_version: float = float(version[0] if len(version) == 1 else f'{version[0]}.{version[1]}')
+            major: Final[int] = int(version[0])
+            minor: Final[int] = int(version[1]) if len(version) > 1 else 0
             # Should be fixed in python 3.11
-            if float_version >= 3.11:
+            if major > 3 or (major == 3 and minor >= 11):
                 msg: Final[str] = "WARNING: Your python version is >= 3.11. So your tests in your namespace package" \
                                   f" '{namespace_package}' will probably run twice\n" \
                                   "   This is due to an issue that should be fixed in python 3.11." \
