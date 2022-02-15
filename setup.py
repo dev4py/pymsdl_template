@@ -122,8 +122,8 @@ class CleanCommand(Command):
     ]
 
     def __init__(self, build_path: str, dist_path: str, dist, **kw):
-        self.build_path: Final[Path] = Path(build_path)
-        self.dist_path: Final[Path] = Path(dist_path)
+        self.__build_path: Final[Path] = Path(build_path)
+        self.__dist_path: Final[Path] = Path(dist_path)
         self.build: bool = False
         self.dist: bool = False
         self.egg_info: bool = False
@@ -147,10 +147,10 @@ class CleanCommand(Command):
     def run(self):
         print("Running clean command...")
         if self.build:
-            CleanCommand._rmdir_if_exists(self.build_path)
+            CleanCommand._rmdir_if_exists(self.__build_path)
 
         if self.dist:
-            CleanCommand._rmdir_if_exists(self.dist_path)
+            CleanCommand._rmdir_if_exists(self.__dist_path)
 
         if self.egg_info:
             for path in Path(".").rglob(self.EGG_INFO_PATTERN):
@@ -258,5 +258,14 @@ if __name__ == '__main__':
                 project_properties.test_sources_path,
                 project_properties.test_file_pattern
             )
+        },
+        setup_requires=['wheel'],
+        options={
+            'build': {'build_base': project_properties.build_path},
+            'bdist_wheel': {
+                'bdist_dir': Path(project_properties.build_path).joinpath('wheel').as_posix(),
+                'dist_dir': project_properties.dist_path
+            },
+            'sdist': {'dist_dir': project_properties.dist_path}
         }
     )
