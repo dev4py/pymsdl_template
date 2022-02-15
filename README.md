@@ -1,16 +1,16 @@
-# RCPY_Boilerplate
+# RCPY_Template
 
 # **WARNING: WORK IN PROGRESS**
 
-A Python boilerplate inspired from
+A Python template inspired from
 the [Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html)
 without any dependency.
 
 ***Since there are some existing limitations, it is strongly advised to read
 the [Project organization](#project-organization) part before the [Project commands](#project-commands) one***
 
-> ***Note:** By default, this boilerplate is configured in order to work with [pipenv](https://pipenv.pypa.io/). However, if
-> you are not using pipenv you can easily configure this boilerplate to work a
+> ***Note:** By default, this template is configured in order to work with [pipenv](https://pipenv.pypa.io/). However, if
+> you are not using pipenv you can easily configure this template to work a
 > [requirements.txt file](https://pip.pypa.io/en/stable/user_guide/#requirements-files).*
 >
 > *See [Pipenv (Pipfile) versus requirements.txt project](#pipenv-pipfile-versus-requirementstxt-project)...*
@@ -44,7 +44,7 @@ the [Project organization](#project-organization) part before the [Project comma
 
 The [setup.py](./setup.py) file is used in order to build & deliver correctly your project.
 
-When you start a new project from this boilerplate, ***YOU DON'T HAVE TO UPDATE [SETUP.PY](./setup.py) FILE***
+When you start a new project from this template, ***YOU DON'T HAVE TO UPDATE [SETUP.PY](./setup.py) FILE***
 
 In order to set your project properties, you just have to update the [project.ini](./project.ini) file:
 
@@ -58,7 +58,7 @@ In order to set your project properties, you just have to update the [project.in
 > version = 1.0.0
 > author = author
 > email = author@mail.com
-> description = A Python boilerplate inspired from the Maven Standard Directory Layout
+> description = A Python template inspired from the Maven Standard Directory Layout
 > url = https://github.com/St4rG00se/${name}
 > license = MIT
 > 
@@ -93,7 +93,7 @@ In order to set your project properties, you just have to update the [project.in
 
 ### Pipenv (Pipfile) versus requirements.txt project
 
-By default, this boilerplate if configured in order to work with [pipenv](https://pipenv.pypa.io/) (ie: `Pipfile` &
+By default, this template if configured in order to work with [pipenv](https://pipenv.pypa.io/) (ie: `Pipfile` &
 `Pipfile.lock`).
 
 However, you can easily use it without `pipenv` by using a `requirements.txt` file. To do that, you just have to update
@@ -266,7 +266,7 @@ and `src/test/resources` directories and put your resources and tests directly i
 
 ### Run module
 
-RCPY boilerplate allow you to run a python module (even in the **Maven Standard Directory Layout**) without having to
+RCPY template allow you to run a python module (even in the **Maven Standard Directory Layout**) without having to
 configure your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH)**
 
 > ```sh
