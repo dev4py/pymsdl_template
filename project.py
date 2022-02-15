@@ -37,6 +37,7 @@ DEFAULT_LONG_DESCRIPTION_CONTENT_TYPE: Final[str] = 'text/markdown'
 # CLASSES
 # - Project Configuration class
 class ProjectProperties:
+
     def __init__(
             self,
             ini_file_path: str = PROJECT_INI_FILE_PATH,
@@ -45,72 +46,75 @@ class ProjectProperties:
             entry_points_section: str = INI_ENTRY_POINTS_SECTION,
             structure_section: str = INI_STRUCTURE_SECTION
     ):
-        self.__config_parser: Final[ConfigParser] = self._load_project_ini_file(ini_file_path, env_var_section)
+        self.__ini_file_path: Final[str] = ini_file_path
+        self.__env_var_section: Final[str] = env_var_section
+        self.__project_section: Final[str] = project_section
+        self.__entry_points_section: Final[str] = entry_points_section
+        self.__structure_section: Final[str] = structure_section
+        self.__config_parser: Final[ConfigParser] = self._load_project_ini_file()
 
         # - PROJECT section
-        self.name: Final[str] = self.__config_parser.get(project_section, 'name', fallback=None)
-        self.version: Final[str] = self.__config_parser.get(project_section, 'version', fallback=None)
-        self.author: Final[str] = self.__config_parser.get(project_section, 'author', fallback=None)
-        self.url: Final[str] = self.__config_parser.get(project_section, 'url', fallback=None)
-        self.author_email: Final[str] = self.__config_parser.get(project_section, 'email', fallback=None)
-        self.description: Final[str] = self.__config_parser.get(project_section, 'description', fallback=None)
+        self.name: Final[str | None] = self.__config_parser.get(self.__project_section, 'name', fallback=None)
+        self.version: Final[str | None] = self.__config_parser.get(self.__project_section, 'version', fallback=None)
+        self.author: Final[str | None] = self.__config_parser.get(self.__project_section, 'author', fallback=None)
+        self.url: Final[str | None] = self.__config_parser.get(self.__project_section, 'url', fallback=None)
+        self.author_email: Final[str | None] = self.__config_parser.get(self.__project_section, 'email', fallback=None)
+        self.description: Final[str | None] = self.__config_parser.get(
+            self.__project_section, 'description', fallback=None
+        )
         self.long_description_file: Final[str] = self.__config_parser.get(
-            project_section, 'long_description_file', fallback=DEFAULT_LONG_DESCRIPTION_FILE
+            self.__project_section, 'long_description_file', fallback=DEFAULT_LONG_DESCRIPTION_FILE
         )
         self.long_description_content_type: Final[str] = self.__config_parser.get(
-            project_section, 'long_description_content_type', fallback=DEFAULT_LONG_DESCRIPTION_CONTENT_TYPE
+            self.__project_section, 'long_description_content_type', fallback=DEFAULT_LONG_DESCRIPTION_CONTENT_TYPE
         )
-        self.license: Final[str] = self.__config_parser.get(project_section, 'license', fallback=None)
+        self.license: Final[str | None] = self.__config_parser.get(self.__project_section, 'license', fallback=None)
         self.use_pipenv: Final[bool] = self.__config_parser.getboolean(
-            INI_PROJECT_SECTION, 'use_pipenv', fallback=DEFAULT_USE_PIPENV
+            self.__project_section, 'use_pipenv', fallback=DEFAULT_USE_PIPENV
         )
-        self.install_requires: Final[list[str]] = self._get_deps(self.use_pipenv)
+        self.install_requires: Final[list[str]] = self._get_deps()
         self.test_file_pattern: Final[str] = self.__config_parser.get(
-            INI_PROJECT_SECTION, 'test_file_pattern', fallback=DEFAULT_TEST_FILE_PATTERN
+            self.__project_section, 'test_file_pattern', fallback=DEFAULT_TEST_FILE_PATTERN
         )
 
         # - PROJECT.ENTRY_POINTS section
-        self.entry_points: Final[dict[str, list[str]] | None] = self._load_entry_points(
-            self.__config_parser, entry_points_section
-        )
+        self.entry_points: Final[dict[str, list[str]] | None] = self._load_entry_points()
 
         # - PROJECT.STRUCTURE section
         self.sources_path: Final[str] = self.__config_parser.get(
-            structure_section, 'sources_path', fallback=DEFAULT_SRC_PATH
+            self.__structure_section, 'sources_path', fallback=DEFAULT_SRC_PATH
         )
         self.resources_path: Final[str] = self.__config_parser.get(
-            structure_section, 'resources_path', fallback=DEFAULT_RESOURCES_PATH
+            self.__structure_section, 'resources_path', fallback=DEFAULT_RESOURCES_PATH
         )
         self.test_sources_path: Final[str] = self.__config_parser.get(
-            structure_section, 'test_sources_path', fallback=DEFAULT_TEST_SRC_PATH
+            self.__structure_section, 'test_sources_path', fallback=DEFAULT_TEST_SRC_PATH
         )
         self.test_resources_path: Final[str] = self.__config_parser.get(
-            structure_section, 'test_resources_path', fallback=DEFAULT_TEST_RESOURCES_PATH
+            self.__structure_section, 'test_resources_path', fallback=DEFAULT_TEST_RESOURCES_PATH
         )
         self.build_path: Final[str] = self.__config_parser.get(
-            structure_section, 'build_path', fallback=DEFAULT_BUILD_PATH
+            self.__structure_section, 'build_path', fallback=DEFAULT_BUILD_PATH
         )
         self.dist_path: Final[str] = self.__config_parser.get(
-            structure_section, 'dist_path', fallback=DEFAULT_DIST_PATH
+            self.__structure_section, 'dist_path', fallback=DEFAULT_DIST_PATH
         )
 
-    @staticmethod
-    def _load_project_ini_file(project_ini_file_path: str, environment_section: str) -> ConfigParser:
+    def _load_project_ini_file(self) -> ConfigParser:
         esc_env_vars: Final[dict[str, str]] = {k: v.replace('$', '$$') for k, v in dict(os_environ).items()}
         config_parser: Final[ConfigParser] = ConfigParser(interpolation=ExtendedInterpolation())
-        config_parser.read(project_ini_file_path)
-        if config_parser.has_section(environment_section):
-            config_parser[environment_section] = dict(config_parser[environment_section], **esc_env_vars)
+        config_parser.read(self.__ini_file_path)
+        if config_parser.has_section(self.__env_var_section):
+            config_parser[self.__env_var_section] = dict(config_parser[self.__env_var_section], **esc_env_vars)
         else:
-            config_parser[environment_section] = esc_env_vars
+            config_parser[self.__env_var_section] = esc_env_vars
         return config_parser
 
-    @staticmethod
-    def _load_entry_points(config_parser: ConfigParser, entry_point_section: str) -> dict[str, list[str]] | None:
-        if not config_parser.has_section(entry_point_section):
+    def _load_entry_points(self) -> dict[str, list[str]] | None:
+        if not self.__config_parser.has_section(self.__entry_points_section):
             return None
 
-        return {k: v.splitlines() for k, v in config_parser.items(entry_point_section)}
+        return {k: v.splitlines() for k, v in self.__config_parser.items(self.__entry_points_section)}
 
     @staticmethod
     def _get_deps_from_pipfile(section: str = "default", pipfile_path: str = "Pipfile.lock") -> list[str]:
@@ -124,9 +128,8 @@ class ProjectProperties:
         with open(requirements_path) as file:
             return file.read().splitlines()
 
-    @classmethod
-    def _get_deps(cls, use_pipfile: bool = True) -> list[str]:
-        return cls._get_deps_from_pipfile() if use_pipfile else cls._get_deps_from_requirements()
+    def _get_deps(self) -> list[str]:
+        return self._get_deps_from_pipfile() if self.use_pipenv else self._get_deps_from_requirements()
 
     def get_sources_and_resources_paths(self) -> list[str]:
         return [
@@ -299,11 +302,15 @@ def run() -> None:
         os_environ[pythonpath_env_var] = os_pathsep.join(project_paths)
         command_runner.run()
     finally:
-        os_environ[pythonpath_env_var] = pythonpath
+        if pythonpath:
+            os_environ[pythonpath_env_var] = pythonpath
+        else:
+            os_environ.pop(pythonpath_env_var, None)
 
 
 # SHARED VARIABLES
 project_properties = ProjectProperties()
 
+# MAIN
 if __name__ == '__main__':
     run()

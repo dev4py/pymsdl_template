@@ -224,7 +224,7 @@ class RunCommand(Command):
 if __name__ == '__main__':
     # Configure sys.path for commands execution  (not necessary since PYTHONPATH is setted from project.py)
     # for project_path in project_properties.get_sources_and_resources_paths():
-    #     sys_path.append(project_path)
+    #     sys_path.insert(0, project_path)
 
     # Sources and resources packages & package_dir configuration
     src_packages: Final[list[str]] = find_namespace_packages(where=project_properties.sources_path)
