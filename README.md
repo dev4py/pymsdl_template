@@ -1,10 +1,10 @@
 # RCPY_Template
 
-# **WARNING: WORK IN PROGRESS**
-
 A Python template inspired from
 the [Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html)
 without any dependency.
+
+**>>> WARNING: PYTHON >= 3.10 is required <<<**
 
 ***Since there are some existing limitations, it is strongly advised to read
 the [Project organization](#project-organization) part before the [Project commands](#project-commands) one***
@@ -16,12 +16,12 @@ the [Project organization](#project-organization) part before the [Project comma
 > *See [Pipenv (Pipfile) versus requirements.txt project](#pipenv-pipfile-versus-requirementstxt-project)...*
 >
 > *Moreover, if you want to use another layout, you can change the **project structure** as explained in
-> [setup.py & project.ini files](#setuppy--projectini-files) part*
+> [setup.py & project.(py|ini) files](#setuppy--projectpyini-files) part*
 
 ## Table of contents
 
 * [Project organization](#project-organization)
-    + [setup.py & project.ini files](#setuppy--projectini-files)
+    + [setup.py & project.(py|ini) files](#setuppy--projectpyini-files)
     + [Pipenv (Pipfile) versus requirements.txt project](#pipenv-pipfile-versus-requirementstxt-project)
     + [Maven Standard Directory Layout with python](#maven-standard-directory-layout-with-python)
         - [Sources & Resources directories configuration](#sources--resources-directories-configuration)
@@ -42,11 +42,16 @@ the [Project organization](#project-organization) part before the [Project comma
 
 ## Project organization
 
-### setup.py & project.ini files
+### setup.py & project.(py|ini) files
 
-The [setup.py](./setup.py) file is used in order to build & deliver correctly your project.
+The [setup.py](./setup.py) file is used in order to build & deliver correctly your project. However, you don't have to
+call it directly.
 
-When you start a new project from this template, ***YOU DON'T HAVE TO UPDATE [SETUP.PY](./setup.py) FILE***
+Indeed, this template provides the [project.py](./project.py) file which is a command line wrapper in order to simplify
+the project evolution (see [Project commands](#project-commands))
+
+When you start a new project from this template, ***YOU DON'T HAVE TO UPDATE [SETUP.PY](./setup.py)
+NOR [PROJECT.PY](./project.py) FILES***
 
 In order to set your project properties, you just have to update the [project.ini](./project.ini) file:
 
@@ -87,10 +92,16 @@ In order to set your project properties, you just have to update the [project.in
 > # Set ProjectName environment variable default value:
 > [ENV]
 > ProjectName=My default project name (will be used if ProjectName environment variable doesn't exists)
+> 
+> # ...
+> 
+> [PROJECT]
+> name = ${ENV:ProjectName}
+> 
 > # ...
 > ```
 
-> **Note:** I you don't want to use the Maven Standard Directory Layout you can reconfigure the project structure in the
+> **Note:** If you don't want to use the Maven Standard Directory Layout you can reconfigure the project structure in the
 > `[PROJECT.STRUCTURE]` section
 
 ### Pipenv (Pipfile) versus requirements.txt project
@@ -148,7 +159,8 @@ Pycharm](https://www.jetbrains.com/pycharm/)**
 
 #### <span style='color: orange'><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/> WARNING: Limitations</span>
 
-Python resources MUST be located in a python package (We can imagine this like a java classpath).
+Python resources MUST be located in a python package (ie: directory containing an `__init__.py` file. You can see that
+like a java classpath).
 
 Since a package sources cannot be splitted in several directories, each package in `src/main/python`,
 `src/main/resources`, `src/test/python` and `src/test/resources` directories must be different. In case of conflict, the
@@ -253,16 +265,21 @@ and `src/test/resources` directories and put your resources and tests directly i
 
 Project commands are available from the [project.py](./project.py) python file.
 
-If you take a look to this file, you will see that it contains:
+If you take a look at this file, you will see that it contains:
 
 * **A shared `project_properties` variable** which contains all configurable project properties from
   the [project.ini](./project.ini) file. It is useful if you have to get these configurations in another script like the
   [setup.py](./setup.py) file
 
-* **A command line wrapper:** this wrapper is designed in order to be used in your deployment scripts (like CI/CD).
-  Indeed, if you want to change you "project tools" (sample: using pytest instead of unittest) you just have to update
-  this script but not all your pipeline. Moreover, this wrapper manage the
-  project [PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH) for you
+* **A command line wrapper:** this wrapper is designed in order to be used locally and in your deployment scripts (like
+  CI/CD).
+
+  Indeed, by using it, if you want to update you "project tools" (sample: using pytest instead of unittest) you just
+  have to update only this script but not all your pipeline.
+
+  Moreover, this wrapper manage the project [PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH)
+  for you
+
   > **Command wrapper man:**
   > ```sh
   > PROJECT COMMANDS WRAPPER:
@@ -271,10 +288,10 @@ If you take a look to this file, you will see that it contains:
   >         Note: In order to get the wrapped command help, you can try python project.py <command> --help
   >
   > Available commands are:
-  >   clean         Remove directories generated by the 'build' command
+  >   clean         Remove directories generated by the "build" commands (like 'sdist' or 'wheel')
   >   run           Run module which can be in the Maven Standard Directory Layout tree without having to configure the PYTHONPATH
   >   test          Run configured unit tests
-  >   wheel         Build Wheel archive into the configured 'dist_path' and using the configured 'build_path
+  >   wheel         Build Wheel archive into the configured 'dist_path' and using the configured 'build_path'
   >   sdist         Build sdist archive into the configured 'dist_path'
   >   upload        Upload available deliveries from the configured 'dist_path'
   > ```
@@ -301,8 +318,8 @@ If you take a look to this file, you will see that it contains:
 
 ### Run module
 
-RCPY template allow you to run a python module (even in the **Maven Standard Directory Layout**) without having to
-configure your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH)**
+RCPY template provides you a run python module command line (even in the **Maven Standard Directory Layout**) without
+having to configure your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH)**
 
 > ```sh
 > python project.py run -m <MODULE_NAME>
@@ -356,7 +373,7 @@ This project is configured to execute tests with [**unittest**](https://docs.pyt
 
 > ***Note:** It doesn't use the deprecated `test` command from [setuptools](https://pypi.org/project/setuptools/)*
 
-> ***Note:** If you want to use another runner you have to update the `TestCommand` class from [setup.py](./setup.py) 
+> ***Note:** If you want to use another runner you have to update the `TestCommand` class from [setup.py](./setup.py)
 > or the one from [project.py](./project.py). It depends on if you want to use `setuptools` or a specific command line*
 
 > ***Note:** If you are using namespace packages, a workaround is implemented for the
@@ -366,6 +383,7 @@ This project is configured to execute tests with [**unittest**](https://docs.pyt
 ### Build
 
 #### Wheel archive
+
 > ```sh
 > python project.py wheel
 > ```
@@ -404,11 +422,11 @@ By default, `twine` is required for this part
 
 > ***Note:** Obviously, this command must be executed after the [Build](#build) one*
 
-
 # TODO:
 
+* quickstart
+* add docker (mb docker-compose)
 * (delivery install) explain python -m pkgname
 * explain entrypoint
 * best practice dependencies
-* quickstart
-* add docker (mb docker-compose)
+
