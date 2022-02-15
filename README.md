@@ -54,7 +54,7 @@ In order to set your project properties, you just have to update the [project.in
 > ###### PROJECT PROPERTIES #####
 > ###############################
 > [PROJECT]
-> name = hellopysdl
+> name = hellopymsdl
 > version = 1.0.0
 > author = author
 > email = author@mail.com
@@ -284,31 +284,31 @@ configure your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envva
 > 
 > **Run *module* example:**
 > ```sh
-> python setup.py run -m hellopysdl.__main__
+> python setup.py run -m hellopymsdl.__main__
 > ```
-> Run the __main__.py module from hellopysdl package
+> Run the __main__.py module from hellopymsdl package
 >
 > **Run *package* example:**
 > ```sh
-> python setup.py run -m hellopysdl
+> python setup.py run -m hellopymsdl
 > ```
 > ***Note:** your package MUST contains a __main__.py module*
 > 
 > **Run *module* from path example:**
 > ```sh
-> python setup.py run -p src/main/python/hellopysdl/__main__.py
+> python setup.py run -p src/main/python/hellopymsdl/__main__.py
 > ```
-> Run the __main__.py module from hellopysdl package
+> Run the __main__.py module from hellopymsdl package
 >
 > **Run *package* from path example:**
 > ```sh
-> python setup.py run -p src/main/python/hellopysdl
+> python setup.py run -p src/main/python/hellopymsdl
 > ```
 > ***Note:** your package MUST contains a __main__.py module*
 >
 > **Run *module* with arguments example (using --args string parameter):**
 > ```sh
-> python setup.py run -m hellopysdl.__main__ -a "--arg1 --arg2=my_arg2 ..."
+> python setup.py run -m hellopymsdl.__main__ -a "--arg1 --arg2=my_arg2 ..."
 > ```
 
 ### Run tests

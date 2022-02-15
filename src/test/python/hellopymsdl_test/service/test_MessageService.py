@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from hellopysdl.service.MessageService import MessageService
+from hellopymsdl.service.MessageService import MessageService
 
 
 class MessageServiceTest(TestCase):
@@ -10,7 +10,7 @@ class MessageServiceTest(TestCase):
         :return:
         """
         # GIVEN
-        message_service: MessageService = MessageService("hellopysdl_test_rsrc")
+        message_service: MessageService = MessageService("hellopymsdl_test_rsrc")
 
         # WHEN
         message: str = message_service.get_message("test_message.txt")
