@@ -366,8 +366,6 @@ or if you need a source distribution (sdist) archive:
 
 # TODO:
 
-* Run module with args
-* project.py project command wrapper
 * (delivery install) explain python -m pkgname
 * explain entrypoint
 * best practice dependencies

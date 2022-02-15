@@ -1,2 +1,2 @@
-include Pipfile Pipfile.locks project.ini
-recursive-include src/test *
+include Pipfile Pipfile.locks project.ini project.py
+recursive-include **/*[Tt]est* *
