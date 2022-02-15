@@ -201,10 +201,11 @@ class CommandsRunner:
         subprocess_run(args, stdin=self.__stdin, stdout=self.__stdout, stderr=self.__stderr, check=True)
 
     def _get_help_str(self):
-        return "Usage: python project.py <command_1> <args1...> ... <commmand_N> <args-N>\n" \
-               "\tNote: You can also try python project.py <command> --help\n\n" \
+        return "PROJECT COMMANDS WRAPPER:\n\n" \
+               "Usage: python project.py <COMMAND_1> <arg1_1 ...> ... <COMMAND_N> <argN_1 ...>\n" \
+               "\tNote: In order to get the wrapped command help, you can try python project.py <command> --help\n\n" \
                "Available commands are:\n" \
-               + ''.join([f"  {cmd}\t\t{cls.__doc__}\n" for cmd, cls in self.__command_dict.items()])
+               + ''.join([f"  {cmd}    \t{cls.__doc__}\n" for cmd, cls in self.__command_dict.items()])
 
 
 # -- Clean Command
