@@ -1,7 +1,7 @@
 from pathlib import Path
 from runpy import run_module, run_path
 from shutil import rmtree
-from sys import version as py_version, path as sys_path, stderr as sys_stderr, argv as sys_argv
+from sys import version as py_version, stderr as sys_stderr, argv as sys_argv
 from typing import Final, Type
 from unittest import TestSuite, TextTestRunner, defaultTestLoader
 
@@ -222,11 +222,9 @@ class RunCommand(Command):
 
 # SETUP MAIN
 if __name__ == '__main__':
-    # Configure sys.path for commands execution
-    sys_path.append(Path(project_properties.sources_path).absolute().as_posix())
-    sys_path.append(Path(project_properties.resources_path).absolute().as_posix())
-    sys_path.append(Path(project_properties.test_sources_path).absolute().as_posix())
-    sys_path.append(Path(project_properties.test_resources_path).absolute().as_posix())
+    # Configure sys.path for commands execution  (not necessary since PYTHONPATH is setted from project.py)
+    # for project_path in project_properties.get_sources_and_resources_paths():
+    #     sys_path.append(project_path)
 
     # Sources and resources packages & package_dir configuration
     src_packages: Final[list[str]] = find_namespace_packages(where=project_properties.sources_path)

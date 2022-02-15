@@ -1,8 +1,9 @@
-import subprocess
 from configparser import ConfigParser, ExtendedInterpolation
+from io import TextIOWrapper
 from json import load as json_load
-from os import environ as os_environ
+from os import environ as os_environ, pathsep as os_pathsep
 from pathlib import Path
+from subprocess import run as subprocess_run
 from sys import executable as sys_executable, argv as sys_argv, stderr as sys_stderr, stdin as sys_stdin, \
     stdout as sys_stdout
 from typing import Final
@@ -127,6 +128,14 @@ class ProjectProperties:
     def _get_deps(cls, use_pipfile: bool = True) -> list[str]:
         return cls._get_deps_from_pipfile() if use_pipfile else cls._get_deps_from_requirements()
 
+    def get_sources_and_resources_paths(self) -> list[str]:
+        return [
+            PROJECT_PATH.joinpath(self.sources_path).as_posix(),
+            PROJECT_PATH.joinpath(self.resources_path).as_posix(),
+            PROJECT_PATH.joinpath(self.test_sources_path).as_posix(),
+            PROJECT_PATH.joinpath(self.test_resources_path).as_posix()
+        ]
+
 
 # - Project commands abstract class
 class ProjectCommand:
@@ -146,8 +155,16 @@ class ProjectCommand:
 
 # - Project command executor class
 class CommandsRunner:
-    def __init__(self):
-        self.__command_dict: dict[str, ProjectCommand] = {}
+    def __init__(
+            self,
+            stdin: TextIOWrapper = sys_stdin,
+            stdout: TextIOWrapper = sys_stdout,
+            stderr: TextIOWrapper = sys_stderr
+    ):
+        self.__stdin: Final[TextIOWrapper] = stdin
+        self.__stdout: Final[TextIOWrapper] = stdout
+        self.__stderr: Final[TextIOWrapper] = stderr
+        self.__command_dict: Final[dict[str, ProjectCommand]] = {}
 
     def add_command(self, cmd_name: str, cmd: ProjectCommand) -> None:
         self.__command_dict[cmd_name] = cmd
@@ -156,12 +173,12 @@ class CommandsRunner:
         if sys_argv and len(sys_argv) > 1:
             argv: str = sys_argv[1]
             if argv == "--help" or argv == "-h":
-                print(self._get_help_str())
+                print(self._get_help_str(), file=self.__stdout)
                 return
 
             current_cmd: ProjectCommand | None = self.__command_dict.get(argv)
             if not self.__command_dict.get(argv):
-                print(f"Command unknown: '{argv}'", file=sys_stderr)
+                print(f"Command unknown: '{argv}'", file=self.__stderr)
                 return
             else:
                 current_args: list[str] = []
@@ -175,16 +192,15 @@ class CommandsRunner:
                         current_args.append(argv)
                 self._run_process(current_cmd.build_command_line(current_args))
         else:
-            print("Project command missing use --help or -h for help", file=sys_stderr)
+            print("Project command missing use --help or -h for help", file=self.__stderr)
 
-    @staticmethod
-    def _run_process(args: list[str]) -> None:
-        subprocess.run(args, stdin=sys_stdin, stdout=sys_stdout, stderr=sys_stderr, check=True)
+    def _run_process(self, args: list[str]) -> None:
+        subprocess_run(args, stdin=self.__stdin, stdout=self.__stdout, stderr=self.__stderr, check=True)
 
     def _get_help_str(self):
         return "Usage: python project.py <command_1> <args1...> ... <commmand_N> <args-N>\n" \
-               + "\tNote: You can also try python project.py <command> --help\n\n" \
-               + "Available commands are:\n" \
+               "\tNote: You can also try python project.py <command> --help\n\n" \
+               "Available commands are:\n" \
                + ''.join([f"  {cmd}\t\t{cls.__doc__}\n" for cmd, cls in self.__command_dict.items()])
 
 
@@ -259,10 +275,10 @@ class UploadCommand(ProjectCommand):
         return command_line
 
 
-# SHARED VARIABLES
-project_properties = ProjectProperties()
-
-if __name__ == '__main__':
+# FUNCTIONS
+def run() -> None:
+    """"Execute given commands (from sys.argv) with the configured project structure in the PYTHONPATH"""
+    # Configure CommandsRunner
     command_runner: Final[CommandsRunner] = CommandsRunner()
     command_runner.add_command('clean', CleanCommand())
     command_runner.add_command('run', RunCommand())
@@ -270,4 +286,24 @@ if __name__ == '__main__':
     command_runner.add_command('wheel', WheelCommand())
     command_runner.add_command('sdist', SdistCommand())
     command_runner.add_command('upload', UploadCommand())
-    command_runner.run()
+
+    # Prepare PYTHONPATH
+    project_paths: Final[list[str]] = project_properties.get_sources_and_resources_paths()
+    pythonpath_env_var: Final[str] = 'PYTHONPATH'
+    pythonpath: Final[str] = os_environ.get(pythonpath_env_var)
+    if pythonpath:
+        project_paths.append(pythonpath)
+
+    # Run commands with project structure in the PYTHONPATH
+    try:
+        os_environ[pythonpath_env_var] = os_pathsep.join(project_paths)
+        command_runner.run()
+    finally:
+        os_environ[pythonpath_env_var] = pythonpath
+
+
+# SHARED VARIABLES
+project_properties = ProjectProperties()
+
+if __name__ == '__main__':
+    run()
