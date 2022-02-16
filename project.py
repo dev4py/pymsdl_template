@@ -247,7 +247,7 @@ class UploadCommand(ProjectCommand):
         command_line: list[str] = [
             "twine",
             "upload",
-            f"{properties.dist_path}/*"
+            f"{properties.project_path.joinpath(properties.dist_path).as_posix()}/*"
         ]
         if args:
             command_line.extend(args)
