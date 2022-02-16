@@ -268,6 +268,8 @@ and `src/test/resources` directories and put your resources and tests directly i
 
 ## Project commands
 
+**Reminder: YOU MUST USE PYTHON >= 3.10.0**
+
 Project commands are available from the [project.py](./project.py) python file.
 
 If you take a look at this file, you will see that it contains:
@@ -306,6 +308,8 @@ If you take a look at this file, you will see that it contains:
 
 ### Clean project
 
+**Reminder: YOU MUST USE PYTHON >= 3.10.0**
+
 > ```sh
 > ./project.py clean
 > ```
@@ -326,6 +330,8 @@ or
 > ```
 
 ### Run module
+
+**Reminder: YOU MUST USE PYTHON >= 3.10.0**
 
 RCPY template provides you a run python module command line (even in the **Maven Standard Directory Layout**) without
 having to configure your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH)**
@@ -379,6 +385,8 @@ or
 
 ### Run tests
 
+**Reminder: YOU MUST USE PYTHON >= 3.10.0**
+
 This project is configured to execute tests with [**unittest**](https://docs.python.org/3/library/unittest.html):
 
 > ```sh
@@ -402,6 +410,8 @@ or
 
 #### Wheel archive
 
+**Reminder: YOU MUST USE PYTHON >= 3.10.0**
+
 > ```sh
 > ./project.py wheel
 > ```
@@ -415,6 +425,8 @@ or
 > command*
 
 #### Source Distribution archive
+
+**Reminder: YOU MUST USE PYTHON >= 3.10.0**
 
 If you need a source distribution (sdist) archive:
 
@@ -441,6 +453,8 @@ By default, `twine` is required for this part
 > also install it on your pipenv virtual environment*
 
 #### Delivery command
+
+**Reminder: YOU MUST USE PYTHON >= 3.10.0**
 
 > ```sh
 > ./project.py upload
