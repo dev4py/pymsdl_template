@@ -107,8 +107,8 @@ In order to set your project properties, you just have to update the [project.in
 > # ...
 > ```
 
-> **Note:** If you don't want to use the Maven Standard Directory Layout you can reconfigure the project structure in the
-> `[PROJECT.STRUCTURE]` section
+> **Note:** If you don't want to use the Maven Standard Directory Layout you can reconfigure the project structure in
+> the `[PROJECT.STRUCTURE]` section
 
 ### Pipenv (Pipfile) versus requirements.txt project
 
