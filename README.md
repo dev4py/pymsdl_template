@@ -307,17 +307,21 @@ If you take a look at this file, you will see that it contains:
 ### Clean project
 
 > ```sh
+> ./project.py clean
+> ```
+or
+> ```sh
 > python project.py clean
 > ```
 
-> ***Note:** It doesn't use the default `clean` command*. This one remove `build`, `dist` and/or `.egg-info` directories
+> ***Note:** It doesn't use the default `clean` command*. This one remove `build`, `dist` and/or `.egg*` directories
 
 > **project.py clean man:**
 > ```sh
 > Options for 'CleanCommand' command:
 >  --build (-b)     Remove the 'build' directory
 >  --dist (-d)      Remove the 'dist' directory
->  --egg (-e)  Remove all '.egg*' directories
+>  --egg (-e)       Remove all '.egg*' directories
 >  --all (-a)       (default) remove all directories
 > ```
 
@@ -326,6 +330,10 @@ If you take a look at this file, you will see that it contains:
 RCPY template provides you a run python module command line (even in the **Maven Standard Directory Layout**) without
 having to configure your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH)**
 
+> ```sh
+> ./project.py run -m <MODULE_NAME>
+> ```
+or
 > ```sh
 > python project.py run -m <MODULE_NAME>
 > ```
@@ -340,39 +348,43 @@ having to configure your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.
 >
 > **Run *module* example:**
 > ```sh
-> python project.py run -m hellopymsdl.__main__
+> ./project.py run -m hellopymsdl.__main__
 > ```
 > Run the `__main__.py` module from `hellopymsdl` package
 >
 > **Run *package* example:**
 > ```sh
-> python project.py run -m hellopymsdl
+> ./project.py run -m hellopymsdl
 > ````
 > ***Note:** your package MUST contains a `__main__.py` module*
 >
 > **Run *module* from path example:**
 > ```sh
-> python project.py run -p src/main/python/hellopymsdl/__main__.py
+> ./project.py run -p src/main/python/hellopymsdl/__main__.py
 > ```
 > Run the `__main__.py` module from `hellopymsdl` package
 > **WARNING: the path is from the command `CWD` if not absolute**
 >
 > **Run *package* from path example:**
 > ```sh
-> python project.py run -p src/main/python/hellopymsdl
+> ./project.py run -p src/main/python/hellopymsdl
 > ```
 > ***Note:** your package MUST contains a `__main__.py` module*
 > **WARNING: the path is from the command `CWD` if not absolute**
 >
 > **Run *module* with arguments example (using --args string parameter):**
 > ```sh
-> python project.py run -m hellopymsdl.__main__ -a "--arg1 --arg2=my_arg2 ..."
+> ./project.py run -m hellopymsdl.__main__ -a "--arg1 --arg2=my_arg2 ..."
 > ```
 
 ### Run tests
 
 This project is configured to execute tests with [**unittest**](https://docs.python.org/3/library/unittest.html):
 
+> ```sh
+> ./project.py test
+> ```
+or
 > ```sh
 > python project.py test
 > ```
@@ -391,6 +403,10 @@ This project is configured to execute tests with [**unittest**](https://docs.pyt
 #### Wheel archive
 
 > ```sh
+> ./project.py wheel
+> ```
+or
+> ```sh
 > python project.py wheel
 > ```
 
@@ -402,6 +418,10 @@ This project is configured to execute tests with [**unittest**](https://docs.pyt
 
 If you need a source distribution (sdist) archive:
 
+> ```sh
+> ./project.py sdist
+> ```
+or
 > ```sh
 > python project.py sdist
 > ```
@@ -422,6 +442,10 @@ By default, `twine` is required for this part
 
 #### Delivery command
 
+> ```sh
+> ./project.py upload
+> ```
+or
 > ```sh
 > python project.py upload
 > ```

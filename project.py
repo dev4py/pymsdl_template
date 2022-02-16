@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from configparser import ConfigParser, ExtendedInterpolation
 from io import TextIOWrapper
 from json import load as json_load
