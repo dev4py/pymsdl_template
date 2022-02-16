@@ -5,7 +5,7 @@ the [Maven Standard Directory Layout](https://maven.apache.org/guides/introducti
 without any dependency.
 
 **<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/>
-WARNING Prerequisite:**
+WARNING Prerequisites:**
 
 * `PYTHON >= 3.10`
 * `SETUPTOOLS >= 59.0.1`
@@ -43,7 +43,7 @@ the [Project organization](#project-organization) part before the [Project comma
         - [Wheel archive](#wheel-archive)
         - [Source Distribution](#source-distribution-archive)
     + [Delivery *(on https://pypi.org/)*](#delivery-on-httpspypiorg)
-        - [Prerequisite](#prerequisite)
+        - [Prerequisites](#prerequisites)
         - [Delivery command](#delivery-command)
 
 ## Project organization
@@ -335,9 +335,8 @@ having to configure your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.
 > ```sh
 > Options for 'RunCommand' command:
 >   --module (-m)  Module to run (format: '<pkg_name>.<module_name>')
->   --path (-p)    Module to run path (format: 'my/path/to/the/module.py')
->   --args (-a)    Module to run string arguments (format: '"arg1=v1 -arg2 --
->                  arg3= v3"')
+>   --path (-p)    Module path to run from the command CWD if not absolute (format: 'my/path/to/the/module.py')
+>   --args (-a)    Module string arguments to run  (format: '"arg1=v1 -arg2 --arg3= v3"')
 > ```
 >
 > **Run *module* example:**
@@ -357,12 +356,14 @@ having to configure your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.
 > python project.py run -p src/main/python/hellopymsdl/__main__.py
 > ```
 > Run the `__main__.py` module from `hellopymsdl` package
+> **WARNING: the path is from the command `CWD` if not absolute**
 >
 > **Run *package* from path example:**
 > ```sh
 > python project.py run -p src/main/python/hellopymsdl
 > ```
 > ***Note:** your package MUST contains a `__main__.py` module*
+> **WARNING: the path is from the command `CWD` if not absolute**
 >
 > **Run *module* with arguments example (using --args string parameter):**
 > ```sh
@@ -410,7 +411,7 @@ If you need a source distribution (sdist) archive:
 
 ### Delivery *(on https://pypi.org/)*
 
-#### Prerequisite
+#### Prerequisites
 
 By default, `twine` is required for this part
 > ```sh

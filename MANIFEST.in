@@ -1,2 +1,3 @@
-include Pipfile Pipfile.locks project.ini project.py
+include Pipfile Pipfile.lock project.ini project.py
 recursive-include **/*[Tt]est* *
+prune **/__pycache__

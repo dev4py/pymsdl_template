@@ -13,7 +13,7 @@ from project import project_properties
 
 # SETUP FUNCTIONS
 def read_file(file_path: str) -> str:
-    with open(file_path) as file:
+    with open(project_properties.project_path.joinpath(file_path).as_posix()) as file:
         return file.read()
 
 
@@ -25,15 +25,15 @@ def to_packages_dir(folder_path: str, packages: list[str]) -> dict[str, str]:
     return {pkg: Path(folder_path).joinpath(pkg.replace('.', '/')).as_posix() for pkg in packages}
 
 
-def clean_command_class_factory(project_path: Path, build_path: str, dist_path: str) -> Type[Command]:
+def clean_command_cls_factory(build_path: str, dist_path: str) -> Type[Command]:
     class CleanCmd(CleanCommand):
         def __init__(self, dist, **kw):
-            super().__init__(project_path, build_path, dist_path, dist, **kw)
+            super().__init__(build_path, dist_path, dist, **kw)
 
     return CleanCmd
 
 
-def test_command_class_factory(test_src_folder: str, test_file_pattern: str) -> Type[Command]:
+def test_command_cls_factory(test_src_folder: str, test_file_pattern: str) -> Type[Command]:
     class TestCmd(TestCommand):
         def __init__(self, dist, **kw):
             super().__init__(test_src_folder, test_file_pattern, dist, **kw)
@@ -121,10 +121,9 @@ class CleanCommand(Command):
         ('all', 'a', '(default) remove all directories')
     ]
 
-    def __init__(self, project_path: Path, build_path: str, dist_path: str, dist, **kw):
-        self.__project_path: Final[Path] = project_path
-        self.__build_path: Final[Path] = project_path.joinpath(build_path)
-        self.__dist_path: Final[Path] = project_path.joinpath(dist_path)
+    def __init__(self, build_path: str, dist_path: str, dist, **kw):
+        self.__build_path: Final[Path] = Path(build_path)
+        self.__dist_path: Final[Path] = Path(dist_path)
         self.build: bool = False
         self.dist: bool = False
         self.egg_info: bool = False
@@ -154,7 +153,7 @@ class CleanCommand(Command):
             CleanCommand._rmdir_if_exists(self.__dist_path)
 
         if self.egg_info:
-            for path in self.__project_path.rglob(self.EGG_INFO_PATTERN):
+            for path in Path('.').rglob(self.EGG_INFO_PATTERN):
                 CleanCommand._rmdir_if_exists(path)
 
         print("Clean command done")
@@ -178,8 +177,8 @@ class RunCommand(Command):
 
     user_options = [
         ('module=', 'm', "Module to run (format: '<pkg_name>.<module_name>')"),
-        ('path=', 'p', "Module to run path (format: 'my/path/to/the/module.py')"),
-        ('args=', 'a', "Module to run string arguments (format: '\"arg1=v1 -arg2 --arg3= v3\"')")
+        ('path=', 'p', "Module path to run from the command CWD if not absolute (format: 'my/path/to/the/module.py')"),
+        ('args=', 'a', "Arguments of the module to run (format: '\"arg1=v1 -arg2 --arg3= v3\"')")
     ]
 
     def __init__(self, dist, **kw):
@@ -243,7 +242,7 @@ if __name__ == '__main__':
         url=project_properties.url,
         author_email=project_properties.author_email,
         description=project_properties.description,
-        long_description=read_file(project_properties.project_path.joinpath(project_properties.long_description_file)),
+        long_description=read_file(project_properties.long_description_file),
         long_description_content_type=project_properties.long_description_content_type,
         license=project_properties.license,
         packages=src_packages + rsrc_packages,
@@ -253,24 +252,16 @@ if __name__ == '__main__':
         install_requires=project_properties.install_requires,
         entry_points=project_properties.entry_points,
         cmdclass={
-            'clean': clean_command_class_factory(
-                project_properties.project_path,
-                project_properties.build_path,
-                project_properties.dist_path
-            ),
+            'clean': clean_command_cls_factory(project_properties.build_path, project_properties.dist_path),
             'run': RunCommand,
-            'test': test_command_class_factory(
-                project_properties.project_path.joinpath(project_properties.test_sources_path).as_posix(),
-                project_properties.test_file_pattern
-            )
+            'test': test_command_cls_factory(project_properties.test_sources_path, project_properties.test_file_pattern)
         },
         options={
             'build': {'build_base': project_properties.build_path},
             'bdist_wheel': {
-                'bdist_dir': project_properties.project_path.joinpath(project_properties.build_path).joinpath(
-                    'wheel').as_posix(),
-                'dist_dir': project_properties.project_path.joinpath(project_properties.dist_path).as_posix()
+                'bdist_dir': Path(project_properties.build_path).joinpath('wheel').as_posix(),
+                'dist_dir': project_properties.dist_path
             },
-            'sdist': {'dist_dir': project_properties.project_path.joinpath(project_properties.dist_path).as_posix()}
+            'sdist': {'dist_dir': project_properties.dist_path}
         }
     )
