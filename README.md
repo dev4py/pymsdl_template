@@ -4,7 +4,13 @@ A Python template inspired from
 the [Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html)
 without any dependency.
 
-**>>> WARNING: PYTHON >= 3.10 is required <<<**
+**<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/>
+WARNING Prerequisite:**
+
+* `PYTHON >= 3.10`
+* `SETUPTOOLS >= 59.0.1`
+* `PIP` (tested on `22.0.3`)
+* `WHEEL` (tested on `0.37.1`)
 
 ***Since there are some existing limitations, it is strongly advised to read
 the [Project organization](#project-organization) part before the [Project commands](#project-commands) one***
