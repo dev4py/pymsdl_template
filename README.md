@@ -7,10 +7,9 @@ without any dependency.
 **<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/>
 WARNING Prerequisites:**
 
-* `PYTHON >= 3.10`
-* `SETUPTOOLS >= 59.0.1`
+* `PYTHON >= 3.10.0`
+* `SETUPTOOLS >= 59.0.1` (Use: `pip install 'setuptools>=59.0.1'`)
 * `PIP` (tested on `22.0.3`)
-* `WHEEL` (tested on `0.37.1`)
 
 ***Since there are some existing limitations, it is strongly advised to read
 the [Project organization](#project-organization) part before the [Project commands](#project-commands) one***
