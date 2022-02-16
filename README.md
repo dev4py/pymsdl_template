@@ -318,7 +318,7 @@ If you take a look at this file, you will see that it contains:
 > Options for 'CleanCommand' command:
 >  --build (-b)     Remove the 'build' directory
 >  --dist (-d)      Remove the 'dist' directory
->  --egg-info (-e)  Remove the '.egg-info' directory
+>  --egg (-e)  Remove all '.egg*' directories
 >  --all (-a)       (default) remove all directories
 > ```
 
