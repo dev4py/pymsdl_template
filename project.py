@@ -6,7 +6,7 @@ from io import TextIOWrapper
 from json import load as json_load
 from os import environ as os_environ, pathsep as os_pathsep, getcwd as os_getcwd
 from pathlib import Path
-from subprocess import run as subprocess_run
+from subprocess import run as subprocess_run, CalledProcessError
 from sys import executable as sys_executable, argv as sys_argv, stderr as sys_stderr, stdin as sys_stdin, \
     stdout as sys_stdout
 from typing import Final, TypeVar
@@ -290,14 +290,18 @@ class CommandsRunner:
             print("Project command missing use --help or -h for help", file=self.__stderr)
 
     def _run_process(self, command: ProjectCommand, args: list[str]) -> None:
-        subprocess_run(
-            command.build_command_line(self.__project_properties, args),
-            stdin=self.__stdin,
-            stdout=self.__stdout,
-            stderr=self.__stderr,
-            check=True,
-            cwd=command.get_command_cwd(self.__project_properties)
-        )
+        try:
+            subprocess_run(
+                command.build_command_line(self.__project_properties, args),
+                stdin=self.__stdin,
+                stdout=self.__stdout,
+                stderr=self.__stderr,
+                check=True,
+                cwd=command.get_command_cwd(self.__project_properties)
+            )
+        except CalledProcessError as e:
+            print("Command error: [cmd: '%s']" % ' '.join(e.cmd), file=self.__stderr)
+            exit(e.returncode)
 
     def _get_help_str(self):
         return "PROJECT COMMANDS WRAPPER:\n\n" \
