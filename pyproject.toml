@@ -1,2 +1,37 @@
+[tool.poetry]
+name = "hellopymsdl"
+version = "0.1.0"
+description = "A Python template inspired from the Maven Standard Directory Layout"
+authors = ["author <author@mail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/St4rG00se/pymsdl"
+repository = "https://github.com/St4rG00se/pymsdl"
+documentation = "https://github.com/St4rG00se/pymsdl/blob/main/README.md"
+keywords = ["peotry", "maven", "standard", "directory", "layout"]
+classifiers = [
+    'Intended Audience :: Developers',
+    'Programming Language :: Python',
+    'Topic :: Software Development :: Build Tools'
+]
+
+# Maven Standard Directory Layout
+packages = [
+    { include = "**/*", from = "src/main/python" },
+    { include = "**/*", from = "src/main/resources" },
+    { include = "**/*", from = "src/test/python", format = "sdist" },
+    { include = "**/*", from = "src/test/resources", format = "sdist" },
+    { include = "project.py", format = "sdist" }
+]
+
+[tool.poetry.scripts]
+hello = 'hellopymsdl.__main__:hello'
+
+[tool.poetry.dependencies]
+python = ">=3.10"
+
+[tool.poetry.dev-dependencies]
+
 [build-system]
-requires = ["setuptools>=59.0.1", "wheel>=0.37.1"]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
