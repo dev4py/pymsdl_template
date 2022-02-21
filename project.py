@@ -4,8 +4,7 @@ from io import TextIOWrapper
 from os import environ as os_environ, pathsep as os_pathsep, getcwd as os_getcwd
 from pathlib import Path
 from subprocess import run as subprocess_run, CalledProcessError
-from sys import executable as sys_executable, argv as sys_argv, stderr as sys_stderr, stdin as sys_stdin, \
-    stdout as sys_stdout
+from sys import argv as sys_argv, stderr as sys_stderr, stdin as sys_stdin, stdout as sys_stdout
 from textwrap import dedent
 from typing import Final, TypeVar, Any
 
@@ -18,7 +17,7 @@ except ImportError:
 # - project
 PROJECT_PATH: Final[Path] = Path(__file__).parent.absolute()
 
-# - ini file consts
+# - pyproject file consts
 PROJECT_TOML_FILE_PATH: Final[str] = PROJECT_PATH.joinpath('pyproject.toml').as_posix()
 PROJECT_SECTION: Final[str] = 'tool.poetry'
 STRUCTURE_OPTION: Final[str] = 'packages'
@@ -47,7 +46,7 @@ class ProjectProperties:
         # - Global
         self.project_path: Final[Path] = project_path
         self.dist_path: Final[str] = DEFAULT_DIST_PATH
-        self.src_rscr_paths: Final[list[str]] = self._get_sources_and_resources_paths()
+        self.src_rsrc_paths: Final[list[str]] = self._get_sources_and_resources_paths()
 
     def _load_toml(self) -> dict[str, Any]:
         with open(self.__toml_file_path, "rb") as toml_file:
@@ -268,7 +267,7 @@ def run(properties: ProjectProperties) -> None:
         .add_command('upload', UploadCommand())
 
     # Prepare PYTHONPATH
-    project_paths: Final[list[str]] = properties.src_rscr_paths
+    project_paths: Final[list[str]] = properties.src_rsrc_paths
     pythonpath_env_var: Final[str] = 'PYTHONPATH'
     pythonpath: Final[str] = os_environ.get(pythonpath_env_var)
     if pythonpath:

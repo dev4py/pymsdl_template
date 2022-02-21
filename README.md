@@ -468,12 +468,8 @@ or
 
 # TODO:
 
-* Use Pytest (with inner classes)
-* check the package collision with test (pytest)
 * check pytest & namepsace pkg
-* clean pytestcache
 * Refacto readme
-* test in project.py
 
 * quickstart
 * add docker (mb docker-compose)
