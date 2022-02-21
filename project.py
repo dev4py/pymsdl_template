@@ -147,7 +147,7 @@ class TestCommand(ProjectCommand):
     """Run configured unit tests"""
 
     def build_command_line(self, properties: ProjectProperties, args: list[str] | None = None) -> list[str]:
-        command_line: Final[list[str]] = [sys_executable, 'setup.py', 'test']
+        command_line: Final[list[str]] = ['poetry', 'run', 'pytest']
         if args:
             command_line.extend(args)
         return command_line
