@@ -1,59 +1,57 @@
 """MessageService tests"""
+from typing import Final
 
-from unittest import TestCase
+from pytest import raises
 
 from hellopymsdl.service.MessageService import MessageService
 
 
-class GetMessage(TestCase):
-    """get_message method tests"""
+class TestMessageService:
+    """MessageService Tests"""
+    _MESSAGE_SERVICE: Final[MessageService] = MessageService("hellopymsdl_test_rsrc")
 
-    def test_resourceExists_should_returnMessage(self) -> None:
-        """When resource exists, should return the resource message"""
-        # GIVEN
-        message_service: MessageService = MessageService("hellopymsdl_test_rsrc")
+    class TestGetMessage:
+        """get_message method tests"""
 
-        # WHEN
-        message: str = message_service.get_message("test_message.txt")
+        class TestNominalCase:
 
-        # THEN
-        self.assertEqual("A test message", message)
+            def test_resource_exists__should__return_message(self) -> None:
+                """When resource exists, should return the resource message"""
+                # GIVEN / WHEN
+                message: str = TestMessageService._MESSAGE_SERVICE.get_message("test_message.txt")
 
-    def test_resourcePackageNotExists_should_raiseModuleNotFoundError(self) -> None:
-        """When resource package doesn't exist, should raise a ModuleNotFoundError"""
-        # GIVEN
-        message_service: MessageService = MessageService("unknown_test_rsrc")
+                # THEN
+                assert "A test message" == message
 
-        # WHEN / THEN
-        with self.assertRaises(ModuleNotFoundError):
-            message_service.get_message("test_message.txt")
+        class TestErrorCase:
+            def test_resource_package_not_exists__should__raise_modulenotfoundesrror(self) -> None:
+                """When resource package doesn't exist, should raise a ModuleNotFoundError"""
+                # GIVEN
+                message_service: MessageService = MessageService("unknown_test_rsrc")
 
-    def test_noneResourcePackage_should_raiseAttributeError(self) -> None:
-        """When resource package is None, should raise an AttributeError"""
-        # GIVEN
-        # noinspection PyTypeChecker
-        message_service: MessageService = MessageService(None)
+                # WHEN / THEN
+                with raises(ModuleNotFoundError):
+                    message_service.get_message("test_message.txt")
 
-        # WHEN / THEN
-        with self.assertRaises(AttributeError):
-            message_service.get_message("test_message.txt")
+            def test_none_resource_package__should__raise_attributeerror(self) -> None:
+                """When resource package is None, should raise an AttributeError"""
+                # GIVEN
+                # noinspection PyTypeChecker
+                message_service: MessageService = MessageService(None)
 
-    def test_resourceNotExists_should_raiseFileNotFoundError(self) -> None:
-        """When resource doesn't exist, should raise a FileNotFoundError"""
-        # GIVEN
-        message_service: MessageService = MessageService("hellopymsdl_test_rsrc")
+                # WHEN / THEN
+                with raises(AttributeError):
+                    message_service.get_message("test_message.txt")
 
-        # WHEN / THEN
-        with self.assertRaises(FileNotFoundError):
-            message_service.get_message("unknown_message.txt")
+            def test_resource_not_exists__should__raise_filenotfounderror(self) -> None:
+                """When resource is doesn't exist, should raise a FileNotFoundError"""
+                # GIVEN / WHEN / THEN
+                with raises(FileNotFoundError):
+                    TestMessageService._MESSAGE_SERVICE.get_message("unknown_message.txt")
 
-    def test_noneResource_should_raiseTypeError(self) -> None:
-        """When resource is None, should raise an TypeError"""
-        # GIVEN
-        # noinspection PyTypeChecker
-        message_service: MessageService = MessageService("hellopymsdl_test_rsrc")
-
-        # WHEN / THEN
-        with self.assertRaises(TypeError):
-            # noinspection PyTypeChecker
-            message_service.get_message(None)
+            def test_none_resource__should__raise_typeerror(self) -> None:
+                """When resource is None, should raise an TypeError"""
+                # GIVEN / WHEN / THEN
+                with raises(TypeError):
+                    # noinspection PyTypeChecker
+                    TestMessageService._MESSAGE_SERVICE.get_message(None)

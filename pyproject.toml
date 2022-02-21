@@ -35,6 +35,7 @@ pytest = "^7.0.1"
 tomli = "2.0.1"  # for project.py if pytest is removed
 
 [tool.pytest.ini_options]
+addopts = "-rA"
 testpaths = ["src/test/python"]
 
 [build-system]
