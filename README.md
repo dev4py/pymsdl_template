@@ -97,7 +97,7 @@ Pycharm](https://www.jetbrains.com/pycharm/)**
 
 #### <span style='color: orange'><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/> WARNING: Limitations</span>
 
-Python resources MUST be located in a python package (ie: directory containing an `__init__.py` file. You can see that
+Python resources MUST be located in a python package (ie: directory containing an `__init__.py` file. (You can see that
 like a java classpath).
 
 Since a package sources cannot be split in several directories, each package in `src/main/python`,
