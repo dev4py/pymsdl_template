@@ -468,7 +468,6 @@ or
 
 # TODO:
 
-* remove project.ini
 * Use Pytest (with inner classes)
 * check the package collision with test (pytest)
 * check pytest & namepsace pkg
