@@ -121,7 +121,7 @@ class CleanCommand(ProjectCommand):
 
 # -- Run Command
 class RunCommand(ProjectCommand):
-    """Run module which can be in the Maven Standard Directory Layout tree without having to configure the PYTHONPATH"""
+    """Run module which can be in the project structure without having to configure the PYTHONPATH"""
 
     def build_command_line(self, properties: ProjectProperties, args: list[str] | None = None) -> list[str]:
         # Use a subprocess in order to be in the good cwd in the poetry venv
@@ -154,7 +154,7 @@ class TestCommand(ProjectCommand):
 
 # -- Wheel Command
 class WheelCommand(ProjectCommand):
-    """Build Wheel archive into the configured 'dist_path' and using the configured 'build_path'"""
+    """Build Wheel archive"""
 
     def build_command_line(self, properties: ProjectProperties, args: list[str] | None = None) -> list[str]:
         command_line: Final[list[str]] = ['poetry', 'build', '--format', 'wheel']
@@ -165,7 +165,7 @@ class WheelCommand(ProjectCommand):
 
 # -- Sdist Command
 class SdistCommand(ProjectCommand):
-    """Build sdist archive into the configured 'dist_path'"""
+    """Build sdist archive"""
 
     def build_command_line(self, properties: ProjectProperties, args: list[str] | None = None) -> list[str]:
         command_line: Final[list[str]] = ['poetry', 'build', '--format', 'sdist']
@@ -176,7 +176,7 @@ class SdistCommand(ProjectCommand):
 
 # -- Upload Command
 class UploadCommand(ProjectCommand):
-    """Upload available deliveries from the configured 'dist_path'"""
+    """Upload available deliveries"""
 
     def build_command_line(self, properties: ProjectProperties, args: list[str] | None = None) -> list[str]:
         command_line: Final[list[str]] = ['poetry', 'publish']

@@ -1,33 +1,26 @@
-# RCPY_Template
+# PYMSDL_Template
 
-A Python template inspired from
+A Python [Poetry](https://python-poetry.org/) template inspired from
 the [Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html)
-without any dependency.
 
 **<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/>
 WARNING Prerequisites:**
 
-* `PYTHON >= 3.10.0`
-* `SETUPTOOLS >= 59.0.1` (Use: `pip install 'setuptools>=59.0.1'`)
-* `PIP` (tested on `22.0.3`)
+* `Poetry >= 1.1.0`
 
 ***Since there are some existing limitations, it is strongly advised to read
 the [Project organization](#project-organization) part before the [Project commands](#project-commands) one***
 
-> ***Note:** By default, this template is configured in order to work with [pipenv](https://pipenv.pypa.io/). However, if
-> you are not using pipenv you can easily configure this template to work a
-> [requirements.txt file](https://pip.pypa.io/en/stable/user_guide/#requirements-files).*
+> ***Note:** this template is configured in order to work with [Poetry](https://python-poetry.org/).*
 >
-> *See [Pipenv (Pipfile) versus requirements.txt project](#pipenv-pipfile-versus-requirementstxt-project)...*
->
-> *Moreover, if you want to use another layout, you can change the **project structure** as explained in
-> [setup.py & project.(py|ini) files](#setuppy--projectpyini-files) part*
+> *if you want to use another layout than [Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html),
+> you can change the **project structure** as explained in the
+> [pyproject.toml & project.py files](#pyprojecttoml--projectpy-files) part*
 
 ## Table of contents
 
 * [Project organization](#project-organization)
-    + [setup.py & project.(py|ini) files](#setuppy--projectpyini-files)
-    + [Pipenv (Pipfile) versus requirements.txt project](#pipenv-pipfile-versus-requirementstxt-project)
+    + [pyproject.toml & project.py files](#pyprojecttoml--projectpy-files)
     + [Maven Standard Directory Layout with python](#maven-standard-directory-layout-with-python)
         - [Sources & Resources directories configuration](#sources--resources-directories-configuration)
         - [<span style='color: orange'><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/> WARNING: Limitations</span>](#-warning-limitations)
@@ -42,94 +35,31 @@ the [Project organization](#project-organization) part before the [Project comma
         - [Wheel archive](#wheel-archive)
         - [Source Distribution](#source-distribution-archive)
     + [Delivery *(on https://pypi.org/)*](#delivery-on-httpspypiorg)
-        - [Prerequisites](#prerequisites)
-        - [Delivery command](#delivery-command)
 
 ## Project organization
 
-### setup.py & project.(py|ini) files
+### pyproject.toml & project.py files
 
-The [setup.py](./setup.py) file is used in order to build & deliver correctly your project. However, you don't have to
-call it directly.
+The [pyproject.toml](./pyproject.toml) file is used in order to describe and deliver correctly your project.
 
-Indeed, this template provides the [project.py](./project.py) file which is a command line wrapper in order to simplify
-the project evolution (see [Project commands](#project-commands))
+See:
 
-When you start a new project from this template, ***YOU DON'T HAVE TO UPDATE [SETUP.PY](./setup.py)
-NOR [PROJECT.PY](./project.py) FILES***
+* [PEP 517](https://www.python.org/dev/peps/pep-0517/)
+* [PEP 518](https://www.python.org/dev/peps/pep-0518/)
+* [PEP 621](https://www.python.org/dev/peps/pep-0621/)
+* [PEP 660](https://www.python.org/dev/peps/pep-0660/)
+* [Poetry pyproject.toml details](https://python-poetry.org/docs/pyproject/)
 
-In order to set your project properties, you just have to update the [project.ini](./project.ini) file:
+Moreover, this template provides the [project.py](./project.py) file which is a command line wrapper in order to
+simplify the project evolution (see [Project commands](#project-commands))
 
-> Configuration example:
-> ```ini
-> ###############################
-> ###### PROJECT PROPERTIES #####
-> ###############################
-> [PROJECT]
-> name = hellopymsdl
-> version = 1.0.0
-> author = author
-> email = author@mail.com
-> description = A Python template inspired from the Maven Standard Directory Layout
-> url = https://github.com/St4rG00se/${name}
-> license = MIT
-> 
-> [ENTRY_POINT]
-> console_scripts = hello = ${PROJECT:name}.__main__:hello
-> # ...
-> ```
+When you start a new project from this template, ***YOU DON'T HAVE TO UPDATE THE [PROJECT.PY](./project.py) FILE***,
+until you switch from [Poetry](https://python-poetry.org/) to another tool.
 
-> ***Note:** Environment variables are available from `ENV` section.*
->
-> **Environment variable example:**
-> ```ini
-> # Set name from `ProjectName` environment variable
-> name=${ENV:ProjectName}
-> # ...
-> ```
->
-> *Trick: If you define an `ENV` section in your [project.ini](./project.ini) file, each variable which exists in your
-> environment variable set will be overridden otherwise it will be used. It means that you can define an `ENV` section
-> in order to set default environment variable values*
->
-> **Environment variable default value example:**
-> ```ini
-> # Set ProjectName environment variable default value:
-> [ENV]
-> ProjectName=My default project name (will be used if ProjectName environment variable doesn't exists)
-> 
-> # ...
-> 
-> [PROJECT]
-> name = ${ENV:ProjectName}
-> 
-> # ...
-> ```
+In order to set your project properties, you just have to update the [pyproject.toml](./pyproject.toml)
 
-> **Note:** If you don't want to use the Maven Standard Directory Layout you can reconfigure the project structure in
-> the `[PROJECT.STRUCTURE]` section
-
-### Pipenv (Pipfile) versus requirements.txt project
-
-By default, this template if configured in order to work with [pipenv](https://pipenv.pypa.io/) (ie: `Pipfile` &
-`Pipfile.lock`).
-
-However, you can easily use it without `pipenv` by using a `requirements.txt` file. To do that, you just have to update
-the `project.ini` file like this:
-
-> ```ini
-> # ...
-> 
-> # use_pipenv: (default: True)
-> #      True -> use Pipfile.lock for setup install_requires
-> #      False -> Use requirements.txt for setup install_requires
-> use_pipenv = False
-> 
-> # ...
-> ```
-
-> ***Note:** `Pipfile.lock` or `requirements.txt` must be located in the same directory as [setup.py](./setup.py)
-> (ie: the project root directory)*
+> **Note:** If you don't want to use the [Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html),
+> you can reconfigure the project structure in the `[tool.poetry]` section > `packages` option
 
 ### Maven Standard Directory Layout with python
 
@@ -158,9 +88,12 @@ Pycharm](https://www.jetbrains.com/pycharm/)**
 > and `src/test/python` and `src/test/resources` must be marked as **Test Sources Root**
 > `(Right click on these directories > Mark directory as > Test Sources Root)`*
 
-> ***Note:** Due to a setuptools limitation ([issue-230](https://github.com/pypa/setuptools/issues/230)), using
-> installation with edit mode (`pip install -e .`) in order to avoid the *PYTHONPATH* configuration will not work if you
-> want to use resources directories (=> it will work only with `src/main/python` content).*
+> ***Note:** Due to a [Poetry](https://python-poetry.org/) limitation, using  installation with edit mode
+> (`pip install -e .`) in order to avoid the
+> [PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH) configuration will not work and fail
+> with:*
+>
+> `build backend is missing the 'build_editable' ... Consider using a build backend that supports PEP 660.`
 
 #### <span style='color: orange'><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/> WARNING: Limitations</span>
 
@@ -172,7 +105,9 @@ Since a package sources cannot be splitted in several directories, each package 
 package from the first directory found in
 your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH)** will be used.
 
-So if you want to respect the *Maven Standard Directory Layout* there are several suggestions:
+So if you want to respect the
+*[Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html)*
+there are several suggestions:
 
 ##### A. Use root package names with suffix
 
@@ -260,29 +195,22 @@ contain packages without conflict between sources and resources directories.
 If you are not agree with the previous suggestions, you can remove the `src/main/resources`, `src/test/python`
 and `src/test/resources` directories and put your resources and tests directly into the `src/main/python` directory.
 
-> **Note:** in this case you will also avoid the `pip install -e .` limitation explained before
-> (see [Sources & Resources directories configuration](#sources--resources-directories-configuration) part)
->
-> However, if you do that, your tests will be included during your project/package installation (not only in the source
+> **Note:** if you do that, your tests will be included during your project/package installation (not only in the source
 > distribution as it is suggested in the best practices)
 
 ## Project commands
-
-**Reminder: YOU MUST USE PYTHON >= 3.10.0**
 
 Project commands are available from the [project.py](./project.py) python file.
 
 If you take a look at this file, you will see that it contains:
 
-* **A shared `project_properties` variable** which contains all configurable project properties from
-  the [project.ini](./project.ini) file. It is useful if you have to get these configurations in another script like the
-  [setup.py](./setup.py) file
+* **A shared `project_properties` variable** which contains all project properties.
 
 * **A command line wrapper:** this wrapper is designed in order to be used locally and in your deployment scripts (like
   CI/CD).
 
-  Indeed, by using it, if you want to update you "project tools" (sample: using pytest instead of unittest) you just
-  have to update only this script but not all your pipeline.
+  Indeed, by using it, if you want to update you "project tools" (sample: switching from poetry to setuptools) you just
+  have to update this script but not all your pipeline.
 
   Moreover, this wrapper manage the project [PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH)
   for you
@@ -293,22 +221,20 @@ If you take a look at this file, you will see that it contains:
   > 
   > Usage: python project.py <COMMAND_1> <arg1_1 ...> ... <COMMAND_N> <argN_1 ...>
   >         Note: In order to get the wrapped command help, you can try python project.py <command> --help
-  >
+  > 
   > Available commands are:
   >   clean         Remove directories generated by the "build" commands (like 'sdist' or 'wheel')
-  >   run           Run module which can be in the Maven Standard Directory Layout tree without having to configure the PYTHONPATH
+  >   run           Run module which can be in the project structure without having to configure the PYTHONPATH
   >   test          Run configured unit tests
-  >   wheel         Build Wheel archive into the configured 'dist_path' and using the configured 'build_path'
-  >   sdist         Build sdist archive into the configured 'dist_path'
-  >   upload        Upload available deliveries from the configured 'dist_path'
+  >   wheel         Build Wheel archive
+  >   sdist         Build sdist archive
+  >   upload        Upload available deliveries
   > ```
 
   > ***Note:** Using `--help` argument on a command or if an error occurs, the message will be from the wrapped command
   > line*
 
 ### Clean project
-
-**Reminder: YOU MUST USE PYTHON >= 3.10.0**
 
 > ```sh
 > ./project.py clean
@@ -318,23 +244,12 @@ or
 > python project.py clean
 > ```
 
-> ***Note:** It doesn't use the default `clean` command*. This one remove `build`, `dist` and/or `.egg*` directories
-
-> **project.py clean man:**
-> ```sh
-> Options for 'CleanCommand' command:
->  --build (-b)     Remove the 'build' directory
->  --dist (-d)      Remove the 'dist' directory
->  --egg (-e)       Remove all '.egg*' directories
->  --all (-a)       (default) remove all directories
-> ```
+> ***Note:** Remove dist directory and test cache directories*
 
 ### Run module
 
-**Reminder: YOU MUST USE PYTHON >= 3.10.0**
-
-RCPY template provides you a run python module command line (even in the **Maven Standard Directory Layout**) without
-having to configure your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH)**
+PYMSDL template provides you a run python module command line (even in the **project packages**) without having to
+configure your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH)**
 
 > ```sh
 > ./project.py run -m <MODULE_NAME>
@@ -344,50 +259,54 @@ or
 > python project.py run -m <MODULE_NAME>
 > ```
 
-> **project.py run man:**
-> ```sh
-> Options for 'RunCommand' command:
->   --module (-m)  Module to run (format: '<pkg_name>.<module_name>')
->   --path (-p)    Module path to run from the command CWD if not absolute (format: 'my/path/to/the/module.py')
->   --args (-a)    Module string arguments to run  (format: '"arg1=v1 -arg2 --arg3= v3"')
-> ```
+> ***Note:** the `run` command is like opening python in your poetry virtual environment and the project structure
+> configured in your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH)***
 >
-> **Run *module* example:**
+> *Moreover, your opened `python` will work from the current directory (not from the `project.py` one).*
+
+> **Examples:**
+>
+> **- Open a *python console* from the current directory:**
+> ```
+> ./project.py run
+> ```
+> ***Note:** `<PATH_TO_PROJECT.PY> run` will open a python console in your current directory not in the `project.py`
+> one*
+>
+> **- Run *module* example:**
 > ```sh
 > ./project.py run -m hellopymsdl.__main__
 > ```
 > Run the `__main__.py` module from `hellopymsdl` package
 >
-> **Run *package* example:**
+> **- Run *package* example:**
 > ```sh
 > ./project.py run -m hellopymsdl
 > ````
 > ***Note:** your package MUST contains a `__main__.py` module*
 >
-> **Run *module* from path example:**
+> **- Run *module* from path example:**
 > ```sh
-> ./project.py run -p src/main/python/hellopymsdl/__main__.py
+> ./project.py run src/main/python/hellopymsdl/__main__.py
 > ```
 > Run the `__main__.py` module from `hellopymsdl` package
 > **WARNING: the path is from the command `CWD` if not absolute**
 >
-> **Run *package* from path example:**
+> **- Run *package* from path example:**
 > ```sh
-> ./project.py run -p src/main/python/hellopymsdl
+> ./project.py run src/main/python/hellopymsdl
 > ```
 > ***Note:** your package MUST contains a `__main__.py` module*
 > **WARNING: the path is from the command `CWD` if not absolute**
 >
-> **Run *module* with arguments example (using --args string parameter):**
+> **- Run *module* with arguments example (using --args string parameter):**
 > ```sh
-> ./project.py run -m hellopymsdl.__main__ -a "--arg1 --arg2=my_arg2 ..."
+> ./project.py run -m hellopymsdl.__main__ --arg1 --arg2=my_arg2 ...
 > ```
 
 ### Run tests
 
-**Reminder: YOU MUST USE PYTHON >= 3.10.0**
-
-This project is configured to execute tests with [**unittest**](https://docs.python.org/3/library/unittest.html):
+This project is configured to execute tests with [**Pytest**](https://docs.pytest.org/):
 
 > ```sh
 > ./project.py test
@@ -397,20 +316,12 @@ or
 > python project.py test
 > ```
 
-> ***Note:** It doesn't use the deprecated `test` command from [setuptools](https://pypi.org/project/setuptools/)*
-
-> ***Note:** If you want to use another runner you have to update the `TestCommand` class from [setup.py](./setup.py)
-> or the one from [project.py](./project.py). It depends on if you want to use `setuptools` or a specific command line*
-
-> ***Note:** If you are using namespace packages, a workaround is implemented for the
-> [issue-23882](https://bugs.python.org/issue23882) (However if you don't use this command line, the namespace package
-> detection by [unittest](https://docs.python.org/3/library/unittest.html) will probably fail)*
+> ***Note:** If you change the project structure, don't forget to update the `[tool.pytest.ini_options]` section from
+> the [pyproject.toml](./pyproject.toml) file*
 
 ### Build
 
 #### Wheel archive
-
-**Reminder: YOU MUST USE PYTHON >= 3.10.0**
 
 > ```sh
 > ./project.py wheel
@@ -420,13 +331,7 @@ or
 > python project.py wheel
 > ```
 
-> ***Reminder:** Using `python setup.py bdist_wheel` directly in order to create your `wheel` archive is deprecated (It
-> should work however you will have a warning message). That's why, by default, the wrapper call the `pip wheel`
-> command*
-
 #### Source Distribution archive
-
-**Reminder: YOU MUST USE PYTHON >= 3.10.0**
 
 If you need a source distribution (sdist) archive:
 
@@ -438,23 +343,8 @@ or
 > python project.py sdist
 > ```
 
-> ***Note:** Unit tests will be included in your sdist archive (see [MANIFEST.in](./MANIFEST.in))*
 
 ### Delivery *(on https://pypi.org/)*
-
-#### Prerequisites
-
-By default, `twine` is required for this part
-> ```sh
-> pip install twine
-> ```
-
-> ***Note:** As it is a common delivery tool, you can install it on your global python environment. However, you can
-> also install it on your pipenv virtual environment*
-
-#### Delivery command
-
-**Reminder: YOU MUST USE PYTHON >= 3.10.0**
 
 > ```sh
 > ./project.py upload
@@ -466,14 +356,8 @@ or
 
 > ***Note:** Obviously, this command must be executed after the [Build](#build) one*
 
-# TODO:
 
-* check pytest & namepsace pkg
-* Refacto readme
+# TODO:
 
 * quickstart
 * add docker (mb docker-compose)
-* (delivery install) explain python -m pkgname
-* explain entrypoint
-* best practice dependencies
-
