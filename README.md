@@ -100,7 +100,7 @@ Pycharm](https://www.jetbrains.com/pycharm/)**
 Python resources MUST be located in a python package (ie: directory containing an `__init__.py` file. You can see that
 like a java classpath).
 
-Since a package sources cannot be splitted in several directories, each package in `src/main/python`,
+Since a package sources cannot be split in several directories, each package in `src/main/python`,
 `src/main/resources`, `src/test/python` and `src/test/resources` directories must be different. In case of conflict, the
 package from the first directory found in
 your **[PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH)** will be used.
