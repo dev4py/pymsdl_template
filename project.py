@@ -9,16 +9,9 @@ from textwrap import dedent
 from typing import Final, TypeVar, Any
 
 try:
-    try:
-        try:
-            from tomli import load as toml_load
-        except ImportError:
-            from tomlkit import load as toml_load
-    except ImportError:
-        # noinspection PyProtectedMember
-        from pip._vendor.tomli import load as toml_load
+    from tomli import load as tomli_load
 except ImportError:
-    print("Cannot load a toml parser. Please install poetry or pip or tomli", file= sys_stderr)
+    print("tomli is required (run `poetry install --no-root` or `poetry update`)", file=sys_stderr)
 
 # CONSTANTS
 # - project
@@ -57,7 +50,7 @@ class ProjectProperties:
 
     def _load_toml(self) -> dict[str, Any]:
         with open(self.__toml_file_path, "rb") as toml_file:
-            return toml_load(toml_file)
+            return tomli_load(toml_file)
 
     def _get_option(self, section: str, option: str, default: T | None = None) -> T | None:
         option_path: list[str] = section.split('.')
