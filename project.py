@@ -9,9 +9,19 @@ from textwrap import dedent
 from typing import Final, TypeVar, Any
 
 try:
-    from tomli import load as tomli_load
+    try:
+        from tomli import loads as tomli_loads
+    except ImportError:
+        # noinspection PyProtectedMember
+        # noinspection PyPackageRequirements
+        # noinspection PyUnresolvedReferences
+        from pip._vendor.tomli import loads as tomli_loads
 except ImportError:
-    print("tomli is required (run `poetry install --no-root` or `poetry update`)", file=sys_stderr)
+    print(
+        "tomli is required (install pip or run this script from poetry venv after `poetry install --no-root` or "
+        "`poetry update`)",
+        file=sys_stderr)
+    exit(1)
 
 # CONSTANTS
 # - project
@@ -49,8 +59,8 @@ class ProjectProperties:
         self.src_rsrc_paths: Final[list[str]] = self._get_sources_and_resources_paths()
 
     def _load_toml(self) -> dict[str, Any]:
-        with open(self.__toml_file_path, "rb") as toml_file:
-            return tomli_load(toml_file)
+        with open(self.__toml_file_path, "r") as toml_file:
+            return tomli_loads(toml_file.read())
 
     def _get_option(self, section: str, option: str, default: T | None = None) -> T | None:
         option_path: list[str] = section.split('.')
