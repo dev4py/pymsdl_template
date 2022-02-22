@@ -46,7 +46,7 @@ the [Project organization](#project-organization) part before the [Project comma
         - [Wheel archive](#wheel-archive)
         - [Source Distribution](#source-distribution-archive)
     + [Delivery *(on https://pypi.org/)*](#delivery-on-httpspypiorg)
-* [Docker](docker)
+* [Docker](#docker)
     + [Dev environment](#dev-environment)
         - [Build the pymsdl:devenv docker image](#build-the-pymsdldevenv-docker-image)
         - [Run the pymsdl:devenv environment](#run-the-pymsdldevenv-environment)
@@ -84,7 +84,7 @@ This is a way to use if you are creating a new project but, you are not working 
 ### Prepare your environment
 
 PYMSDL template requires `Python >= 3.10.1` and `Poetry >= 1.1.0`. If your environment is not ready yet, a docker ready
-to work environment is provided (see [docker](#docker))
+to work environment is provided (see [Dev environment](#dev-environment)).
 
 Since this template use [Poetry](https://python-poetry.org/) as packaging and dependency manager, once your project is
 created on your computer, you have to run this command line:
@@ -448,18 +448,21 @@ If you haven't a python/poetry environment installed, PYMSDL template provides y
 
 #### Run the pymsdl:devenv environment
 
-> ```
+> ```sh
 > docker run --rm -it --name pymsdl-dev-env -v ${PWD}:/app pymsdl:devenv-1.0.0
 > ```
 
-It opens a `sh` on a well configured python/poetry environment
+It opens a `sh` on a well configured python/poetry environment.
+
+> ***Note:** you have to use the volume (`-v`) option in order to mount your project files into the container `/app` 
+> directory. This is useful for staying up to date with your updates.*
 
 Now, you are ready to work (see [Quickstart](#quickstart)).
 
 ### Docker application image delivery
 
 > ***Note:** this step is **useless** if you are working on a python package/Library/Framework to share (ie, not
-> an application)*
+> an application).*
 
 PYMSDL template provides a Dockerfile in order to build an image for your application:
 > ```sh
