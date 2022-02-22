@@ -1,0 +1,9 @@
+FROM python:3.10-alpine
+
+WORKDIR /app
+
+RUN apk add curl
+RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+ENV PATH="$PATH:/root/.poetry/bin"
+
+CMD sh
