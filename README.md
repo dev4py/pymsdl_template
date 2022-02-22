@@ -23,7 +23,7 @@ the [Project organization](#project-organization) part before the [Project comma
 
 * [Quickstart](#quickstart)
     + [Create a new project](#create-a-new-project)
-        - [1. Click on Use this template](#1-click-on-use-this-templatehttpsgithubcomdev4pypymsdl_templategenerate)
+        - [1. Click on Use this template](#1-click-on-use-this-template)
         - [2. Fork this template](#2-fork-this-template)
         - [3. Clone/download this template](#3-clonedownload-this-template)
     + [Prepare your environment](#prepare-your-environment)
