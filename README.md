@@ -60,6 +60,8 @@ standard way for a new GitHub project from a template.
 
 See: [Creating a repository from a template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)
 
+> ***Note:** You have to be logged in*
+
 #### 2. Fork this template
 
 Create a new project by forking the template is the "old way" to work with templates on GitHub.
