@@ -469,10 +469,10 @@ Now, you are ready to work (see [Quickstart](#quickstart)).
 
 ### Docker application image delivery
 
-#### Build your docker image
-
 > ***Note:** this step is **useless** if you are working on a python package/Library/Framework to share (ie, not
 > an application) because in these cases you want to publish your sdist or/and wheel archive(s).*
+
+#### Build your docker image
 
 PYMSDL template provides a Dockerfile in order to build an image for your application based on a generated`wheel`
 distribution (See: [Dockerfile](./docker/Dockerfile))).
@@ -502,10 +502,12 @@ Where:
 
 > **Example with the provided `hellopymsdl` sample application:**
 >
-> First we create a wheel archive `./project.py wheel`.
+> First we create a wheel archive with `./project.py wheel`.
+> 
 > ***Note:** your `dist` directory can contain several versions (/`wheel` archives)*
 >
 > **- Build docker image from *entry point* example:**
+> 
 > The `hellopymsdl` project provided an `hello` entry point (See: [pyproject.toml](./pyproject.toml)).
 > ```sh
 > docker build \
@@ -528,6 +530,7 @@ Where:
 > Run the `__main__.py` module from `hellopymsdl` package.
 >
 > **- Build docker image from *package* example:**
+> 
 > The `hellopymsdl` project provided an `hello` entry point (See: [pyproject.toml](./pyproject.toml)).
 > ```sh
 > docker build \
@@ -562,7 +565,7 @@ Where:
 
 #### Push your docker image
 
-In order to push your image into a repository (like [Docker Hub](https://hub.docker.com/)), you will have to use
-`docker push`.
+In order to push your image into a repository (like [Docker Hub](https://hub.docker.com/)), you will have to use the
+`docker push` command line.
 
 See [Docker repositories](https://docs.docker.com/docker-hub/repos/)
