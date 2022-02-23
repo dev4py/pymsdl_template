@@ -51,6 +51,9 @@ the [Project organization](#project-organization) part before the [Project comma
         - [Build the pymsdl:devenv docker image](#build-the-pymsdldevenv-docker-image)
         - [Run the pymsdl:devenv environment](#run-the-pymsdldevenv-environment)
     + [Docker application image delivery](#docker-application-image-delivery)
+        - [Build your docker image](#build-your-docker-image)
+        - [Run your docker image](#run-your-docker-image)
+        - [Push your docker image](#push-your-docker-image)
 
 ## Quickstart
 
@@ -83,8 +86,10 @@ This is a way to use if you are creating a new project but, you are not working 
 
 ### Prepare your environment
 
-PYMSDL template requires `Python >= 3.10.1` and `Poetry >= 1.1.0`. If your environment is not ready yet, a docker ready
-to work environment is provided (see [Dev environment](#dev-environment)).
+PYMSDL template requires `Python >= 3.10.1` and `Poetry >= 1.1.0`.
+
+**If your environment is not ready yet, a docker ready to work environment is provided
+(see [Dev environment](#dev-environment)).**
 
 Since this template use [Poetry](https://python-poetry.org/) as packaging and dependency manager, once your project is
 created on your computer, you have to run this command line:
@@ -436,6 +441,9 @@ or
 
 ## Docker
 
+**<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/>
+WARNING This part requires [docker](https://www.docker.com/) to be installed**
+
 ### Dev environment
 
 If you haven't a python/poetry environment installed, PYMSDL template provides you a "ready to work" Dockerfile:
@@ -454,17 +462,107 @@ If you haven't a python/poetry environment installed, PYMSDL template provides y
 
 It opens a `sh` on a well configured python/poetry environment.
 
-> ***Note:** you have to use the volume (`-v`) option in order to mount your project files into the container `/app` 
+> ***Note:** you have to use the volume (`-v`) option in order to mount your project files into the container `/app`
 > directory. This is useful for staying up to date with your updates.*
 
 Now, you are ready to work (see [Quickstart](#quickstart)).
 
 ### Docker application image delivery
 
-> ***Note:** this step is **useless** if you are working on a python package/Library/Framework to share (ie, not
-> an application).*
+#### Build your docker image
 
-PYMSDL template provides a Dockerfile in order to build an image for your application:
+> ***Note:** this step is **useless** if you are working on a python package/Library/Framework to share (ie, not
+> an application) because in these cases you want to publish your sdist or/and wheel archive(s).*
+
+PYMSDL template provides a Dockerfile in order to build an image for your application based on a generated`wheel`
+distribution (See: [Dockerfile](./docker/Dockerfile))).
+
+> ***Note:** this Dockerfile is a "generic" one in order to provide a starting docker image distribution solution. You
+> can (/should) update (/rewrite) it in order to be adapted to your application (see:
+> [Best practices for writing Dockerfiles](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)).*
+
+> **Build image command:**
 > ```sh
-> **WORK IN PROGRESS**
+> docker build \
+>   -f docker/Dockerfile \
+>   -t <DOCKER_IMG_NAME>:<VERSION> \
+>   --build-arg wheel_name=<WHEEL_NAME> \
+>   --build-arg cmd=<CMD_VALUE> \
+>   .
 > ```
+
+Where:
+
+* `<DOCKER_IMG_NAME>`: Is your docker image name
+* `<VERSION>`: Is your docker image version
+* `<WHEEL_NAME>`: Is the `wheel` archive name to install from the `dist` directory
+* `<CMD_VALUE>`: Is the command to run (entry point or package or module)
+
+> ***Note:** Obviously, this command must be executed after the [Wheel archive](#wheel-archive) one.*
+
+> **Example with the provided `hellopymsdl` sample application:**
+>
+> First we create a wheel archive `./project.py wheel`.
+> ***Note:** your `dist` directory can contain several versions (/`wheel` archives)*
+>
+> **- Build docker image from *entry point* example:**
+> The `hellopymsdl` project provided an `hello` entry point (See: [pyproject.toml](./pyproject.toml)).
+> ```sh
+> docker build \
+>   -f docker/Dockerfile \
+>   -t  hellopymsdl:0.1.0 \
+>   --build-arg wheel_name=hellopymsdl-0.1.0-py3-none-any.whl \
+>   --build-arg cmd=hello \
+>   .
+> ```
+>
+> **- Build docker image from *module* example:**
+> ```sh
+> docker build \
+>   -f docker/Dockerfile \
+>   -t  hellopymsdl:0.1.0 \
+>   --build-arg wheel_name=hellopymsdl-0.1.0-py3-none-any.whl \
+>   --build-arg cmd="python -m hellopymsdl:__main__" \
+>   .
+> ```
+> Run the `__main__.py` module from `hellopymsdl` package.
+>
+> **- Build docker image from *package* example:**
+> The `hellopymsdl` project provided an `hello` entry point (See: [pyproject.toml](./pyproject.toml)).
+> ```sh
+> docker build \
+>   -f docker/Dockerfile \
+>   -t  hellopymsdl:0.1.0 \
+>   --build-arg wheel_name=hellopymsdl-0.1.0-py3-none-any.whl \
+>   --build-arg cmd="python -m hellopymsdl" \
+>   .
+> ```
+> ***Note:** your package MUST contains a `__main__.py` module.*
+
+> ***Trick:** If you want to build the last updated wheel (not the last version but the last built archive) you can use
+> `--build-arg wheel_name=$(ls -1At dist/ | head -1)`*
+
+#### Run your docker image
+
+Once your docker image is ready, you can run it
+
+> ```sh
+> docker run --rm  <DOCKER_IMG_NAME>:<VERSION>
+> ```
+
+Where:
+
+* `<DOCKER_IMG_NAME>`: Is your docker image name
+* `<VERSION>`: Is your docker image version
+
+> **Example with the provided `hellopymsdl` sample application:**
+> ```
+> docker run --rm --name hellopymsdl hellopymsdl:0.1.0
+> ```
+
+#### Push your docker image
+
+In order to push your image into a repository (like [Docker Hub](https://hub.docker.com/)), you will have to use
+`docker push`.
+
+See [Docker repositories](https://docs.docker.com/docker-hub/repos/)
