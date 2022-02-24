@@ -8,5 +8,5 @@ RUN apk add curl
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
 ENV PATH="$PATH:/root/.poetry/bin"
 
-ENTRYPOINT ["sh", "-c", "poetry install --no-root && $@", "-s"]
+ENTRYPOINT ["sh", "-c", "./project.py load_deps && $@", "-s"]
 CMD sh
