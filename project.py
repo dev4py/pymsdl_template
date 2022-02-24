@@ -182,7 +182,13 @@ class LintCommand(ProjectCommand):
         command_line: Final[list[str]] = ['poetry', 'run', 'pylint']
         if args:
             command_line.extend(args)
-        command_line.append('src')
+
+        lint_roots: Final[list[str]] = list(
+            {Path(p).relative_to(properties.project_path).parts[0] for p in properties.src_rsrc_paths}
+        )
+        if lint_roots:
+            command_line.extend(lint_roots)
+
         return command_line
 
 
