@@ -173,6 +173,18 @@ class TestCommand(ProjectCommand):
         return command_line
 
 
+# -- Lint Command
+class LintCommand(ProjectCommand):
+    """Run linter"""
+
+    def build_command_line(self, properties: ProjectProperties, args: list[str] | None = None) -> list[str]:
+        command_line: Final[list[str]] = ['poetry', 'run', 'pylint']
+        if args:
+            command_line.extend(args)
+        command_line.append('src')
+        return command_line
+
+
 # -- Wheel Command
 class WheelCommand(ProjectCommand):
     """Build Wheel archive"""
@@ -283,6 +295,7 @@ def run(properties: ProjectProperties) -> None:
         .add_command('load_deps', LoadDepsCommand()) \
         .add_command('clean', CleanCommand()) \
         .add_command('run', RunCommand()) \
+        .add_command('lint', LintCommand()) \
         .add_command('test', TestCommand()) \
         .add_command('wheel', WheelCommand()) \
         .add_command('sdist', SdistCommand()) \

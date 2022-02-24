@@ -1,14 +1,17 @@
+##################
+##### POETRY #####
+##################
 [tool.poetry]
-name = "hellopymsdl"
-version = "0.1.0"
-description = "A Python template inspired from the Maven Standard Directory Layout"
-authors = ["author <author@mail.com>"]
-license = "MIT"
-readme = "README.md"
-homepage = "https://github.com/St4rG00se/pymsdl"
-repository = "https://github.com/St4rG00se/pymsdl"
-documentation = "https://github.com/St4rG00se/pymsdl/blob/main/README.md"
-keywords = ["peotry", "maven", "standard", "directory", "layout"]
+name = 'hellopymsdl'
+version = '0.1.0'
+description = 'A Python template inspired from the Maven Standard Directory Layout'
+authors = ['author <author@mail.com>']
+license = 'MIT'
+readme = 'README.md'
+homepage = 'https://github.com/St4rG00se/pymsdl'
+repository = 'https://github.com/St4rG00se/pymsdl'
+documentation = 'https://github.com/St4rG00se/pymsdl/blob/main/README.md'
+keywords = ['peotry', 'maven', 'standard', 'directory', 'layout']
 classifiers = [
     'Intended Audience :: Developers',
     'Programming Language :: Python',
@@ -17,27 +20,68 @@ classifiers = [
 
 # Maven Standard Directory Layout
 packages = [
-    { include = "**/*", from = "src/main/python" },
-    { include = "**/*", from = "src/main/resources" },
-    { include = "**/*", from = "src/test/python", format = "sdist" },
-    { include = "**/*", from = "src/test/resources", format = "sdist" },
-    { include = "project.py", format = "sdist" }
+    { include = '**/*', from = 'src/main/python' },
+    { include = '**/*', from = 'src/main/resources' },
+    { include = '**/*', from = 'src/test/python', format = 'sdist' },
+    { include = '**/*', from = 'src/test/resources', format = 'sdist' },
+    { include = 'project.py', format = 'sdist' }
 ]
 
 [tool.poetry.scripts]
 hello = 'hellopymsdl.__main__:hello'
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = '^3.10'
 
 [tool.poetry.dev-dependencies]
-pytest = "^7.0.1"
-tomli = "2.0.1"  # for project.py if pytest is removed
+pytest = '^7.0.1'
+tomli = '2.0.1'  # for project.py if pytest is removed
+pylint = '^2.12.2'
 
+
+##################
+##### PYTEST #####
+##################
 [tool.pytest.ini_options]
-addopts = "-rA"
-testpaths = ["src/test/python"]
+addopts = '-rA'
+testpaths = ['src/test/python']
 
+
+##################
+##### PYLINT #####
+##################
+[tool.pylint.master]
+jobs = 0
+init-hook = """
+from pathlib import Path
+from sys import path as sys_path
+sys_path.append(Path('src/main/python').absolute().as_posix())
+sys_path.append(Path('src/test/python').absolute().as_posix())
+"""
+ignore-patterns = ["test_*"]
+
+[tool.pylint.messages_control]
+disable = [
+    'invalid-name',
+    'too-few-public-methods',
+    'missing-class-docstring',
+    'missing-function-docstring',
+    'missing-module-docstring'
+]
+
+[tool.pylint.format]
+max-line-length = 120
+indent-string = "    "
+
+[tool.pylint.reports]
+output-format = 'text'
+#reports = 'y'
+score = 'y'
+
+
+##################
+##### SYSTEM #####
+##################
 [build-system]
-requires = ["poetry-core>=1.0.7"]
-build-backend = "poetry.core.masonry.api"
+requires = ['poetry-core>=1.0.7']
+build-backend = 'poetry.core.masonry.api'
