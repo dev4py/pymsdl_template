@@ -4,7 +4,7 @@ from io import TextIOWrapper
 from os import environ as os_environ, pathsep as os_pathsep, getcwd as os_getcwd
 from pathlib import Path
 from subprocess import run as subprocess_run, CalledProcessError
-from sys import argv as sys_argv, stderr as sys_stderr, stdin as sys_stdin, stdout as sys_stdout
+from sys import argv as sys_argv, stderr as sys_stderr, stdin as sys_stdin, stdout as sys_stdout, exit as sys_exit
 from textwrap import dedent
 from typing import Final, TypeVar, Any
 
@@ -21,7 +21,7 @@ except ImportError:
         "tomli is required (install pip or run this script from poetry venv after `poetry install --no-root` or "
         "`poetry update`)",
         file=sys_stderr)
-    exit(1)
+    sys_exit(1)
 
 # CONSTANTS
 # - project
@@ -59,7 +59,7 @@ class ProjectProperties:
         self.src_rsrc_paths: Final[list[str]] = self._get_sources_and_resources_paths()
 
     def _load_toml(self) -> dict[str, Any]:
-        with open(self.__toml_file_path, "r") as toml_file:
+        with open(self.__toml_file_path, "r", encoding="UTF-8") as toml_file:
             return tomli_loads(toml_file.read())
 
     def _get_option(self, section: str, option: str, default: T | None = None) -> T | None:
@@ -87,6 +87,7 @@ class ProjectCommand:
         pass
 
     # noinspection PyMethodMayBeStatic
+    # pylint: disable=no-self-use
     def get_command_cwd(self, properties: ProjectProperties) -> str:
         """
         Define the command cwd (by default it is the project path)
@@ -102,7 +103,7 @@ class ProjectCommand:
         :param args: the given argument list to use. Parse it with an ArgumentParser if necessary
         :return: the command argv list (ie sys.argv)
         """
-        raise RuntimeError("abstract method -- subclass %s must override" % self.__class__)
+        raise RuntimeError(f"abstract method -- subclass {self.__class__} must override")
 
 
 # -- Load dependencies Command
@@ -243,7 +244,7 @@ class CommandsRunner:
     def run(self) -> None:
         if sys_argv and len(sys_argv) > 1:
             argv: str = sys_argv[1]
-            if argv == "--help" or argv == "-h":
+            if argv in ("--help", "-h"):
                 print(self._get_help_str(), file=self.__stdout)
                 return
 
@@ -251,17 +252,17 @@ class CommandsRunner:
             if not self.__command_dict.get(argv):
                 print(f"Command unknown: '{argv}'", file=self.__stderr)
                 return
-            else:
-                current_args: list[str] = []
-                for argv in sys_argv[2:]:
-                    cmd: ProjectCommand | None = self.__command_dict.get(argv)
-                    if cmd:
-                        self._run_process(current_cmd, current_args)
-                        current_args.clear()
-                        current_cmd = cmd
-                    else:
-                        current_args.append(argv)
-                self._run_process(current_cmd, current_args)
+
+            current_args: list[str] = []
+            for argv in sys_argv[2:]:
+                cmd: ProjectCommand | None = self.__command_dict.get(argv)
+                if cmd:
+                    self._run_process(current_cmd, current_args)
+                    current_args.clear()
+                    current_cmd = cmd
+                else:
+                    current_args.append(argv)
+            self._run_process(current_cmd, current_args)
         else:
             print("Project command missing use --help or -h for help", file=self.__stderr)
 
@@ -276,8 +277,8 @@ class CommandsRunner:
                 cwd=command.get_command_cwd(self.__project_properties)
             )
         except CalledProcessError as e:
-            print("Command error: [cmd: '%s' | args: '%s']" % (command.__class__.__name__, args), file=self.__stderr)
-            exit(e.returncode)
+            print(f"Command error: [cmd: '{command.__class__.__name__}' | args: '{args}']", file=self.__stderr)
+            sys_exit(e.returncode)
 
     def _get_help_str(self):
         return "PROJECT COMMANDS WRAPPER:\n\n" \
