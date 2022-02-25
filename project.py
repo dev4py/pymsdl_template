@@ -105,6 +105,14 @@ class ProjectCommand:
         """
         raise RuntimeError(f"abstract method -- subclass {self.__class__} must override")
 
+    # noinspection PyMethodMayBeStatic
+    # pylint: disable=no-self-use
+    def finalize(self, properties: ProjectProperties) -> None:
+        """
+        Called once the command is executed in order to clean specific states
+        :param properties: the project properties
+        """
+
 
 # -- Load dependencies Command
 class LoadDepsCommand(ProjectCommand):
@@ -133,6 +141,8 @@ class CleanCommand(ProjectCommand):
 
         rmdir_if_exists(Path('{properties.dist_path}'))
         for path in Path('.').rglob('.pytest_cache'):
+            rmdir_if_exists(path)
+        for path in Path('.').rglob('.tox'):
             rmdir_if_exists(path)
         """)
         command_line: Final[list[str]] = ['poetry', 'run', 'python', '-c', clean_script]
@@ -163,33 +173,39 @@ class RunCommand(ProjectCommand):
         return command_line
 
 
-# -- Test Command
-class TestCommand(ProjectCommand):
-    """Run configured unit tests"""
+# -- Tox Command
+class ToxCommand(ProjectCommand):
+    """Run tox"""
 
     def build_command_line(self, properties: ProjectProperties, args: list[str] | None = None) -> list[str]:
-        command_line: Final[list[str]] = ['poetry', 'run', 'pytest']
+        command_line: Final[list[str]] = ['poetry', 'run', 'tox']
         if args:
             command_line.extend(args)
         return command_line
+
+
+# -- Test Command
+class TestCommand(ToxCommand):
+    """Run configured unit tests"""
+    SKIP_ENV_VAR: Final[str] = 'TOX_SKIP_ENV'
+
+    def build_command_line(self, properties: ProjectProperties, args: list[str] | None = None) -> list[str]:
+        os_environ[TestCommand.SKIP_ENV_VAR] = 'lint'
+        return super().build_command_line(properties, args)
+
+    def finalize(self, properties: ProjectProperties) -> None:
+        os_environ.pop(TestCommand.SKIP_ENV_VAR, None)
 
 
 # -- Lint Command
-class LintCommand(ProjectCommand):
+class LintCommand(ToxCommand):
     """Run linter"""
 
     def build_command_line(self, properties: ProjectProperties, args: list[str] | None = None) -> list[str]:
-        command_line: Final[list[str]] = ['poetry', 'run', 'pylint']
+        extended_args: Final[list[str]] = ['-e', 'lint']
         if args:
-            command_line.extend(args)
-
-        lint_roots: Final[list[str]] = list(
-            {Path(p).relative_to(properties.project_path).parts[0] for p in properties.src_rsrc_paths}
-        )
-        if lint_roots:
-            command_line.extend(lint_roots)
-
-        return command_line
+            extended_args.extend(args)
+        return super().build_command_line(properties, extended_args)
 
 
 # -- Wheel Command
@@ -285,6 +301,8 @@ class CommandsRunner:
         except CalledProcessError as e:
             print(f"Command error: [cmd: '{command.__class__.__name__}' | args: '{args}']", file=self.__stderr)
             sys_exit(e.returncode)
+        finally:
+            command.finalize(self.__project_properties)
 
     def _get_help_str(self):
         return "PROJECT COMMANDS WRAPPER:\n\n" \
@@ -302,6 +320,7 @@ def run(properties: ProjectProperties) -> None:
         .add_command('load_deps', LoadDepsCommand()) \
         .add_command('clean', CleanCommand()) \
         .add_command('run', RunCommand()) \
+        .add_command('tox', ToxCommand()) \
         .add_command('lint', LintCommand()) \
         .add_command('test', TestCommand()) \
         .add_command('wheel', WheelCommand()) \

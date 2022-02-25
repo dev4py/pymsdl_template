@@ -34,17 +34,38 @@ hello = 'hellopymsdl.__main__:hello'
 python = '^3.10'
 
 [tool.poetry.dev-dependencies]
-pytest = '^7.0.1'
 tomli = '2.0.1'  # for project.py if pytest is removed
-pylint = '^2.12.2'
+tox = "^3.24.5"
 
 
-##################
-##### PYTEST #####
-##################
 [tool.pytest.ini_options]
 addopts = '-rA'
 testpaths = ['src/test/python']
+
+
+##################
+#####  TOX  ######
+##################
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+isolated_build = True
+envlist = py310, lint
+
+[testenv]
+setenv   =
+    PYTHONPATH = {toxinidir}/src/test/resources
+deps = pytest
+commands =
+    pytest
+
+[testenv:lint]
+# Remove useless warning with project.py
+passenv = PYTHONPATH
+skip_install = True
+deps = pylint
+commands = pylint src
+"""
 
 
 ##################
