@@ -39,7 +39,7 @@ tox = "^3.24.5"
 
 
 [tool.pytest.ini_options]
-addopts = '-rA'
+addopts = "-rA --cov --cov-append --omit=src/test/*"
 testpaths = ['src/test/python']
 
 
@@ -55,9 +55,10 @@ envlist = py310, lint
 [testenv]
 setenv   =
     PYTHONPATH = {toxinidir}/src/test/resources
-deps = pytest
-commands =
+deps =
+    pytest-cov
     pytest
+commands = pytest
 
 [testenv:lint]
 # Remove useless warning with project.py
