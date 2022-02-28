@@ -34,6 +34,7 @@ STRUCTURE_OPTION: Final[str] = 'packages'
 
 # - sources / test default paths
 DEFAULT_DIST_PATH: Final[str] = 'dist'
+DEFAULT_BUILD_PATH: Final[str] = 'build'
 
 
 # CLASSES
@@ -46,7 +47,9 @@ class ProjectProperties:
             project_path: Path = PROJECT_PATH,
             toml_file_path: str = PROJECT_TOML_FILE_PATH,
             project_section: str = PROJECT_SECTION,
-            structure_option: str = STRUCTURE_OPTION
+            structure_option: str = STRUCTURE_OPTION,
+            dist_path: str = DEFAULT_DIST_PATH,
+            build_path: str = DEFAULT_BUILD_PATH
     ):
         self.__toml_file_path: Final[str] = toml_file_path
         self.__project_section: Final[str] = project_section
@@ -55,7 +58,8 @@ class ProjectProperties:
 
         # - Global
         self.project_path: Final[Path] = project_path
-        self.dist_path: Final[str] = DEFAULT_DIST_PATH
+        self.dist_path: Final[str] = dist_path
+        self.build_path: Final[str] = build_path
         self.src_rsrc_paths: Final[list[str]] = self._get_sources_and_resources_paths()
 
     def _load_toml(self) -> dict[str, Any]:
@@ -139,10 +143,10 @@ class CleanCommand(ProjectCommand):
                 print(" |- Remove %s directory" % dir_path)
                 rmtree(dir_path)
 
-        rmdir_if_exists(Path('{properties.dist_path}'))
-        for path in Path('.').rglob('.pytest_cache'):
-            rmdir_if_exists(path)
-        for path in Path('.').rglob('.tox'):
+        dir_path_to_rm: list[Path] = [Path('{properties.dist_path}'), Path('{properties.build_path}')]
+        dir_path_to_rm.extend(Path('.').rglob('.tox'))
+        dir_path_to_rm.extend(Path('.').rglob('.pytest_cache'))
+        for path in dir_path_to_rm:
             rmdir_if_exists(path)
         """)
         command_line: Final[list[str]] = ['poetry', 'run', 'python', '-c', clean_script]
