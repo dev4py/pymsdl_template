@@ -59,12 +59,15 @@ deps =
     coverage
     pytest
 commands =
+#    pytest
     python -c "\
         from subprocess import run as subprocess_run; \
         from os import listdir; \
+        from sys import exit as sys_exit; \
         args: list[str] = ['coverage', 'run', '--append', '--omit', 'src/test/*', '--branch', '--source']; \
         args.extend([','.join(listdir('src/main/python')), '-m', 'pytest']); \
-        subprocess_run(args, check=True);\
+        result = subprocess_run(args); \
+        sys_exit(result.returncode); \
     "
     #coverage run --append --branch -m pytest
     #coverage xml
