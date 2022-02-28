@@ -39,7 +39,7 @@ tox = "^3.24.5"
 
 
 [tool.pytest.ini_options]
-addopts = "-rA --cov --cov-append --omit=src/test/*"
+addopts = "-rA"
 testpaths = ['src/test/python']
 
 
@@ -56,9 +56,20 @@ envlist = py310, lint
 setenv   =
     PYTHONPATH = {toxinidir}/src/test/resources
 deps =
-    pytest-cov
+    coverage
     pytest
-commands = pytest
+commands =
+    python -c "\
+        from subprocess import run as subprocess_run; \
+        from os import listdir; \
+        args: list[str] = ['coverage', 'run', '--source']; \
+        args.extend([','.join(listdir('src/main/python'))]); \
+        args.extend(['--append', '--branch', '-m', 'pytest']); \
+        subprocess_run(args, check=True);\
+    "
+    #coverage run --append --branch -m pytest
+    #coverage xml
+    coverage html
 
 [testenv:lint]
 # Remove useless warning with project.py
