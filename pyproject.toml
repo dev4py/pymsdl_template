@@ -36,6 +36,7 @@ python = '^3.10'
 [tool.poetry.dev-dependencies]
 tomli = '2.0.1'  # for project.py if pytest is removed
 tox = "^3.24.5"
+pytest = "^7.0.1"
 
 
 [tool.pytest.ini_options]
@@ -102,10 +103,12 @@ commands = pylint src
 [tool.coverage.run]
 branch = true
 omit = ['src/test/*']
+data_file = 'build/.coverage'
 
 [tool.coverage.report]
 fail_under = 90
 show_missing = true
+exclude_lines = ["if __name__ == '__main__':"]
 
 [tool.coverage.html]
 directory = 'build/reports/html'
