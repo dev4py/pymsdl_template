@@ -420,6 +420,15 @@ or
 
 > ***Note:** You will find the [tox](https://tox.wiki/) configuration in the [pyproject.toml](./pyproject.toml) file
 > (`[tool.tox]` section).*
+> 
+> The default [tox](https://tox.wiki/)  configuration provides the following `envlist`:
+> * ***lint:*** Executes the configured linter
+> * ***clean:*** Cleans the coverage reports
+> * ***py310:*** Executes the configured test runner under python 3.10
+> * ***report:*** Generates console, html and xml reports
+> 
+> Moreover, the provided configuration runs each test on INSTALLED packages (Not on the given sources even if obviously
+> the installed packages depends on the given sources). The goal is to test definitive installed versions.
 
 ### Run linter
 

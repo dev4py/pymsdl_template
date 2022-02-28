@@ -36,10 +36,11 @@ python = '^3.10'
 [tool.poetry.dev-dependencies]
 tomli = '2.0.1'  # for project.py if pytest is removed
 tox = "^3.24.5"
+pytest = "^7.0.1"
 
 
 [tool.pytest.ini_options]
-addopts = '-rA'
+addopts = "-rA"
 testpaths = ['src/test/python']
 
 
@@ -50,14 +51,42 @@ testpaths = ['src/test/python']
 legacy_tox_ini = """
 [tox]
 isolated_build = True
-envlist = py310, lint
+envlist = lint, clean, py310, report
 
 [testenv]
+# Note: this default configuration use pytest on the installed packages (not sources) for each env
+# (that's why we have to list package names from "src/main/python")
+# See COVERAGE configurations in the following pyproject.toml section
 setenv   =
     PYTHONPATH = {toxinidir}/src/test/resources
-deps = pytest
-commands =
+deps =
+    coverage[toml]
     pytest
+commands =
+    python -c "\
+        from subprocess import run as subprocess_run; \
+        from os import listdir; \
+        from sys import exit as sys_exit; \
+        args: list[str] = ['coverage', 'run', '--append', '--source']; \
+        args.extend([','.join(listdir('src/main/python')), '-m', 'pytest']); \
+        result = subprocess_run(args); \
+        sys_exit(result.returncode); \
+    "
+
+[testenv:clean]
+skip_install = True
+deps = coverage[toml]
+commands = coverage erase
+
+[testenv:report]
+skip_install = True
+deps = coverage[toml]
+commands =
+    coverage html --fail-under=0
+    coverage xml --fail-under=0
+    coverage json --fail-under=0
+    coverage report
+
 
 [testenv:lint]
 # Remove useless warning with project.py
@@ -66,6 +95,30 @@ skip_install = True
 deps = pylint
 commands = pylint src
 """
+
+
+##################
+#### COVERAGE ####
+##################
+[tool.coverage.run]
+branch = true
+omit = ['src/test/*']
+data_file = 'build/.coverage'
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true
+exclude_lines = ["if __name__ == '__main__':"]
+
+[tool.coverage.html]
+directory = 'build/reports/html'
+
+[tool.coverage.xml]
+output = 'build/reports/xml/coverage.xml'
+
+[tool.coverage.json]
+output = 'build/reports/json/coverage.json'
+pretty_print = true
 
 
 ##################
