@@ -62,9 +62,8 @@ commands =
     python -c "\
         from subprocess import run as subprocess_run; \
         from os import listdir; \
-        args: list[str] = ['coverage', 'run', '--source']; \
-        args.extend([','.join(listdir('src/main/python'))]); \
-        args.extend(['--append', '--branch', '-m', 'pytest']); \
+        args: list[str] = ['coverage', 'run', '--append', '--omit', 'src/test/*', '--branch', '--source']; \
+        args.extend([','.join(listdir('src/main/python')), '-m', 'pytest']); \
         subprocess_run(args, check=True);\
     "
     #coverage run --append --branch -m pytest
