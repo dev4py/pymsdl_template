@@ -57,7 +57,7 @@ envlist = lint, clean, py310, report
 # Note: this default configuration use pytest on the installed packages (not sources) for each env
 # (that's why we have to list package names from "src/main/python")
 # See COVERAGE configurations in the following pyproject.toml section
-setenv   =
+setenv =
     PYTHONPATH = {toxinidir}/src/test/resources
 deps =
     coverage[toml]
@@ -86,7 +86,6 @@ commands =
     coverage xml --fail-under=0
     coverage json --fail-under=0
     coverage report
-
 
 [testenv:lint]
 # Remove useless warning with project.py
