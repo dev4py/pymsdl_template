@@ -420,13 +420,13 @@ or
 
 > ***Note:** You will find the [tox](https://tox.wiki/) configuration in the [pyproject.toml](./pyproject.toml) file
 > (`[tool.tox]` section).*
-> 
+>
 > The default [tox](https://tox.wiki/)  configuration provides the following `envlist`:
 > * ***lint:*** Executes the configured linter
 > * ***clean:*** Cleans the coverage reports
 > * ***py310:*** Executes the configured test runner under python 3.10
 > * ***report:*** Generates console, html and xml reports
-> 
+>
 > Moreover, the provided configuration runs each test on INSTALLED packages (Not on the given sources even if obviously
 > the installed packages depends on the given sources). The goal is to test definitive installed versions.
 
@@ -533,11 +533,11 @@ Now, you are ready to work (see [Quickstart](#quickstart)).
 
 #### Build your docker image
 
-PYMSDL template provides a Dockerfile in order to build an image for your application based on a generated`wheel`
+PYMSDL template provides a Dockerfile in order to build an image for your application based on a generated `wheel`
 distribution (See: [Dockerfile](./docker/Dockerfile))).
 
 > ***Note:** this Dockerfile is a "generic" one in order to provide a starting docker image distribution solution. You
-> can (/should) update (/rewrite) it in order to be adapted to your application (see:
+> can (/should) update (/rewrite) it in order to adapt it to your application (see:
 > [Best practices for writing Dockerfiles](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)).*
 
 > **Build image command:**
@@ -546,6 +546,7 @@ distribution (See: [Dockerfile](./docker/Dockerfile))).
 >   -f docker/Dockerfile \
 >   -t <DOCKER_IMG_NAME>:<VERSION> \
 >   --build-arg wheel_name=<WHEEL_NAME> \
+>   --build-arg entrypoint=<ENTRYPOINT_VALUE> \
 >   --build-arg cmd=<CMD_VALUE> \
 >   .
 > ```
@@ -554,10 +555,14 @@ Where:
 
 * `<DOCKER_IMG_NAME>`: Is your docker image name
 * `<VERSION>`: Is your docker image version
-* `<WHEEL_NAME>`: Is the `wheel` archive name to install from the `dist` directory
-* `<CMD_VALUE>`: Is the command to run (entry point or package or module)
+* `<WHEEL_NAME>`: ***[REQUIRED]*** Is the `wheel` archive name to install from the `dist` directory
+* `<ENTRYPOINT_VALUE>`: *[OPTIONAL: default is `python`]* Is the docker file ENTRYPOINT
+* `<CMD_VALUE>`: *[OPTIONAL: default cmd is empty]* Is the dockerfile CMD 
 
 > ***Note:** Obviously, this command must be executed after the [Wheel archive](#wheel-archive) one.*
+
+> ***Note:** Using an `entrypoint` with an empty `cmd` provides the possibility for the end user to use `cmd` as your
+> project parameters (argv). Moreover, you can use `cmd` in order to define your default project parameters.*
 
 > **Example with the provided `hellopymsdl` sample application:**
 >
@@ -565,15 +570,15 @@ Where:
 >
 > ***Note:** your `dist` directory can contain several versions (/`wheel` archives)*
 >
-> **- Build docker image from *entry point* example:**
+> **- Build docker image from *python entry point* example:**
 >
-> The `hellopymsdl` project provided an `hello` entry point (See: [pyproject.toml](./pyproject.toml)).
+> The `hellopymsdl` project provides an `hello` entry point (See: [pyproject.toml](./pyproject.toml)).
 > ```sh
 > docker build \
 >   -f docker/Dockerfile \
 >   -t  hellopymsdl:0.1.0 \
 >   --build-arg wheel_name=hellopymsdl-0.1.0-py3-none-any.whl \
->   --build-arg cmd=hello \
+>   --build-arg entrypoint=hello \
 >   .
 > ```
 >
@@ -583,7 +588,7 @@ Where:
 >   -f docker/Dockerfile \
 >   -t  hellopymsdl:0.1.0 \
 >   --build-arg wheel_name=hellopymsdl-0.1.0-py3-none-any.whl \
->   --build-arg cmd="python -m hellopymsdl:__main__" \
+>   --build-arg entrypoint="python -m hellopymsdl.__main__" \
 >   .
 > ```
 > Run the `__main__.py` module from `hellopymsdl` package.
@@ -596,10 +601,16 @@ Where:
 >   -f docker/Dockerfile \
 >   -t  hellopymsdl:0.1.0 \
 >   --build-arg wheel_name=hellopymsdl-0.1.0-py3-none-any.whl \
->   --build-arg cmd="python -m hellopymsdl" \
+>   --build-arg entrypoint="python -m hellopymsdl" \
 >   .
 > ```
 > ***Note:** your package MUST contains a `__main__.py` module.*
+> 
+> **- Build docker image without `entrypoint` build-arg:**
+> 
+> if you don't define the `entrypoint` build-arg, the default one is `python`. So if you run your image
+> without any argument (or `cmd` build-arg) it will open a python console in an environment where your project is
+> installed
 
 > ***Trick:** If you want to build the last updated wheel (not the last version but the last built archive) you can use
 > `--build-arg wheel_name=$(ls -1At dist/ | head -1)`*
@@ -621,6 +632,25 @@ Where:
 > ```
 > docker run --rm --name hellopymsdl hellopymsdl:0.1.0
 > ```
+> 
+> ***Note:** Since we used only the `entrypoint` build-arg in our previous samples, if you have to pass arguments (argv)
+> to your project you can do it directly like this:*
+> ```
+> docker run --rm --name hellopymsdl hellopymsdl:0.1.0 arg-1 arg-2 ... arg-N
+> ```
+> 
+> *Moreover, you can define default values for your project parameters. To do that, you have to use the `cmd` build-arg
+> like this:*
+> ```sh
+> docker build \
+>   -f docker/Dockerfile \
+>   -t  hellopymsdl:0.1.0 \
+>   --build-arg wheel_name=hellopymsdl-0.1.0-py3-none-any.whl \
+>   --build-arg entrypoint=hello \
+>   --build-arg cmd="arg-1 arg-2 ... arg-N" \
+>   .
+> ```
+> ***Note:** You can override the default `cmd` by using the previous command line sample.*
 
 #### Push your docker image
 
