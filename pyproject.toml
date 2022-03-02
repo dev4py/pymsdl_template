@@ -90,7 +90,6 @@ commands =
 [testenv:lint]
 # Remove useless warning with project.py
 passenv = PYTHONPATH
-skip_install = True
 deps = pylint
 commands =
     python -c 'from os import makedirs; makedirs("build/reports/lint", exist_ok = True)'
