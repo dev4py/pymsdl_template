@@ -440,10 +440,12 @@ or
 > python project.py lint
 > ```
 
+> ***Note:** `json` and `txt` reports will be available in `build/reports/lint`.*
+
 > ***Note:** By default this template uses [pylint](https://pylint.org/) as linter. You will find the linter
 > configuration in the [pyproject.toml](./pyproject.toml) file (`[tool.pylint....]` sections).*
 
-> ***Note:** This command uses [tox](#run-tox) but only in order to call the linter*
+> ***Note:** This command uses [tox](#run-tox) but only in order to call the linter.*
 
 ### Run tests
 
@@ -457,10 +459,12 @@ or
 > python project.py test
 > ```
 
+> ***Note:** `html`, `json` and `xml` reports will be available in `build/reports/coverage`.*
+
 > ***Note:** If you change the project structure, don't forget to update the `[tool.pytest.ini_options]` section from
 > the [pyproject.toml](./pyproject.toml) file.*
 
-> ***Note:** This command uses [tox](#run-tox) but only in order to run your tests*
+> ***Note:** This command uses [tox](#run-tox) but only in order to run your tests.*
 
 ### Build
 

@@ -92,7 +92,9 @@ commands =
 passenv = PYTHONPATH
 skip_install = True
 deps = pylint
-commands = pylint src
+commands =
+    python -c 'from os import makedirs; makedirs("build/reports/lint", exist_ok = True)'
+    pylint src
 """
 
 
@@ -110,13 +112,13 @@ show_missing = true
 exclude_lines = ["if __name__ == '__main__':"]
 
 [tool.coverage.html]
-directory = 'build/reports/html'
+directory = 'build/reports/coverage/html'
 
 [tool.coverage.xml]
-output = 'build/reports/xml/coverage.xml'
+output = 'build/reports/coverage/xml/coverage.xml'
 
 [tool.coverage.json]
-output = 'build/reports/json/coverage.json'
+output = 'build/reports/coverage/json/coverage.json'
 pretty_print = true
 
 
@@ -147,7 +149,7 @@ max-line-length = 120
 indent-string = "    "
 
 [tool.pylint.reports]
-output-format = 'text'
+output-format = 'json:build/reports/lint/lint.json,text:build/reports/lint/lint.txt,colorized'
 #reports = 'y'
 score = 'y'
 
