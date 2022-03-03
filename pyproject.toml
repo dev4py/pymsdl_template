@@ -51,7 +51,7 @@ testpaths = ['src/test/python']
 legacy_tox_ini = """
 [tox]
 isolated_build = True
-envlist = lint, clean, py310, report
+envlist = pylint, covclean, py310, report
 
 [testenv]
 # Note: this default configuration use pytest on the installed packages (not sources) for each env
@@ -73,7 +73,7 @@ commands =
         sys_exit(result.returncode); \
     "
 
-[testenv:clean]
+[testenv:covclean]
 skip_install = True
 deps = coverage[toml]
 commands = coverage erase
@@ -87,7 +87,7 @@ commands =
     coverage json --fail-under=0
     coverage report
 
-[testenv:lint]
+[testenv:pylint]
 # Remove useless warning with project.py
 passenv = PYTHONPATH
 deps = pylint

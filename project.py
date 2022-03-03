@@ -194,7 +194,7 @@ class TestCommand(ToxCommand):
     SKIP_ENV_VAR: Final[str] = 'TOX_SKIP_ENV'
 
     def build_command_line(self, properties: ProjectProperties, args: list[str] | None = None) -> list[str]:
-        os_environ[TestCommand.SKIP_ENV_VAR] = 'lint'
+        os_environ[TestCommand.SKIP_ENV_VAR] = 'pylint'
         return super().build_command_line(properties, args)
 
     def finalize(self, properties: ProjectProperties) -> None:
@@ -206,7 +206,7 @@ class LintCommand(ToxCommand):
     """Run linter"""
 
     def build_command_line(self, properties: ProjectProperties, args: list[str] | None = None) -> list[str]:
-        extended_args: Final[list[str]] = ['-e', 'lint']
+        extended_args: Final[list[str]] = ['-e', 'pylint']
         if args:
             extended_args.extend(args)
         return super().build_command_line(properties, extended_args)

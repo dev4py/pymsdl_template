@@ -422,8 +422,8 @@ or
 > (`[tool.tox]` section).*
 >
 > The default [tox](https://tox.wiki/)  configuration provides the following `envlist`:
-> * ***lint:*** Executes the configured linter
-> * ***clean:*** Cleans the coverage reports
+> * ***pylint:*** Executes the configured linter
+> * ***covclean:*** Cleans the coverage reports
 > * ***py310:*** Executes the configured test runner under python 3.10
 > * ***report:*** Generates console, html and xml reports
 >
