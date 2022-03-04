@@ -138,16 +138,24 @@ class CleanCommand(ProjectCommand):
         from shutil import rmtree
         from pathlib import Path
 
-        def rmdir_if_exists(dir_path: Path) -> None:
-            if dir_path.is_dir():
-                print(" |- Remove %s directory" % dir_path)
-                rmtree(dir_path)
+        def rm_if_exists(path: Path) -> None:
+            if path.is_dir():
+                print(" |- Remove %s directory" % path)
+                rmtree(path)
+            elif path.is_file():
+                print(" |- Remove %s file" % path)
+                path.unlink()
 
-        dir_path_to_rm: list[Path] = [Path('{properties.dist_path}'), Path('{properties.build_path}')]
-        dir_path_to_rm.extend(Path('.').rglob('.tox'))
-        dir_path_to_rm.extend(Path('.').rglob('.pytest_cache'))
-        for path in dir_path_to_rm:
-            rmdir_if_exists(path)
+        path_to_rm: list[Path] = [
+            Path('{properties.dist_path}'),
+            Path('{properties.build_path}'),
+            Path('html/'),
+            Path('.mutmut-cache')
+        ]
+        path_to_rm.extend(Path('.').rglob('.tox'))
+        path_to_rm.extend(Path('.').rglob('.pytest_cache'))
+        for path in path_to_rm:
+            rm_if_exists(path)
         """)
         command_line: Final[list[str]] = ['poetry', 'run', 'python', '-c', clean_script]
         if args:
@@ -194,7 +202,7 @@ class TestCommand(ToxCommand):
     SKIP_ENV_VAR: Final[str] = 'TOX_SKIP_ENV'
 
     def build_command_line(self, properties: ProjectProperties, args: list[str] | None = None) -> list[str]:
-        os_environ[TestCommand.SKIP_ENV_VAR] = 'pylint'
+        os_environ[TestCommand.SKIP_ENV_VAR] = 'pylint|mutation'
         return super().build_command_line(properties, args)
 
     def finalize(self, properties: ProjectProperties) -> None:
@@ -207,6 +215,17 @@ class LintCommand(ToxCommand):
 
     def build_command_line(self, properties: ProjectProperties, args: list[str] | None = None) -> list[str]:
         extended_args: Final[list[str]] = ['-e', 'pylint']
+        if args:
+            extended_args.extend(args)
+        return super().build_command_line(properties, extended_args)
+
+
+# -- Mutation Command
+class MutationCommand(ToxCommand):
+    """Run mutation tests"""
+
+    def build_command_line(self, properties: ProjectProperties, args: list[str] | None = None) -> list[str]:
+        extended_args: Final[list[str]] = ['-e', 'mutation']
         if args:
             extended_args.extend(args)
         return super().build_command_line(properties, extended_args)
@@ -313,7 +332,7 @@ class CommandsRunner:
                "Usage: python project.py <COMMAND_1> <arg1_1 ...> ... <COMMAND_N> <argN_1 ...>\n" \
                "\tNote: In order to get the wrapped command help, you can try python project.py <command> --help\n\n" \
                "Available commands are:\n" \
-               + ''.join([f"  {cmd}    \t{cls.__doc__}\n" for cmd, cls in self.__command_dict.items()])
+               + ''.join([f"  {cmd}   \t{cls.__doc__}\n" for cmd, cls in self.__command_dict.items()])
 
 
 # FUNCTIONS
@@ -327,6 +346,7 @@ def run(properties: ProjectProperties) -> None:
         .add_command('tox', ToxCommand()) \
         .add_command('lint', LintCommand()) \
         .add_command('test', TestCommand()) \
+        .add_command('mut', MutationCommand()) \
         .add_command('wheel', WheelCommand()) \
         .add_command('sdist', SdistCommand()) \
         .add_command('upload', UploadCommand())
