@@ -130,3 +130,7 @@ dmypy.json
 
 #pycharm
 .idea/
+
+# mutation testing
+html/
+.mutmut-cache

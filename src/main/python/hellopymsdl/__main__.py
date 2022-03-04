@@ -7,5 +7,5 @@ def hello() -> None:
     print(message_service.get_message("message.txt"))
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no mutate
     hello()

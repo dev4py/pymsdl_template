@@ -23,6 +23,15 @@ class TestMessageService:
                 # THEN
                 assert "A test message" == message
 
+            def test_default_package_package__should__exists(self):
+                """When use default package value, it should exist (ei: not raise a ModuleNotFoundError)"""
+                # GIVEN
+                message_service: MessageService = MessageService()
+
+                # WHEN / THEN (FileNotFoundError means the resource package exists but not the message file)
+                with raises(FileNotFoundError):
+                    message_service.get_message("unknown_message.txt")
+
         class TestErrorCase:
             def test_resource_package_not_exists__should__raise_modulenotfoundesrror(self) -> None:
                 """When resource package doesn't exist, should raise a ModuleNotFoundError"""
