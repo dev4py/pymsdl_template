@@ -134,3 +134,7 @@ dmypy.json
 # mutation testing
 html/
 .mutmut-cache
+
+# don't ignore .github content
+!.github/**
+
