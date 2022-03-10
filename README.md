@@ -57,6 +57,9 @@ the [Project organization](#project-organization) part before the [Project comma
         - [Build your docker image](#build-your-docker-image)
         - [Run your docker image](#run-your-docker-image)
         - [Push your docker image](#push-your-docker-image)
+* [Workflows](#workflows)
+    + [CI](#ci)
+    + [On_release](#on_release)
 
 ## Quickstart
 
@@ -683,3 +686,31 @@ In order to push your image into a repository (like [Docker Hub](https://hub.doc
 `docker push` command line.
 
 See [Docker repositories](https://docs.docker.com/docker-hub/repos/)
+
+## Workflows
+
+The PYMSDL template provides a simple [GitHub Actions](https://github.com/features/actions) workflow in order to check
+and manage your project (See: [.github](.github)).
+
+### CI
+
+This workflow is executed on *pull_request* or *push on master*. It aims to check your project quality. To do that the
+following steps are executed:
+
+* Build archives
+* Lint
+* Unit tests
+* Mutation tests
+* Check dependencies vulnerabilities
+
+See: [ci.yml](.github/workflows/ci.yml)
+
+### On_release
+
+(IN PROGRESS)
+
+This workflow is used in order to publish your project into [pypi](https://pypi.org/).
+
+***Note:** To do that you have to specify a Pipy API_KEY as project secret*
+
+See: [on_release.yml](.github/workflows/on_release.yml)
