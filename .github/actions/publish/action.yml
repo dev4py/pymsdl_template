@@ -1,0 +1,10 @@
+name: publish action
+author: St4rG00se
+description: Upload available deliveries
+runs:
+  using: composite
+  steps:
+    - uses: ./.github/actions/dev_env_docker
+      name: Upload available deliveries
+      with:
+        cmd: ./project.py upload

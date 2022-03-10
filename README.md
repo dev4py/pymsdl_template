@@ -535,7 +535,7 @@ If you haven't a python/poetry environment installed, PYMSDL template provides y
 #### Build the pymsdl:devenv docker image
 
 > ```sh
-> docker build -t pymsdl:devenv-1.0.0 -f docker/Dockerfile.devenv .
+> docker build -t pymsdl:devenv-1.0.0 -f docker/devenv/Dockerfile .
 > ```
 
 #### Run the pymsdl:devenv environment
@@ -559,7 +559,7 @@ Now, you are ready to work (see [Quickstart](#quickstart)).
 #### Build your docker image
 
 PYMSDL template provides a Dockerfile in order to build an image for your application based on a generated `wheel`
-distribution (See: [Dockerfile](./docker/Dockerfile))).
+distribution (See: [Dockerfile](docker/app/Dockerfile))).
 
 > ***Note:** this Dockerfile is a "generic" one in order to provide a starting docker image distribution solution. You
 > can (/should) update (/rewrite) it in order to adapt it to your application (see:
@@ -568,7 +568,7 @@ distribution (See: [Dockerfile](./docker/Dockerfile))).
 > **Build image command:**
 > ```sh
 > docker build \
->   -f docker/Dockerfile \
+>   -f docker/app/Dockerfile \
 >   -t <DOCKER_IMG_NAME>:<VERSION> \
 >   --build-arg wheel_name=<WHEEL_NAME> \
 >   --build-arg entrypoint=<ENTRYPOINT_VALUE> \
@@ -600,7 +600,7 @@ Where:
 > The `hellopymsdl` project provides an `hello` entry point (See: [pyproject.toml](./pyproject.toml)).
 > ```sh
 > docker build \
->   -f docker/Dockerfile \
+>   -f docker/app/Dockerfile \
 >   -t  hellopymsdl:0.1.0 \
 >   --build-arg wheel_name=hellopymsdl-0.1.0-py3-none-any.whl \
 >   --build-arg entrypoint=hello \
@@ -610,7 +610,7 @@ Where:
 > **- Build docker image from *module* example:**
 > ```sh
 > docker build \
->   -f docker/Dockerfile \
+>   -f docker/app/Dockerfile \
 >   -t  hellopymsdl:0.1.0 \
 >   --build-arg wheel_name=hellopymsdl-0.1.0-py3-none-any.whl \
 >   --build-arg entrypoint="python -m hellopymsdl.__main__" \
@@ -623,7 +623,7 @@ Where:
 > The `hellopymsdl` project provided an `hello` entry point (See: [pyproject.toml](./pyproject.toml)).
 > ```sh
 > docker build \
->   -f docker/Dockerfile \
+>   -f docker/app/Dockerfile \
 >   -t  hellopymsdl:0.1.0 \
 >   --build-arg wheel_name=hellopymsdl-0.1.0-py3-none-any.whl \
 >   --build-arg entrypoint="python -m hellopymsdl" \
@@ -668,7 +668,7 @@ Where:
 > like this:*
 > ```sh
 > docker build \
->   -f docker/Dockerfile \
+>   -f docker/app/Dockerfile \
 >   -t  hellopymsdl:0.1.0 \
 >   --build-arg wheel_name=hellopymsdl-0.1.0-py3-none-any.whl \
 >   --build-arg entrypoint=hello \
