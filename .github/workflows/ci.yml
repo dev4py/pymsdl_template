@@ -45,6 +45,7 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v2
+      - uses: satackey/action-docker-layer-caching@v0.0.11
       - uses: ./.github/actions/lint
       - uses: actions/upload-artifact@v3
         if: always()
