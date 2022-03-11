@@ -1,6 +1,7 @@
 # PYMSDL_Template
 
-A Python [Poetry](https://python-poetry.org/) template inspired from
+***PYMSDL<sup>(PYthon Maven Standard Directory Layout)</sup> template*** is a
+Python [Poetry](https://python-poetry.org/) template inspired from
 the [Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html)
 .
 
