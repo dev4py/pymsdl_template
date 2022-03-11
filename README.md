@@ -1,5 +1,12 @@
 # PYMSDL_Template
 
+[![example workflow](https://github.com/dev4py/pymsdl_template/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/dev4py/pymsdl_template/actions/workflows/ci.yml) <br/>
+[![Python >= 3.10.1](https://img.shields.io/badge/Python->=3.10.1-informational.svg)](https://www.python.org/) <br/>
+[![Poetry >= 1.1.0](https://img.shields.io/badge/Poetry->=1.1.0-informational.svg)](https://python-poetry.org/) <br/>
+[![Maintainer](https://img.shields.io/badge/maintainer-St4rG00se-informational)](https://github.com/St4rG00se) <br/>
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity) <br/>
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A Python [Poetry](https://python-poetry.org/) template inspired from
 the [Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html)
 .
@@ -427,11 +434,12 @@ or
 > (`[tool.tox]` section).*
 >
 > The default [tox](https://tox.wiki/)  configuration provides the following `envlist`:
-* ***pylint:*** Executes the configured linter
-* ***covclean:*** Cleans the coverage reports
-* ***py310:*** Executes the configured test runner under python 3.10
-* ***report:*** Generates console, html and xml reports
-* ***mutation:*** Executes mutation testing and generate reports
+>
+>* ***pylint:*** Executes the configured linter
+>* ***covclean:*** Cleans the coverage reports
+>* ***py310:*** Executes the configured test runner under python 3.10
+>* ***report:*** Generates console, html and xml reports
+>* ***mutation:*** Executes mutation testing and generate reports
 >
 > Moreover, the provided configuration runs each test on INSTALLED packages (Not on the given sources even if obviously
 > the installed packages depends on the given sources). The goal is to test definitive installed versions.
@@ -585,7 +593,7 @@ Where:
 * `<VERSION>`: Is your docker image version
 * `<WHEEL_NAME>`: ***[REQUIRED]*** Is the `wheel` archive name to install from the `dist` directory
 * `<ENTRYPOINT_VALUE>`: *[OPTIONAL: default is `python`]* Is the docker file ENTRYPOINT
-* `<CMD_VALUE>`: *[OPTIONAL: default cmd is empty]* Is the dockerfile CMD 
+* `<CMD_VALUE>`: *[OPTIONAL: default cmd is empty]* Is the dockerfile CMD
 
 > ***Note:** Obviously, this command must be executed after the [Wheel archive](#wheel-archive) one.*
 
@@ -633,9 +641,9 @@ Where:
 >   .
 > ```
 > ***Note:** your package MUST contains a `__main__.py` module.*
-> 
+>
 > **- Build docker image without `entrypoint` build-arg:**
-> 
+>
 > if you don't define the `entrypoint` build-arg, the default one is `python`. So if you run your image
 > without any argument (or `cmd` build-arg) it will open a python console in an environment where your project is
 > installed
@@ -660,13 +668,13 @@ Where:
 > ```
 > docker run --rm --name hellopymsdl hellopymsdl:0.1.0
 > ```
-> 
+>
 > ***Note:** Since we used only the `entrypoint` build-arg in our previous samples, if you have to pass arguments (argv)
 > to your project you can do it directly like this:*
 > ```
 > docker run --rm --name hellopymsdl hellopymsdl:0.1.0 arg-1 arg-2 ... arg-N
 > ```
-> 
+>
 > *Moreover, you can define default values for your project parameters. To do that, you have to use the `cmd` build-arg
 > like this:*
 > ```sh
