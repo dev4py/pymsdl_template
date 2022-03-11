@@ -115,7 +115,8 @@ You have to run this command line in order to download your project dependencies
 
 ### Test your setup
 
-PYMSDL template provides a simple sample project. You can test your setup by running this command line:
+PYMSDL template provides a simple sample project named `hellopymsdl`. You can test your setup by running this command
+line:
 
 > ```sh
 > ./project.py test
@@ -129,7 +130,8 @@ Since this template use [Poetry](https://python-poetry.org/) you have to learn e
 Moreover, this template provides you a python script with basic management commands.
 See: [Project commands](#project-commands)
 
-> ***Note** [Project commands](#project-commands) samples should work on the provided simple sample project*
+> ***Note** [Project commands](#project-commands) samples should work on the provided `hellopymsdl` simple sample
+> project.*
 
 ### Let's dev
 
@@ -159,7 +161,8 @@ until you switch from [Poetry](https://python-poetry.org/) to another tool.
 In order to set your project properties, you just have to update the [pyproject.toml](./pyproject.toml).
 
 > **Note:** If you don't want to use the [Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html),
-> you can reconfigure the project structure in the `[tool.poetry]` section > `packages` option.
+> you can reconfigure the project structure by replacing each `/src/main/...` or `/src/test/...` by your structure in
+> the [pyproject.toml](./pyproject.toml) file.
 
 ### Maven Standard Directory Layout with python
 
@@ -702,7 +705,7 @@ and manage your project (See: [.github](.github)).
 
 ### CI
 
-This workflow is executed on *pull_request* or *push on master*. It aims to check your project quality. To do that the
+This workflow is executed on *pull_request* or *push on main*. It aims to check your project quality. To do that the
 following steps are executed:
 
 * Build archives
