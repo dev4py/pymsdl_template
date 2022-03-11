@@ -1,6 +1,6 @@
 # PYMSDL_Template
 
-[![example workflow](https://github.com/dev4py/pymsdl_template/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/dev4py/pymsdl_template/actions/workflows/ci.yml) <br/>
+[![example workflow](https://github.com/dev4py/pymsdl_template/actions/workflows/ci.yml/badge.svg?event=push&branch=main)](https://github.com/dev4py/pymsdl_template/actions/workflows/ci.yml) <br/>
 [![Python >= 3.10.1](https://img.shields.io/badge/Python->=3.10.1-informational.svg)](https://www.python.org/) <br/>
 [![Poetry >= 1.1.0](https://img.shields.io/badge/Poetry->=1.1.0-informational.svg)](https://python-poetry.org/) <br/>
 [![Maintainer](https://img.shields.io/badge/maintainer-St4rG00se-informational)](https://github.com/St4rG00se) <br/>
