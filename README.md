@@ -720,8 +720,6 @@ See: [ci.yml](.github/workflows/ci.yml)
 
 ### On_release
 
-(IN PROGRESS)
-
 This workflow is used in order to publish your project into [pypi](https://pypi.org/).
 
 > ***Note:** This workflow doesn't execute tests again because released version should be on `main` branch and this
@@ -732,3 +730,7 @@ This workflow is used in order to publish your project into [pypi](https://pypi.
 > (See: [pypi api token](https://pypi.org/help/#apitoken))*
 
 See: [on_release.yml](.github/workflows/on_release.yml)
+
+You can find the `hellopymsdl` sample project published [here](https://pypi.org/project/hellopymsdl/)
+
+> ***Note:** it means you can run `pip install hellopymsdl`*
