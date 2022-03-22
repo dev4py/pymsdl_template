@@ -617,8 +617,8 @@ Where:
 > ```sh
 > docker build \
 >   -f docker/app/Dockerfile \
->   -t  hellopymsdl:0.1.0 \
->   --build-arg wheel_name=hellopymsdl-0.1.0-py3-none-any.whl \
+>   -t  hellopymsdl:1.0.0 \
+>   --build-arg wheel_name=hellopymsdl-1.0.0-py3-none-any.whl \
 >   --build-arg entrypoint=hello \
 >   .
 > ```
@@ -627,8 +627,8 @@ Where:
 > ```sh
 > docker build \
 >   -f docker/app/Dockerfile \
->   -t  hellopymsdl:0.1.0 \
->   --build-arg wheel_name=hellopymsdl-0.1.0-py3-none-any.whl \
+>   -t  hellopymsdl:1.0.0 \
+>   --build-arg wheel_name=hellopymsdl-1.0.0-py3-none-any.whl \
 >   --build-arg entrypoint="python -m hellopymsdl.__main__" \
 >   .
 > ```
@@ -640,8 +640,8 @@ Where:
 > ```sh
 > docker build \
 >   -f docker/app/Dockerfile \
->   -t  hellopymsdl:0.1.0 \
->   --build-arg wheel_name=hellopymsdl-0.1.0-py3-none-any.whl \
+>   -t  hellopymsdl:1.0.0 \
+>   --build-arg wheel_name=hellopymsdl-1.0.0-py3-none-any.whl \
 >   --build-arg entrypoint="python -m hellopymsdl" \
 >   .
 > ```
@@ -671,13 +671,13 @@ Where:
 
 > **Example with the provided `hellopymsdl` sample application:**
 > ```
-> docker run --rm --name hellopymsdl hellopymsdl:0.1.0
+> docker run --rm --name hellopymsdl hellopymsdl:1.0.0
 > ```
 >
 > ***Note:** Since we used only the `entrypoint` build-arg in our previous samples, if you have to pass arguments (argv)
 > to your project you can do it directly like this:*
 > ```
-> docker run --rm --name hellopymsdl hellopymsdl:0.1.0 arg-1 arg-2 ... arg-N
+> docker run --rm --name hellopymsdl hellopymsdl:1.0.0 arg-1 arg-2 ... arg-N
 > ```
 >
 > *Moreover, you can define default values for your project parameters. To do that, you have to use the `cmd` build-arg
@@ -685,8 +685,8 @@ Where:
 > ```sh
 > docker build \
 >   -f docker/app/Dockerfile \
->   -t  hellopymsdl:0.1.0 \
->   --build-arg wheel_name=hellopymsdl-0.1.0-py3-none-any.whl \
+>   -t  hellopymsdl:1.0.0 \
+>   --build-arg wheel_name=hellopymsdl-1.0.0-py3-none-any.whl \
 >   --build-arg entrypoint=hello \
 >   --build-arg cmd="arg-1 arg-2 ... arg-N" \
 >   .
@@ -722,15 +722,17 @@ See: [ci.yml](.github/workflows/ci.yml)
 
 This workflow is used in order to publish your project into [pypi](https://pypi.org/).
 
+By default, PYMSDL template try to publish your project into [pypi](https://pypi.org/) when you publish a new release.
+
 > ***Note:** This workflow doesn't execute tests again because released version should be on `main` branch and this
 > branch is configured to be protected (only pull requests can be merged on it which implies the [CI workflow](#ci) is
-> executed first)*
+> executed first).*
 
 > ***Note:** A `PYPI_API_TOKEN` secret must be configured as pipy API key
-> (See: [pypi api token](https://pypi.org/help/#apitoken))*
+> (See: [pypi api token](https://pypi.org/help/#apitoken)).*
 
-See: [on_release.yml](.github/workflows/on_release.yml)
+See: [on_release.yml](.github/workflows/on_release.yml).
 
 You can find the `hellopymsdl` sample project published [here](https://pypi.org/project/hellopymsdl/)
 
-> ***Note:** it means you can run `pip install hellopymsdl`*
+> ***Note:** it means you can run `pip install hellopymsdl`.*
