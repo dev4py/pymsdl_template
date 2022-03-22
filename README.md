@@ -551,7 +551,7 @@ If you haven't a python/poetry environment installed, PYMSDL template provides y
 #### Build the pymsdl:devenv docker image
 
 > ```sh
-> docker build -t pymsdl:devenv-1.0.1 -f docker/devenv/Dockerfile .
+> docker build -t pymsdl:devenv-1.0.0 -f docker/devenv/Dockerfile .
 > ```
 
 #### Run the pymsdl:devenv environment
