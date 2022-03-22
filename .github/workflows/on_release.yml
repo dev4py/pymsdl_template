@@ -31,3 +31,5 @@ jobs:
           name: build_dist
           path: dist
       - uses: ./.github/actions/publish
+        with:
+          token: ${{ secrets.PYPI_API_TOKEN }}
