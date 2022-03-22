@@ -5,7 +5,8 @@ Python [Poetry](https://python-poetry.org/) template inspired from
 the [Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html)
 .
 
-[![example workflow](https://github.com/dev4py/pymsdl_template/actions/workflows/ci.yml/badge.svg?event=push&branch=main)](https://github.com/dev4py/pymsdl_template/actions/workflows/ci.yml) <br/>
+[![ci](https://github.com/dev4py/pymsdl_template/actions/workflows/ci.yml/badge.svg?event=push&branch=main)](https://github.com/dev4py/pymsdl_template/actions/workflows/ci.yml) <br/>
+[![Last release](https://github.com/dev4py/pymsdl_template/actions/workflows/on_release.yml/badge.svg)](https://github.com/dev4py/pymsdl_template/actions/workflows/on_release.yml) <br/>
 [![Python >= 3.10.1](https://img.shields.io/badge/Python->=3.10.1-informational.svg)](https://www.python.org/) <br/>
 [![Poetry >= 1.1.0](https://img.shields.io/badge/Poetry->=1.1.0-informational.svg)](https://python-poetry.org/) <br/>
 [![Maintainer](https://img.shields.io/badge/maintainer-St4rG00se-informational)](https://github.com/St4rG00se) <br/>
@@ -719,8 +720,6 @@ See: [ci.yml](.github/workflows/ci.yml)
 
 ### On_release
 
-(IN PROGRESS)
-
 This workflow is used in order to publish your project into [pypi](https://pypi.org/).
 
 > ***Note:** This workflow doesn't execute tests again because released version should be on `main` branch and this
@@ -731,3 +730,7 @@ This workflow is used in order to publish your project into [pypi](https://pypi.
 > (See: [pypi api token](https://pypi.org/help/#apitoken))*
 
 See: [on_release.yml](.github/workflows/on_release.yml)
+
+You can find the `hellopymsdl` sample project published [here](https://pypi.org/project/hellopymsdl/)
+
+> ***Note:** it means you can run `pip install hellopymsdl`*
