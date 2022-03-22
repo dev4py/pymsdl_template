@@ -722,15 +722,17 @@ See: [ci.yml](.github/workflows/ci.yml)
 
 This workflow is used in order to publish your project into [pypi](https://pypi.org/).
 
+By default, PYMSDL template try to publish your project into [pypi](https://pypi.org/) when you publish a new release.
+
 > ***Note:** This workflow doesn't execute tests again because released version should be on `main` branch and this
 > branch is configured to be protected (only pull requests can be merged on it which implies the [CI workflow](#ci) is
-> executed first)*
+> executed first).*
 
 > ***Note:** A `PYPI_API_TOKEN` secret must be configured as pipy API key
-> (See: [pypi api token](https://pypi.org/help/#apitoken))*
+> (See: [pypi api token](https://pypi.org/help/#apitoken)).*
 
-See: [on_release.yml](.github/workflows/on_release.yml)
+See: [on_release.yml](.github/workflows/on_release.yml).
 
 You can find the `hellopymsdl` sample project published [here](https://pypi.org/project/hellopymsdl/)
 
-> ***Note:** it means you can run `pip install hellopymsdl`*
+> ***Note:** it means you can run `pip install hellopymsdl`.*
