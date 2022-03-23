@@ -720,7 +720,7 @@ See: [ci.yml](.github/workflows/ci.yml)
 
 > ***Note:** if you want to reuse the
 > ![ci](https://github.com/dev4py/pymsdl_template/actions/workflows/ci.yml/badge.svg?event=push&branch=main) badge for
-> your project , don't forget to update the link.*
+> your project, don't forget to update the link.*
 
 ### On_release
 
@@ -744,7 +744,7 @@ See: [on_release.yml](.github/workflows/on_release.yml).
 
 > ***Note:** if you want to reuse the
 > ![Last release](https://github.com/dev4py/pymsdl_template/actions/workflows/on_release.yml/badge.svg) badge for your
-> project , don't forget to update the link.*
+> project, don't forget to update the link.*
 
 You can find the `hellopymsdl` sample project published [here](https://pypi.org/project/hellopymsdl/)
 
