@@ -7,8 +7,8 @@ the [Maven Standard Directory Layout](https://maven.apache.org/guides/introducti
 
 [![ci](https://github.com/dev4py/pymsdl_template/actions/workflows/ci.yml/badge.svg?event=push&branch=main)](https://github.com/dev4py/pymsdl_template/actions/workflows/ci.yml) <br/>
 [![Last release](https://github.com/dev4py/pymsdl_template/actions/workflows/on_release.yml/badge.svg)](https://github.com/dev4py/pymsdl_template/actions/workflows/on_release.yml) <br/>
-[![Python >= 3.10.1](https://img.shields.io/badge/Python->=3.10.1-informational.svg?style=plastic&logo=python)](https://www.python.org/) <br/>
-[![Poetry >= 1.1.0](https://img.shields.io/badge/Poetry->=1.1.0-informational.svg?style=plastic&logo=python)](https://python-poetry.org/) <br/>
+[![Python >= 3.10.1](https://img.shields.io/badge/Python->=3.10.1-informational.svg?style=plastic&logo=python&logoColor=yellow)](https://www.python.org/) <br/>
+[![Poetry >= 1.1.0](https://img.shields.io/badge/Poetry->=1.1.0-informational.svg?style=plastic&logo=python&logoColor=yellow)](https://python-poetry.org/) <br/>
 [![Maintainer](https://img.shields.io/badge/maintainer-St4rG00se-informational?style=plastic&logo=superuser)](https://github.com/St4rG00se) <br/>
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=plastic&logo=github)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity) <br/>
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=plastic&logo=github)](https://opensource.org/licenses/MIT)
