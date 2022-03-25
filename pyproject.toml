@@ -104,6 +104,7 @@ deps =
     mutmut
     pytest
 commands =
+    pip install -e .
     python -c "\
         from subprocess import run as proc_run;\
         from os import makedirs;\
