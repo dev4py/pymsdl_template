@@ -53,6 +53,7 @@ the [Project organization](#project-organization) part before the [Project comma
     + [Run tox](#run-tox)
     + [Run linter](#run-linter)
     + [Run tests](#run-tests)
+    + [Run type check](#run-type-check)
     + [Run mutation](#run-mutation)
     + [Build](#build)
         - [Wheel archive](#wheel-archive)
@@ -148,10 +149,10 @@ The [pyproject.toml](./pyproject.toml) file is used in order to describe and del
 
 See:
 
-* [PEP 517](https://www.python.org/dev/peps/pep-0517/)
-* [PEP 518](https://www.python.org/dev/peps/pep-0518/)
-* [PEP 621](https://www.python.org/dev/peps/pep-0621/)
-* [PEP 660](https://www.python.org/dev/peps/pep-0660/)
+* [PEP 517 – A build-system independent format for source trees](https://www.python.org/dev/peps/pep-0517/)
+* [PEP 518 – Specifying Minimum Build System Requirements for Python Projects](https://www.python.org/dev/peps/pep-0518/)
+* [PEP 621 – Storing project metadata in pyproject.toml](https://www.python.org/dev/peps/pep-0621/)
+* [PEP 660 – Editable installs for pyproject.toml based builds (wheel based)](https://www.python.org/dev/peps/pep-0660/)
 * [Poetry pyproject.toml details](https://python-poetry.org/docs/pyproject/)
 
 Moreover, this template provides the [project.py](./project.py) file which is a command line wrapper in order to
@@ -334,6 +335,7 @@ If you take a look at this file, you will see that it contains:
   >   tox           Run tox
   >   lint          Run linter
   >   test          Run configured unit tests
+  >   typing        Run typing checker
   >   mut           Run mutation tests
   >   wheel         Build Wheel archive
   >   sdist         Build sdist archive
@@ -484,6 +486,30 @@ or
 > the [pyproject.toml](./pyproject.toml) file.*
 
 > ***Note:** This command uses [tox](#run-tox) but only in order to run your tests.*
+
+### Run type check
+
+PYMSDL template provides a static type checker by using [**mypy**](http://mypy-lang.org/)
+
+See:
+
+* [PEP 484 – Type Hints](https://peps.python.org/pep-0484/)
+* [PEP 526 – Syntax for Variable Annotations](https://peps.python.org/pep-0526/)
+
+> ```sh
+> ./project.py typing
+> ```
+or
+> ```sh
+> python project.py typing
+> ```
+
+> ***Note:** Reports will be available in `build/reports/typing`.*
+
+> ***Note:** If you change the project structure, don't forget to update the [pyproject.toml](./pyproject.toml) file
+> (`[tool.tox]` and `[tool.mypy]` sections).*
+
+> ***Note:** This command uses [tox](#run-tox) but only in order to call the type checker (by default: `mypy`).*
 
 ### Run mutation
 
