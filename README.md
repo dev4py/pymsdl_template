@@ -645,8 +645,8 @@ Where:
 > ```sh
 > docker build \
 >   -f docker/app/Dockerfile \
->   -t  hellopymsdl:6.9.0 \
->   --build-arg wheel_name=hellopymsdl-6.9.0-py3-none-any.whl \
+>   -t  hellopymsdl:6.9.1 \
+>   --build-arg wheel_name=hellopymsdl-6.9.1-py3-none-any.whl \
 >   --build-arg entrypoint=hello \
 >   .
 > ```
@@ -655,8 +655,8 @@ Where:
 > ```sh
 > docker build \
 >   -f docker/app/Dockerfile \
->   -t  hellopymsdl:6.9.0 \
->   --build-arg wheel_name=hellopymsdl-6.9.0-py3-none-any.whl \
+>   -t  hellopymsdl:6.9.1 \
+>   --build-arg wheel_name=hellopymsdl-6.9.1-py3-none-any.whl \
 >   --build-arg entrypoint="python -m hellopymsdl.__main__" \
 >   .
 > ```
@@ -668,8 +668,8 @@ Where:
 > ```sh
 > docker build \
 >   -f docker/app/Dockerfile \
->   -t  hellopymsdl:6.9.0 \
->   --build-arg wheel_name=hellopymsdl-6.9.0-py3-none-any.whl \
+>   -t  hellopymsdl:6.9.1 \
+>   --build-arg wheel_name=hellopymsdl-6.9.1-py3-none-any.whl \
 >   --build-arg entrypoint="python -m hellopymsdl" \
 >   .
 > ```
@@ -699,13 +699,13 @@ Where:
 
 > **Example with the provided `hellopymsdl` sample application:**
 > ```
-> docker run --rm --name hellopymsdl hellopymsdl:6.9.0
+> docker run --rm --name hellopymsdl hellopymsdl:6.9.1
 > ```
 >
 > ***Note:** Since we used only the `entrypoint` build-arg in our previous samples, if you have to pass arguments (argv)
 > to your project you can do it directly like this:*
 > ```
-> docker run --rm --name hellopymsdl hellopymsdl:6.9.0 arg-1 arg-2 ... arg-N
+> docker run --rm --name hellopymsdl hellopymsdl:6.9.1 arg-1 arg-2 ... arg-N
 > ```
 >
 > *Moreover, you can define default values for your project parameters. To do that, you have to use the `cmd` build-arg
@@ -713,8 +713,8 @@ Where:
 > ```sh
 > docker build \
 >   -f docker/app/Dockerfile \
->   -t  hellopymsdl:6.9.0 \
->   --build-arg wheel_name=hellopymsdl-6.9.0-py3-none-any.whl \
+>   -t  hellopymsdl:6.9.1 \
+>   --build-arg wheel_name=hellopymsdl-6.9.1-py3-none-any.whl \
 >   --build-arg entrypoint=hello \
 >   --build-arg cmd="arg-1 arg-2 ... arg-N" \
 >   .
