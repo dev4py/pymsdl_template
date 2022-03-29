@@ -785,6 +785,8 @@ This workflow is provided in order to do scheduled checks.
 By default, PYMSDL template weekly checks your project dependencies in order to detect vulnerabilities even if you are
 not working on you project (i.e.: [CI workflow](#ci) is not executed).
 
+See: [weekly_checks.yml](.github/workflows/weekly_checks.yml).
+
 > ***Note:** if you want to reuse the
 > ![Weekly checks](https://github.com/dev4py/pymsdl_template/actions/workflows/weekly_checks.yml/badge.svg?branch=main)
 > badge for your project, don't forget to update the link.*
