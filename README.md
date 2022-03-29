@@ -491,7 +491,7 @@ or
 
 ### Run type check
 
-PYMSDL template provides a static type checker by using [**mypy**](http://mypy-lang.org/)
+PYMSDL template provides a static type checker by using [**mypy**](http://mypy-lang.org/).
 
 See:
 
@@ -782,5 +782,5 @@ You can find the `hellopymsdl` sample project published [here](https://pypi.org/
 
 This workflow is provided in order to do scheduled checks.
 
-By default, PYMSDL template weekly checks your project dependencies in order to detect if you have to update them even
-if you are not working on you project (i.e.: [CI workflow](#ci) is not executed)
+By default, PYMSDL template weekly checks your project dependencies in order to detect vulnerabilities even if you are
+not working on you project (i.e.: [CI workflow](#ci) is not executed)
