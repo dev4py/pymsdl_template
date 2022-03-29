@@ -7,10 +7,11 @@ the [Maven Standard Directory Layout](https://maven.apache.org/guides/introducti
 
 [![ci](https://github.com/dev4py/pymsdl_template/actions/workflows/ci.yml/badge.svg?event=push&branch=main)](https://github.com/dev4py/pymsdl_template/actions/workflows/ci.yml) <br/>
 [![Last release](https://github.com/dev4py/pymsdl_template/actions/workflows/on_release.yml/badge.svg)](https://github.com/dev4py/pymsdl_template/actions/workflows/on_release.yml) <br/>
+[![Weekly checks](https://github.com/dev4py/pymsdl_template/actions/workflows/weekly_checks.yml/badge.svg?branch=main)](https://github.com/dev4py/pymsdl_template/actions/workflows/weekly_checks.yml) <br/>
 [![Python >= 3.10.1](https://img.shields.io/badge/Python->=3.10.1-informational.svg?style=plastic&logo=python&logoColor=yellow)](https://www.python.org/) <br/>
 [![Poetry >= 1.1.0](https://img.shields.io/badge/Poetry->=1.1.0-informational.svg?style=plastic&logo=python&logoColor=yellow)](https://python-poetry.org/) <br/>
-[![Maintainer](https://img.shields.io/badge/maintainer-St4rG00se-informational?style=plastic&logo=superuser)](https://github.com/St4rG00se) <br/>
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=plastic&logo=github)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity) <br/>
+[![Maintainer St4rG00se](https://img.shields.io/badge/maintainer-St4rG00se-informational?style=plastic&logo=superuser)](https://github.com/St4rG00se) <br/>
+[![Maintained YES](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=plastic&logo=github)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity) <br/>
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=plastic&logo=github)](https://opensource.org/licenses/MIT)
 
 **<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/>
@@ -70,6 +71,7 @@ the [Project organization](#project-organization) part before the [Project comma
 * [Workflows](#workflows)
     + [CI](#ci)
     + [On_release](#on_release)
+    + [Weekly_checks](#weekly_checks)
 
 ## Quickstart
 
@@ -203,8 +205,8 @@ Pycharm](https://www.jetbrains.com/pycharm/)**
 
 #### <span style='color: orange'><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/> WARNING: Limitations</span>
 
-Python resources MUST be located in a python package (ie: directory containing an `__init__.py` file. (You can see that
-like a java classpath).
+Python resources MUST be located in a python package (i.e.: directory containing an `__init__.py` file). (You can see
+that like a java classpath.)
 
 Since a package sources cannot be split in several directories, each package in `src/main/python`,
 `src/main/resources`, `src/test/python` and `src/test/resources` directories must be different. In case of conflict, the
@@ -643,8 +645,8 @@ Where:
 > ```sh
 > docker build \
 >   -f docker/app/Dockerfile \
->   -t  hellopymsdl:1.0.1 \
->   --build-arg wheel_name=hellopymsdl-1.0.1-py3-none-any.whl \
+>   -t  hellopymsdl:6.9.0 \
+>   --build-arg wheel_name=hellopymsdl-6.9.0-py3-none-any.whl \
 >   --build-arg entrypoint=hello \
 >   .
 > ```
@@ -653,8 +655,8 @@ Where:
 > ```sh
 > docker build \
 >   -f docker/app/Dockerfile \
->   -t  hellopymsdl:1.0.1 \
->   --build-arg wheel_name=hellopymsdl-1.0.1-py3-none-any.whl \
+>   -t  hellopymsdl:6.9.0 \
+>   --build-arg wheel_name=hellopymsdl-6.9.0-py3-none-any.whl \
 >   --build-arg entrypoint="python -m hellopymsdl.__main__" \
 >   .
 > ```
@@ -666,8 +668,8 @@ Where:
 > ```sh
 > docker build \
 >   -f docker/app/Dockerfile \
->   -t  hellopymsdl:1.0.1 \
->   --build-arg wheel_name=hellopymsdl-1.0.1-py3-none-any.whl \
+>   -t  hellopymsdl:6.9.0 \
+>   --build-arg wheel_name=hellopymsdl-6.9.0-py3-none-any.whl \
 >   --build-arg entrypoint="python -m hellopymsdl" \
 >   .
 > ```
@@ -697,13 +699,13 @@ Where:
 
 > **Example with the provided `hellopymsdl` sample application:**
 > ```
-> docker run --rm --name hellopymsdl hellopymsdl:1.0.1
+> docker run --rm --name hellopymsdl hellopymsdl:6.9.0
 > ```
 >
 > ***Note:** Since we used only the `entrypoint` build-arg in our previous samples, if you have to pass arguments (argv)
 > to your project you can do it directly like this:*
 > ```
-> docker run --rm --name hellopymsdl hellopymsdl:1.0.1 arg-1 arg-2 ... arg-N
+> docker run --rm --name hellopymsdl hellopymsdl:6.9.0 arg-1 arg-2 ... arg-N
 > ```
 >
 > *Moreover, you can define default values for your project parameters. To do that, you have to use the `cmd` build-arg
@@ -711,8 +713,8 @@ Where:
 > ```sh
 > docker build \
 >   -f docker/app/Dockerfile \
->   -t  hellopymsdl:1.0.1 \
->   --build-arg wheel_name=hellopymsdl-1.0.1-py3-none-any.whl \
+>   -t  hellopymsdl:6.9.0 \
+>   --build-arg wheel_name=hellopymsdl-6.9.0-py3-none-any.whl \
 >   --build-arg entrypoint=hello \
 >   --build-arg cmd="arg-1 arg-2 ... arg-N" \
 >   .
@@ -775,3 +777,10 @@ See: [on_release.yml](.github/workflows/on_release.yml).
 You can find the `hellopymsdl` sample project published [here](https://pypi.org/project/hellopymsdl/)
 
 > ***Note:** it means you can run `pip install hellopymsdl`.*
+
+### Weekly_checks
+
+This workflow is provided in order to do scheduled checks.
+
+By default, PYMSDL template weekly checks your project dependencies in order to detect if you have to update them even
+if you are not working on you project (i.e.: [CI workflow](#ci) is not executed)
