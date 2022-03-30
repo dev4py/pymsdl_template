@@ -37,6 +37,7 @@ python = '^3.10'
 tomli = '2.0.1'  # for project.py if pytest is removed
 tox = "^3.24.5"
 pytest = "^7.0.1"
+mypy = "^0.942"
 
 
 [tool.pytest.ini_options]
