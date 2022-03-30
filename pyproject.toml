@@ -124,9 +124,8 @@ commands =
     "
 
 [testenv:mypy]
-setenv =
-    PYTHONPATH = {toxinidir}/src/main/python{:}{toxinidir}/src/main/resources{:}{toxinidir}/src/test/python\
-    {:}{toxinidir}/src/test/resources
+# Remove useless warning with project.py
+passenv = PYTHONPATH
 skip_install = True
 deps =
     pytest
@@ -197,6 +196,9 @@ score = 'y'
 ###### MYPY ######
 ##################
 [tool.mypy]
+mypy_path = 'src/main/python:src/main/resources'
+namespace_packages = true
+explicit_package_bases = true
 cache_dir = 'build/reports/typing/.mypy_cache'
 html_report = 'build/reports/typing/html'
 xml_report = 'build/reports/typing/xml'
