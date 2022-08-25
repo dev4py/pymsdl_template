@@ -11,7 +11,7 @@ the [Maven Standard Directory Layout](https://maven.apache.org/guides/introducti
 [![Python >= 3.10.1](https://img.shields.io/badge/Python->=3.10.1-informational.svg?style=plastic&logo=python&logoColor=yellow)](https://www.python.org/) <br/>
 [![Poetry >= 1.1.0](https://img.shields.io/badge/Poetry->=1.1.0-informational.svg?style=plastic&logo=python&logoColor=yellow)](https://python-poetry.org/) <br/>
 [![Maintainer St4rG00se](https://img.shields.io/badge/maintainer-St4rG00se-informational?style=plastic&logo=superuser)](https://github.com/St4rG00se) <br/>
-[![Maintained YES](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=plastic&logo=github)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity) <br/>
+![Maintained YES](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=plastic&logo=github) <br/>
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-yellow.svg?style=plastic&logo=github)](https://opensource.org/licenses/Apache-2.0)
 
 **<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/>
