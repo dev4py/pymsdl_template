@@ -1,0 +1,30 @@
+name: Create new version
+on:
+  workflow_dispatch:
+    bump_rule:
+      type: choice
+      description: bump rule
+      options:
+        - patch
+        - minor
+        - major
+        - prepatch
+        - preminor
+        - premajor
+        - prerelease
+
+jobs:
+  #     ___  __  ____  ______    _   _________  ____________  _  __
+  #    / _ )/ / / /  |/  / _ \  | | / / __/ _ \/ __/  _/ __ \/ |/ /
+  #   / _  / /_/ / /|_/ / ___/  | |/ / _// , _/\ \_/ // /_/ /    /
+  #  /____/\____/_/  /_/_/      |___/___/_/|_/___/___/\____/_/|_/
+  #
+  bump-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+      - uses: ./.github/actions/bump_version
+        with:
+          bump_rule: ${{ inputs.bump_rule }}
+          git_user_name: ${{GITHUB_REPOSITORY_OWNER}}

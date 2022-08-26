@@ -1,0 +1,28 @@
+name: bump version
+author: St4rG00se
+description: Bumps the version of the project and writes the new version back to pyproject.toml
+
+inputs:
+  bump_rule:
+    required: true
+    description: The bump rule (patch, minor, major, prepatch, preminor, premajor, prerelease)
+    default: 'patch'
+
+  git_user_name:
+    required: true
+    description: git user.name to use
+
+runs:
+  using: composite
+  steps:
+    - uses: ./.github/actions/dev_env_docker
+      name: Run poetry bump version
+      with:
+        cmd: poetry version ${{ inputs.bump_rule }} && (poetry version -s > version.txt)
+    - uses: actions/checkout@v2
+      name: Push new generated version
+      run: |
+        git config user.name "${{ inputs.git_user_name }}"
+        git config user.email "${{ inputs.git_user_name }}@noreply.github.com"
+        git commit -m "chore: prepare $(cat version.txt) version" -a
+        git push
