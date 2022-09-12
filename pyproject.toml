@@ -34,9 +34,9 @@ hello = 'hellopymsdl.__main__:hello'
 python = '^3.10'
 
 [tool.poetry.dev-dependencies]
-tomli = '2.0.1'  # for project.py if pytest is removed
-tox = "^3.24.5"
-pytest = "^7.0.1"
+tomli = '^2'  # for project.py if pytest is removed
+tox = "^3"
+pytest = "^7"
 
 
 [tool.pytest.ini_options]
