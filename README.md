@@ -8,7 +8,7 @@ the [Maven Standard Directory Layout](https://maven.apache.org/guides/introducti
 [![ci](https://github.com/dev4py/pymsdl_template/actions/workflows/ci.yml/badge.svg?event=push&branch=main)](https://github.com/dev4py/pymsdl_template/actions/workflows/ci.yml) <br/>
 [![Last release](https://github.com/dev4py/pymsdl_template/actions/workflows/on_release.yml/badge.svg)](https://github.com/dev4py/pymsdl_template/actions/workflows/on_release.yml) <br/>
 [![Weekly checks](https://github.com/dev4py/pymsdl_template/actions/workflows/weekly_checks.yml/badge.svg?branch=main)](https://github.com/dev4py/pymsdl_template/actions/workflows/weekly_checks.yml) <br/>
-[![Python >= 3.10.1](https://img.shields.io/badge/Python->=3.10.1-informational.svg?style=plastic&logo=python&logoColor=yellow)](https://www.python.org/) <br/>
+[![Python >= 3.11.0](https://img.shields.io/badge/Python->=3.11.0-informational.svg?style=plastic&logo=python&logoColor=yellow)](https://www.python.org/) <br/>
 [![Poetry >= 1.1.0](https://img.shields.io/badge/Poetry->=1.1.0-informational.svg?style=plastic&logo=python&logoColor=yellow)](https://python-poetry.org/) <br/>
 [![Maintainer St4rG00se](https://img.shields.io/badge/maintainer-St4rG00se-informational?style=plastic&logo=superuser)](https://github.com/St4rG00se) <br/>
 ![Maintained YES](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=plastic&logo=github) <br/>
@@ -17,7 +17,7 @@ the [Maven Standard Directory Layout](https://maven.apache.org/guides/introducti
 **<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/25px-Warning.svg.png" alt="warning-icon" width="20px" height="20px"/>
 WARNING Prerequisites:**
 
-* `Python >= 3.10.1`
+* `Python >= 3.11.0` (See: [Older Python versions compatibility](#older-python-versions-compatibility))
 * `Poetry >= 1.1.0`
 
 ***Since there are some existing limitations, it is strongly advised to read
@@ -72,6 +72,7 @@ the [Project organization](#project-organization) part before the [Project comma
     + [CI](#ci)
     + [On_release](#on_release)
     + [Weekly_checks](#weekly_checks)
+* [Older Python versions compatibility](#older-python-versions-compatibility)
 
 ## Quickstart
 
@@ -104,7 +105,7 @@ This is a way to use if you are creating a new project but, you are not working 
 
 ### Prepare your environment
 
-PYMSDL template requires `Python >= 3.10.1` and `Poetry >= 1.1.0`.
+PYMSDL template requires `Python >= 3.11.0` and `Poetry >= 1.1.0`.
 
 **If your environment is not ready yet, a docker ready to work environment is provided
 (see [Dev environment](#dev-environment)).**
@@ -446,7 +447,7 @@ or
 >
 >* ***pylint:*** Executes the configured linter
 >* ***covclean:*** Cleans the coverage reports
->* ***py310:*** Executes the configured test runner under python 3.10
+>* ***py311:*** Executes the configured test runner under python 3.11
 >* ***report:*** Generates console, html and xml reports
 >* ***mutation:*** Executes mutation testing and generate reports
 >
@@ -790,3 +791,7 @@ See: [weekly_checks.yml](.github/workflows/weekly_checks.yml).
 > ***Note:** if you want to reuse the
 > ![Weekly checks](https://github.com/dev4py/pymsdl_template/actions/workflows/weekly_checks.yml/badge.svg?branch=main)
 > badge for your project, don't forget to update the link.*
+
+## Older Python versions compatibility
+
+* [Python >= 3.10.1](https://www.python.org/) -> [pymsdl_template 2.9.11](https://github.com/dev4py/pymsdl_template/tree/2.9.11)
