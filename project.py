@@ -21,22 +21,8 @@ from pathlib import Path
 from subprocess import run as subprocess_run, CalledProcessError
 from sys import argv as sys_argv, stderr as sys_stderr, stdin as sys_stdin, stdout as sys_stdout, exit as sys_exit
 from textwrap import dedent
+from tomllib import loads as tomllib_loads
 from typing import Final, TypeVar, Any
-
-try:
-    try:
-        from tomli import loads as tomli_loads
-    except ImportError:
-        # noinspection PyProtectedMember
-        # noinspection PyPackageRequirements
-        # noinspection PyUnresolvedReferences
-        from pip._vendor.tomli import loads as tomli_loads
-except ImportError:
-    print(
-        "tomli is required (install pip or run this script from poetry venv after `poetry install --no-root` or "
-        "`poetry update`)",
-        file=sys_stderr)
-    sys_exit(1)
 
 # CONSTANTS
 # - project
@@ -79,7 +65,7 @@ class ProjectProperties:
 
     def _load_toml(self) -> dict[str, Any]:
         with open(self.__toml_file_path, "r", encoding="UTF-8") as toml_file:
-            return tomli_loads(toml_file.read())
+            return tomllib_loads(toml_file.read())
 
     def _get_option(self, section: str, option: str, default: T | None = None) -> T | None:
         option_path: list[str] = section.split('.')
