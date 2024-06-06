@@ -794,4 +794,4 @@ See: [weekly_checks.yml](.github/workflows/weekly_checks.yml).
 
 ## Older Python versions compatibility
 
-* [Python >= 3.10.1](https://www.python.org/) -> [pymsdl_template 3.0.0](https://github.com/dev4py/pymsdl_template/tree/3.0.0)
+* [Python >= 3.10.1](https://www.python.org/) -> [pymsdl_template 2.9.11](https://github.com/dev4py/pymsdl_template/tree/2.9.11)
