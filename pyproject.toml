@@ -3,7 +3,7 @@
 ##################
 [tool.poetry]
 name = 'hellopymsdl'
-version = '2.9.11'
+version = '3.0.0'
 description = 'A Python template inspired from the Maven Standard Directory Layout'
 authors = ['author <author@mail.com>']
 license = 'Apache-2.0'
