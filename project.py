@@ -22,7 +22,7 @@ from subprocess import run as subprocess_run, CalledProcessError
 from sys import argv as sys_argv, stderr as sys_stderr, stdin as sys_stdin, stdout as sys_stdout, exit as sys_exit
 from textwrap import dedent
 from tomllib import loads as tomllib_loads
-from typing import Final, TypeVar, Any
+from typing import Final, TypeVar, Any, Self
 
 # CONSTANTS
 # - project
@@ -287,9 +287,6 @@ class UploadCommand(PoetryCommand):
 
 
 # - Project command executor class
-TCommandsRunner = TypeVar("TCommandsRunner", bound="CommandsRunner")
-
-
 class CommandsRunner:
     def __init__(
             self,
@@ -304,7 +301,7 @@ class CommandsRunner:
         self.__stderr: Final[TextIOWrapper] = stderr
         self.__command_dict: Final[dict[str, ProjectCommand]] = {}
 
-    def add_command(self, cmd_name: str, cmd: ProjectCommand) -> TCommandsRunner:
+    def add_command(self, cmd_name: str, cmd: ProjectCommand) -> Self:
         self.__command_dict[cmd_name] = cmd
         return self
 
