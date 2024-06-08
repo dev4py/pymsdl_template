@@ -31,7 +31,7 @@ packages = [
 hello = 'hellopymsdl.__main__:hello'
 
 [tool.poetry.dependencies]
-python = '^3.11'
+python = '^3.12'
 
 [tool.poetry.dev-dependencies]
 tox = "^4"
@@ -50,7 +50,7 @@ testpaths = ['src/test/python']
 legacy_tox_ini = """
 [tox]
 isolated_build = True
-envlist = pylint, covclean, py311, report, mutation, mypy
+envlist = pylint, covclean, py312, report, mutation, mypy
 
 [testenv]
 # Note: this default configuration use pytest on the installed packages (not sources) for each env

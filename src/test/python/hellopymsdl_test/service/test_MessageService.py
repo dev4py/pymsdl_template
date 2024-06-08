@@ -42,14 +42,14 @@ class TestMessageService:
                 with raises(ModuleNotFoundError):
                     message_service.get_message("test_message.txt")
 
-            def test_none_resource_package__should__raise_attributeerror(self) -> None:
-                """When resource package is None, should raise an AttributeError"""
+            def test_none_resource_package__should__raise_filenotfounderror(self) -> None:
+                """When resource package is None, should raise an FileNotFoundError"""
                 # GIVEN
                 # noinspection PyTypeChecker
                 message_service: MessageService = MessageService(None)
 
                 # WHEN / THEN
-                with raises(AttributeError):
+                with raises(FileNotFoundError):
                     message_service.get_message("test_message.txt")
 
             def test_resource_not_exists__should__raise_filenotfounderror(self) -> None:
