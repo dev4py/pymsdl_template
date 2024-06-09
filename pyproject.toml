@@ -114,10 +114,10 @@ commands =
         cache_path: Path = report_path.joinpath('.mutmut-cache');\
         cache_path.is_file() and move(cache_path.as_posix(), Path('.mutmut-cache').absolute().as_posix());\
         result = proc_run(['mutmut', 'run', '--tests-dir', 'src/test/python', '--paths-to-mutate', 'src/main/python']);\
-        proc_run(['mutmut', 'html']);\
+        gen_html = proc_run(['mutmut', 'html']);\
         report_path.is_dir() and rmtree(report_path);\
         makedirs(report_path.as_posix(), exist_ok = True);\
-        move('html', report_path.joinpath('html'));\
+        gen_html.returncode == 0 and move('html', report_path.joinpath('html'));\
         move('.mutmut-cache', cache_path.absolute().as_posix());\
         sys_exit(result.returncode);\
     "
