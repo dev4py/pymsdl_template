@@ -9,7 +9,7 @@ the [Maven Standard Directory Layout](https://maven.apache.org/guides/introducti
 [![Last release](https://github.com/dev4py/pymsdl_template/actions/workflows/on_release.yml/badge.svg)](https://github.com/dev4py/pymsdl_template/actions/workflows/on_release.yml) <br/>
 [![Weekly checks](https://github.com/dev4py/pymsdl_template/actions/workflows/weekly_checks.yml/badge.svg?branch=main)](https://github.com/dev4py/pymsdl_template/actions/workflows/weekly_checks.yml) <br/>
 [![Python >= 3.12](https://img.shields.io/badge/Python->=3.12-informational.svg?style=plastic&logo=python&logoColor=yellow)](https://www.python.org/) <br/>
-[![Poetry >= 1.1.0](https://img.shields.io/badge/Poetry->=1.1.0-informational.svg?style=plastic&logo=python&logoColor=yellow)](https://python-poetry.org/) <br/>
+[![Poetry >= 1.8](https://img.shields.io/badge/Poetry->=1.8-informational.svg?style=plastic&logo=python&logoColor=yellow)](https://python-poetry.org/) <br/>
 [![Maintainer St4rG00se](https://img.shields.io/badge/maintainer-St4rG00se-informational?style=plastic&logo=superuser)](https://github.com/St4rG00se) <br/>
 ![Maintained YES](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=plastic&logo=github) <br/>
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-yellow.svg?style=plastic&logo=github)](https://opensource.org/licenses/Apache-2.0)
@@ -18,7 +18,7 @@ the [Maven Standard Directory Layout](https://maven.apache.org/guides/introducti
 WARNING Prerequisites:**
 
 * `Python >= 3.12` (See: [Older Python versions compatibility](#older-python-versions-compatibility))
-* `Poetry >= 1.1.0`
+* `Poetry >= 1.8`
 
 ***Since there are some existing limitations, it is strongly advised to read
 the [Project organization](#project-organization) part before the [Project commands](#project-commands) one.***
@@ -105,7 +105,7 @@ This is a way to use if you are creating a new project but, you are not working 
 
 ### Prepare your environment
 
-PYMSDL template requires `Python >= 3.12` and `Poetry >= 1.1.0`.
+PYMSDL template requires `Python >= 3.12` and `Poetry >= 1.8`.
 
 **If your environment is not ready yet, a docker ready to work environment is provided
 (see [Dev environment](#dev-environment)).**
@@ -796,3 +796,5 @@ See: [weekly_checks.yml](.github/workflows/weekly_checks.yml).
 
 * [Python >= 3.10](https://www.python.org/) -> [pymsdl_template 2.9.11](https://github.com/dev4py/pymsdl_template/tree/2.9.11)
 * [Python >= 3.11](https://www.python.org/) -> [pymsdl_template 3.0.1](https://github.com/dev4py/pymsdl_template/tree/3.0.1)
+
+> ***Note:** New features won't be backported to older versions.*
